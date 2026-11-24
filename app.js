@@ -146,7 +146,8 @@ if(document.querySelector("#project-detail")){
  const grid=document.querySelector(".project-grid"),input=document.querySelector("#home-project-search");
  if(!grid||!input)return;
  const cards=[...grid.querySelectorAll(".project-card")],count=document.querySelector("#home-project-count");let category="all";
- const update=()=>{const term=input.value.trim().toLocaleLowerCase();let visible=0;cards.forEach(card=>{const text=card.textContent.toLocaleLowerCase(),tag=card.querySelector(".project-no")?.textContent.toUpperCase()||"";card.hidden=!((category==="all"||tag.includes(category))&&(!term||text.includes(term)));if(!card.hidden)visible++});if(count)count.textContent=String(visible).padStart(2,"0")+" / "+String(cards.length).padStart(2,"0")+" PROJECTS"};
+ const update=()=>{const term=input.value.trim().toLocaleLowerCase();let visible=0;cards.forEach(card=>{const text=card.textContent.toLocaleLowerCase(),tag=card.querySelector(".project-no")?.textContent.toUpperCase()||"";const categoryMatch=category==="all"||(category==="LEARNING"&&tag.includes("LEARNING"))||(category!=="LEARNING"&&tag.includes(category));card.hidden=!(categoryMatch&&(!term||text.includes(term)));if(!card.hidden)visible++});if(count)count.textContent=String(visible).padStart(2,"0")+" / "+String(cards.length).padStart(2,"0")+" PROJECTS"};
  input.addEventListener("input",update);
+ input.addEventListener("keydown",e=>{if(e.key==="Escape"){input.value="";update();input.blur()}});
  document.querySelectorAll("[data-home-filter]").forEach(button=>button.addEventListener("click",()=>{category=button.dataset.homeFilter;document.querySelectorAll("[data-home-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===button)));update()}));
 })();
