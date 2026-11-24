@@ -758,3 +758,28 @@ body.dark .mini-device-screen{background:#252c20}
 .page-share-button{padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);font:9px 'DM Mono',monospace;cursor:pointer}
 body.font-large{font-size:1.08em}body.font-small{font-size:.94em}
 @media(max-width:700px){.reading-controls{margin:6px 0 0 4px}.folio-library-tools{align-items:flex-start}.folio-library-tools button{margin-left:0}.footer .page-share-button{margin-top:8px}}
+
+
+/* folio information hub and comparison UI */
+.folio-more-links{width:100%;display:flex;flex-direction:column;gap:10px;padding:20px 0;border-top:1px solid var(--line)}
+.folio-more-links>span{font:9px 'DM Mono',monospace;letter-spacing:1.5px;color:var(--muted)}
+.folio-more-links>div{display:flex;flex-wrap:wrap;gap:9px 18px}
+.folio-more-links a{font:9px 'DM Mono',monospace;letter-spacing:.8px;color:var(--muted)}
+.folio-more-links a:hover{color:var(--ink)}
+.compare-launch{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 18px;margin:18px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.compare-launch div{display:flex;flex-direction:column;gap:5px}.compare-launch b{font:10px 'DM Mono',monospace;letter-spacing:1px}.compare-launch small{font-size:10px;color:var(--muted)}
+.compare-launch button,.compare-panel footer button{padding:9px 13px;border:1px solid var(--line);border-radius:5px;background:var(--ink);color:var(--surface);font-size:10px;cursor:pointer}
+.compare-modal{position:fixed;inset:0;z-index:220;display:grid;place-items:center;padding:16px;background:rgba(15,17,14,.55);backdrop-filter:blur(7px)}
+.compare-modal[hidden]{display:none}.compare-panel{width:min(760px,100%);max-height:85vh;overflow:auto;padding:22px;border-radius:12px;background:var(--surface);color:var(--ink);box-shadow:0 25px 80px rgba(0,0,0,.2)}
+.compare-panel>header,.compare-panel>footer{display:flex;align-items:center;justify-content:space-between;gap:12px}.compare-panel>header>div{display:flex;flex-direction:column;gap:5px}.compare-panel>header b{font-size:20px}.compare-panel>header small{font-size:10px;color:var(--muted)}
+.compare-close{width:34px;height:34px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--ink);font-size:21px;cursor:pointer}
+.compare-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:20px 0}
+.compare-option{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:6px;cursor:pointer}
+.compare-option span{display:flex;flex-direction:column;gap:4px}.compare-option b{font-size:12px}.compare-option small{font-size:9px;color:var(--muted)}
+.compare-panel>footer{padding-top:14px;border-top:1px solid var(--line)}
+.compare-panel footer .compare-reset{background:transparent;color:var(--ink)}.compare-panel footer button:disabled{opacity:.35;cursor:not-allowed}
+.compare-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;margin:14px 0}
+.compare-table article{padding:13px;border:1px solid var(--line);border-radius:7px}.compare-table h3{font-size:13px;margin:0 0 7px}.compare-table span{font:8px 'DM Mono',monospace;color:var(--muted)}.compare-table p{font-size:10px;line-height:1.7;color:var(--muted)}.compare-table a{font-size:10px;color:var(--ink)}
+.print-page{padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);font:9px 'DM Mono',monospace;cursor:pointer}
+@media(max-width:600px){.compare-options{grid-template-columns:1fr}.compare-launch{align-items:flex-start;flex-direction:column}.compare-launch button{width:100%}}
+@media print{.topbar,.footer,.compare-launch,.print-page,.to-top,.scroll-progress{display:none!important}body{background:white!important;color:black!important}.wrap{max-width:none!important}.project-row{break-inside:avoid}}
