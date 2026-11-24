@@ -29,3 +29,23 @@ if(list){
  rows.forEach(row=>{const btn=document.createElement("button");btn.type="button";btn.className="project-share";btn.textContent="リンクをコピー ↗";btn.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(location.href.split("#")[0]+"#"+row.id);btn.textContent="コピーしました ✓"}catch{btn.textContent="コピーできませんでした"}setTimeout(()=>btn.textContent="リンクをコピー ↗",1600)});row.children[1]?.append(btn)});apply();
 }
 const form=document.querySelector("#contact-form");if(form)form.addEventListener("submit",e=>{e.preventDefault();const error=document.querySelector("#form-error");if(error){error.hidden=false;error.textContent="現在、送信先が未設定のため送信できません。公開前に安全な送信先設定が必要です。"}});
+
+const projectData={
+studyplan:{name:"StudyPlan AI",category:"EDUCATION / PRODUCTIVITY",status:"IN DEVELOPMENT",summary:"学習タスク・固定予定・進捗をまとめ、日々の学習計画を組み立てるツール。",purpose:"学習に必要な予定やタスクを一か所で整理し、無理のない計画づくりを支援すること。",scope:"タスク登録・学習時間の設定・固定予定の管理を中心に開発中。自動調整や振り返りは構想を含みます。",note:"自動調整などの機能は実装済みと断定せず、今後の構想として扱います。"},
+myai:{name:"MY AI",category:"AI / PERSONAL ASSISTANT",status:"CONCEPT",summary:"自分の考え方や判断基準を大切にするパーソナルAI構想。",purpose:"根拠と推測を分け、優先順位と実行しやすい行動を示すAI体験を考えること。",scope:"個人向けAIアシスタントの構想・要件整理段階。",note:"構想段階。完成済みのアプリや機能としては紹介していません。"},
+socialquiz:{name:"Social Quiz",category:"EDUCATION / WEB",status:"PROJECT",summary:"社会科の知識をクイズ形式で確認できる学習サイト。",purpose:"社会科の内容を問題形式で確認し、繰り返し学習しやすくすること。",scope:"社会科クイズサイトとして企画・制作。",note:"問題数や進捗機能などの詳細は、確認でき次第更新します。"},
+qrpay:{name:"QR PAY",category:"UI / DIGITAL EXPERIENCE",status:"IN DEVELOPMENT",summary:"QRコードを使った支払いの流れを題材に、利用者向け・店舗側の画面体験を考えるプロジェクト。",purpose:"支払う人と店舗の双方にとって、わかりやすい決済体験を設計すること。",scope:"利用者向け画面・店舗向け画面などのUIと機能を検討・制作中。",note:"画面制作・コンセプトのプロジェクトです。実際の決済サービスではありません。"},
+seatlabo:{name:"Seat Labo",category:"WEB / UTILITY",status:"PROJECT",summary:"席替えや座席管理をサポートするツール。",purpose:"座席の配置や管理をわかりやすく行えるようにすること。",scope:"操作性と利用場面を意識した機能設計・制作。",note:"詳細な機能仕様は整理中です。"},
+reception:{name:"Home Reception",category:"WEB / SYSTEM",status:"IN DEVELOPMENT",summary:"来客受付をデジタル化するサイト。",purpose:"来客者の受付と管理者による確認をシンプルにすること。",scope:"受付フォーム・管理者向け一覧・端末表示などを開発中。",note:"実装済み機能と今後の改善項目は、検証後に順次追記します。"},
+"nine-subjects":{name:"9科テスト対策",category:"EDUCATION / EXAM PREPARATION",status:"STUDY PROJECT",summary:"9科目から教科を選び、クイズに挑戦する学習サイト。",purpose:"9教科の学習内容をクイズ形式で確認し、教科を選んで取り組めるようにすること。",scope:"国語・数学・英語・理科・社会・音楽・美術・保健体育・技術家庭を対象とするクイズ学習サイトとして企画。",note:"9科目のクイズサイトです。学習管理アプリではありません。",subjects:["国語","数学","英語","理科","社会","音楽","美術","保健体育","技術家庭"]}
+};
+const detailRoot=document.querySelector("#project-detail");
+if(detailRoot){
+ const id=new URLSearchParams(location.search).get("id"),d=projectData[id];
+ if(!d){detailRoot.innerHTML='<div class="eyebrow"><i></i> PROJECT NOT FOUND</div><h1 class="page-title">Project not found.</h1><p class="lead">指定されたプロジェクトが見つかりませんでした。</p><a class="text-link" href="projects.html">← プロジェクト一覧へ戻る</a>'}
+ else{
+ document.title=d.name+" — folio";
+ const subjects=d.subjects?'<div class="detail-subjects">'+d.subjects.map(s=>'<span>'+s+'</span>').join("")+'</div>':"";
+ detailRoot.innerHTML='<div class="eyebrow"><i></i> PROJECT / '+d.category+'</div><a class="back-link" href="projects.html">← ALL PROJECTS</a><h1 class="page-title detail-title">'+d.name+'<span>.</span></h1><div class="detail-meta"><span class="status">'+d.status+'</span><span class="detail-id">PROJECT / '+id.toUpperCase()+'</span></div><p class="detail-summary">'+d.summary+'</p><div class="detail-layout"><section class="detail-panel"><span class="kicker">01 / PURPOSE</span><h2>このプロジェクトについて</h2><p>'+d.purpose+'</p></section><section class="detail-panel"><span class="kicker">02 / SCOPE</span><h2>取り組み・機能の範囲</h2><p>'+d.scope+'</p>'+subjects+'</section><section class="detail-panel detail-note"><span class="kicker">03 / DEVELOPMENT NOTE</span><h2>開発状況について</h2><p>'+d.note+'</p><p class="detail-disclaimer">掲載内容は現在整理できている情報です。未確認の機能を実装済みとして掲載していません。</p></section></div><div class="detail-bottom"><a class="text-link" href="projects.html">← すべてのプロジェクト</a><a class="text-link" href="contact.html">CONTACT ↗</a></div>';
+ }
+}
