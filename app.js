@@ -139,3 +139,14 @@ if(document.querySelector("#project-detail")){
  document.addEventListener("pointerdown",event=>{if(nav.classList.contains("open")&&!header.contains(event.target))close()});
  document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
 })();
+
+
+/* Homepage project discovery: instant search and category filters */
+(function(){
+ const grid=document.querySelector(".project-grid"),input=document.querySelector("#home-project-search");
+ if(!grid||!input)return;
+ const cards=[...grid.querySelectorAll(".project-card")],count=document.querySelector("#home-project-count");let category="all";
+ const update=()=>{const term=input.value.trim().toLocaleLowerCase();let visible=0;cards.forEach(card=>{const text=card.textContent.toLocaleLowerCase(),tag=card.querySelector(".project-no")?.textContent.toUpperCase()||"";card.hidden=!((category==="all"||tag.includes(category))&&(!term||text.includes(term)));if(!card.hidden)visible++});if(count)count.textContent=String(visible).padStart(2,"0")+" / "+String(cards.length).padStart(2,"0")+" PROJECTS"};
+ input.addEventListener("input",update);
+ document.querySelectorAll("[data-home-filter]").forEach(button=>button.addEventListener("click",()=>{category=button.dataset.homeFilter;document.querySelectorAll("[data-home-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===button)));update()}));
+})();
