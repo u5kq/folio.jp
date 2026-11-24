@@ -31,7 +31,7 @@
 
 async function copyText(value){
  try{
-  if(navigator.clipboard&&window.isSecureContext){await copyText(value);return true}
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);return true}
  }catch(error){}
  const field=document.createElement("textarea");
  field.value=String(value);field.setAttribute("readonly","");
