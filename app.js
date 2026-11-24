@@ -215,3 +215,32 @@ if(document.querySelector("#project-detail")){
   }
  });
 })();
+
+
+/* Lightweight visitor tools: favorites, recently viewed, font sizing, FAQ search */
+(function(){
+ const KEY_FAV="folio-favorites-v1",KEY_RECENT="folio-recent-v1";
+ const read=(key)=>{try{return JSON.parse(localStorage.getItem(key)||"[]")}catch{return []}};
+ const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
+ const ids=["studyplan","myai","socialquiz","qrpay","seatlabo","reception","nine-subjects"];
+ const names={studyplan:"StudyPlan AI",myai:"MY AI",socialquiz:"Social Quiz",qrpay:"QR PAY",seatlabo:"Seat Labo",reception:"Home Reception","nine-subjects":"9科テスト対策"};
+ const link=id=>"project.html?id="+encodeURIComponent(id);
+ const addRecent=id=>{if(!ids.includes(id))return;const a=[id,...read(KEY_RECENT).filter(x=>x!==id)].slice(0,6);write(KEY_RECENT,a)};
+ const current=new URLSearchParams(location.search).get("id");
+ if(current)addRecent(current);
+ const favs=read(KEY_FAV);
+ const makeFav=(id)=>{const b=document.createElement("button");b.type="button";b.className="folio-favorite";b.dataset.favorite=id;const sync=()=>{const on=read(KEY_FAV).includes(id);b.textContent=on?"♥ 保存済み":"♡ お気に入り";b.setAttribute("aria-pressed",String(on))};sync();b.addEventListener("click",()=>{let a=read(KEY_FAV);a=a.includes(id)?a.filter(x=>x!==id):[id,...a];write(KEY_FAV,a);sync();document.dispatchEvent(new CustomEvent("folio:favorites-change"))});return b};
+ document.querySelectorAll('a[href*="project.html?id="]').forEach(a=>{try{const u=new URL(a.href,location.href),id=u.searchParams.get("id");if(!ids.includes(id)||a.querySelector(".folio-favorite"))return;const b=makeFav(id);b.addEventListener("click",e=>e.preventDefault());a.append(b)}catch{}});
+ const list=document.querySelector(".project-list");
+ if(list){
+  const bar=document.createElement("div");bar.className="folio-library-tools";
+  const render=()=>{bar.replaceChildren();const title=document.createElement("strong");title.textContent="MY FOLIO";const saved=document.createElement("span");saved.textContent=read(KEY_FAV).length+" SAVED";const recent=document.createElement("span");recent.textContent="RECENT: "+(read(KEY_RECENT).map(x=>names[x]).filter(Boolean).slice(0,3).join(" · ")||"閲覧履歴なし");const toggle=document.createElement("button");toggle.type="button";toggle.textContent="お気に入りだけ表示";toggle.setAttribute("aria-pressed","false");toggle.addEventListener("click",()=>{const active=toggle.getAttribute("aria-pressed")!=="true";toggle.setAttribute("aria-pressed",String(active));toggle.textContent=active?"すべて表示":"お気に入りだけ表示";[...list.querySelectorAll(".project-row")].forEach(row=>{const id=row.id;row.hidden=active?!read(KEY_FAV).includes(id):false})});bar.append(title,saved,recent,toggle)};
+  list.before(bar);render();document.addEventListener("folio:favorites-change",render);
+ }
+ const faq=document.querySelector(".faq-list");
+ if(faq){const wrap=document.createElement("label");wrap.className="faq-search";wrap.innerHTML='<span>SEARCH FAQ</span><input type="search" placeholder="質問・キーワードを検索" aria-label="FAQを検索">';faq.before(wrap);const input=wrap.querySelector("input");input.addEventListener("input",()=>{const q=input.value.trim().toLocaleLowerCase();faq.querySelectorAll("details").forEach(d=>d.hidden=!d.textContent.toLocaleLowerCase().includes(q))})}
+ const controls=document.createElement("div");controls.className="reading-controls";controls.setAttribute("aria-label","表示設定");controls.innerHTML='<span>TEXT</span><button type="button" data-font="down" aria-label="文字を小さく">A−</button><button type="button" data-font="up" aria-label="文字を大きく">A＋</button>';
+ const header=document.querySelector(".topbar");if(header){header.append(controls);controls.querySelector('[data-font="down"]').addEventListener("click",()=>document.body.classList.add("font-small"));controls.querySelector('[data-font="up"]').addEventListener("click",()=>{document.body.classList.remove("font-small");document.body.classList.add("font-large")});if(localStorage.getItem("folio-font")==="large")document.body.classList.add("font-large");if(localStorage.getItem("folio-font")==="small")document.body.classList.add("font-small");controls.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const v=b.dataset.font==="up"?"large":"small";try{localStorage.setItem("folio-font",v)}catch{}document.body.classList.toggle("font-large",v==="large");document.body.classList.toggle("font-small",v==="small")}))}
+ const pageShare=document.createElement("button");pageShare.type="button";pageShare.className="page-share-button";pageShare.textContent="このページを共有 ↗";pageShare.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else{await navigator.clipboard.writeText(location.href);pageShare.textContent="URLをコピーしました ✓"}}catch(e){if(e.name!=="AbortError")pageShare.textContent="共有できませんでした"}setTimeout(()=>pageShare.textContent="このページを共有 ↗",1800)});
+ const footer=document.querySelector(".footer");if(footer&&!footer.querySelector(".page-share-button"))footer.append(pageShare);
+})();
