@@ -261,3 +261,20 @@ body.dark .orb{box-shadow:inset -13px -17px 25px rgba(0,0,0,.24),inset 9px 9px 2
  .hero h1{font-size:clamp(72px,10vw,110px)}
 }
 @media(prefers-reduced-motion:reduce){.orb{animation:none}}
+
+
+/* Project interaction details */
+.project-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:-24px 0 22px}
+.project-search{min-width:220px;max-width:380px;flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:13px 16px;border-radius:3px;font:12px Manrope,'Noto Sans JP',sans-serif;outline:none}
+.project-search:focus{border-color:#9fbd6b;box-shadow:0 0 0 3px rgba(169,205,112,.15)}
+.filter-set{display:flex;gap:7px;flex-wrap:wrap}
+.filter-chip{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);padding:9px 13px;font:10px 'DM Mono',monospace;cursor:pointer;transition:.2s}
+.filter-chip[aria-pressed="true"],.filter-chip:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.project-count{width:100%;margin:0;color:var(--muted);font:9px 'DM Mono',monospace;letter-spacing:1.5px}
+.project-share{margin-top:9px;border:0;border-bottom:1px solid var(--line);padding:7px 0;background:transparent;color:var(--muted);font:9px 'DM Mono',monospace;letter-spacing:1px;cursor:pointer;transition:.2s}
+.project-share:hover{color:var(--ink);border-color:var(--accent)}
+.empty-state{padding:32px 0;color:var(--muted);font-size:13px}
+.project-row[hidden]{display:none}
+body.dark .project-search{background:#22271f;border-color:var(--line);color:var(--ink)}
+body.dark .filter-chip[aria-pressed="true"],body.dark .filter-chip:hover{background:var(--accent);border-color:var(--accent);color:#171815}
+@media(max-width:760px){.project-tools{margin:-25px 0 18px;align-items:stretch}.project-search{max-width:none;width:100%}.filter-set{gap:6px}.filter-chip{padding:8px 11px}.project-share{font-size:8px}}
