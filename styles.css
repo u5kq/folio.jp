@@ -603,3 +603,25 @@ body.dark .topbar nav{background:var(--surface)!important}
  .topbar nav a{min-height:50px!important;padding:14px 12px!important}
 }
 body.dark .topbar nav{background:var(--surface)!important}
+
+
+/* Homepage restored to a restrained editorial visual */
+.hero-art-showcase{display:none!important}
+.hero-art-editorial{display:block!important;margin-top:48px;padding:16px 20px 13px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(110deg,#f2f4ed,#fafbf8 55%,#edf1e6)}
+.hero-art-editorial svg{display:block;width:100%;height:auto;max-height:205px}
+.hero-art-editorial .hero-art-top,.hero-art-editorial .hero-art-bottom{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font:8px 'DM Mono',monospace;letter-spacing:1.4px}
+.hero-art-editorial .hero-art-bottom{padding-top:10px;border-top:1px solid rgba(126,148,95,.2)}
+.home-project-tools{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 18px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.home-project-tools label{display:flex;flex-direction:column;gap:7px;min-width:180px;flex:1}
+.home-project-tools label span{font:9px 'DM Mono',monospace;letter-spacing:1.2px;color:var(--muted)}
+.home-project-tools input{width:100%;max-width:360px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--ink);padding:11px 12px;font-size:12px;outline:none}
+.home-project-tools input:focus{border-color:#9bb66d;box-shadow:0 0 0 3px rgba(168,201,107,.15)}
+.home-filter{display:flex;flex-wrap:wrap;gap:5px}
+.home-filter button{border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--muted);padding:8px 10px;font:9px 'DM Mono',monospace;cursor:pointer}
+.home-filter button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.home-project-tools>p{font:9px 'DM Mono',monospace;color:var(--muted);white-space:nowrap;margin:0}
+.project-card[hidden]{display:none!important}
+body.dark .hero-art-editorial{background:linear-gradient(110deg,#252b21,#20241e 55%,#293023)}
+body.dark .hero-art-editorial svg rect{stroke:#414a38}
+body.dark .hero-art-editorial svg text{fill:#e1e8d8}
+@media(max-width:700px){.hero-art-editorial{margin-top:30px;padding:12px 10px 10px;border-radius:9px}.hero-art-editorial .hero-art-top,.hero-art-editorial .hero-art-bottom{font-size:6px;letter-spacing:.8px}.home-project-tools{align-items:stretch;flex-direction:column;gap:10px}.home-project-tools label{min-width:0}.home-project-tools input{max-width:none}.home-project-tools>p{align-self:flex-end}}
