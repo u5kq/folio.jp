@@ -742,3 +742,19 @@ body.dark .mini-device-screen{background:#252c20}
 .corporate-page-card h2{font-size:18px;margin:12px 0 6px}.corporate-page-card p{font-size:11px;line-height:1.8;color:var(--muted);margin:0}
 .faq-list{border-top:1px solid var(--line);margin-top:30px}.faq-list details{border-bottom:1px solid var(--line);padding:18px 4px}.faq-list summary{cursor:pointer;font-size:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:14px}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary:after{content:"+";font:20px Manrope;color:var(--muted)}.faq-list details[open] summary:after{content:"−"}.faq-list details p{font-size:12px;line-height:2;color:var(--muted);max-width:760px;margin:14px 0 2px}
 @media(max-width:700px){.global-search-trigger{width:38px;justify-content:center;padding:0}.global-search-trigger small{display:none}.search-overlay{padding:8vh 12px 16px}.search-dialog{padding:16px}.corporate-page-grid{grid-template-columns:1fr}.footer-utility-links{width:100%;order:4;padding-bottom:8px}.topbar{gap:8px}}
+
+
+/* folio visitor tools */
+.folio-favorite{display:inline-flex;align-items:center;justify-content:center;margin:9px 8px 0 0;padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);font:10px 'Noto Sans JP',sans-serif;cursor:pointer}
+.folio-favorite[aria-pressed=true]{color:#9b5b61;border-color:#c99a9d;background:rgba(201,154,157,.08)}
+.folio-library-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px;padding:13px 15px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:10px;color:var(--muted)}
+.folio-library-tools strong{font:10px 'DM Mono',monospace;letter-spacing:1px;color:var(--ink)}
+.folio-library-tools button{margin-left:auto;padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--ink);font-size:10px;cursor:pointer}
+.folio-library-tools button[aria-pressed=true]{background:var(--ink);color:var(--surface)}
+.faq-search{display:flex;flex-direction:column;gap:8px;margin:25px 0 0;font:9px 'DM Mono',monospace;letter-spacing:1px;color:var(--muted)}
+.faq-search input{width:100%;padding:13px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:12px 'Noto Sans JP',sans-serif}
+.reading-controls{display:flex;align-items:center;gap:4px;margin-left:auto;color:var(--muted);font:8px 'DM Mono',monospace;letter-spacing:.7px}
+.reading-controls button{padding:6px 7px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);font-size:10px;cursor:pointer}
+.page-share-button{padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);font:9px 'DM Mono',monospace;cursor:pointer}
+body.font-large{font-size:1.08em}body.font-small{font-size:.94em}
+@media(max-width:700px){.reading-controls{margin:6px 0 0 4px}.folio-library-tools{align-items:flex-start}.folio-library-tools button{margin-left:0}.footer .page-share-button{margin-top:8px}}
