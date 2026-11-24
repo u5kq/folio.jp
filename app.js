@@ -244,3 +244,45 @@ if(document.querySelector("#project-detail")){
  const pageShare=document.createElement("button");pageShare.type="button";pageShare.className="page-share-button";pageShare.textContent="このページを共有 ↗";pageShare.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else{await navigator.clipboard.writeText(location.href);pageShare.textContent="URLをコピーしました ✓"}}catch(e){if(e.name!=="AbortError")pageShare.textContent="共有できませんでした"}setTimeout(()=>pageShare.textContent="このページを共有 ↗",1800)});
  const footer=document.querySelector(".footer");if(footer&&!footer.querySelector(".page-share-button"))footer.append(pageShare);
 })();
+
+
+/* folio information hub: useful quick links, project comparison and print support */
+(function(){
+ const extra=[
+  ["JOURNAL","journal.html","制作ノート・開発の考え方"],
+  ["RELEASES","releases.html","公開・更新履歴"],
+  ["TECHNOLOGY","technology.html","制作領域・技術方針"],
+  ["TIMELINE","timeline.html","活動の歩み"],
+  ["PARTNERSHIP","partnership.html","協力・共同制作について"],
+  ["PRIVACY","privacy.html","プライバシーについて"]
+ ];
+ document.querySelectorAll(".footer").forEach(footer=>{
+  if(footer.querySelector(".folio-more-links"))return;
+  const box=document.createElement("div");box.className="folio-more-links";
+  const label=document.createElement("span");label.textContent="EXPLORE FOLIO";
+  const links=document.createElement("div");
+  extra.forEach(([name,url,desc])=>{const a=document.createElement("a");a.href=url;a.textContent=name;a.title=desc;links.append(a)});
+  box.append(label,links);footer.append(box);
+ });
+ const projects=document.querySelector(".project-list");
+ if(projects&&!projects.querySelector(".compare-launch")){
+  const rows=[...projects.querySelectorAll(".project-row")];
+  const launch=document.createElement("div");launch.className="compare-launch";
+  launch.innerHTML='<div><b>PROJECT COMPARE</b><small>気になるプロジェクトを選んで比較できます</small></div><button type="button">比較をはじめる ↗</button>';
+  projects.before(launch);
+  const modal=document.createElement("div");modal.className="compare-modal";modal.hidden=true;
+  modal.innerHTML='<section class="compare-panel" role="dialog" aria-modal="true" aria-label="プロジェクト比較"><header><div><b>Compare projects.</b><small>最大3つまで選択できます</small></div><button type="button" class="compare-close" aria-label="閉じる">×</button></header><div class="compare-options"></div><div class="compare-result" aria-live="polite"></div><footer><button type="button" class="compare-reset">リセット</button><button type="button" class="compare-show">選択したプロジェクトを比較</button></footer></section>';
+  document.body.append(modal);
+  const options=modal.querySelector(".compare-options"),result=modal.querySelector(".compare-result");
+  rows.forEach(row=>{const id=row.id,name=row.querySelector("h2")?.textContent||id,desc=row.querySelector("p")?.textContent||"",status=row.querySelector(".status")?.textContent||"未設定",cat=row.querySelector(".kicker")?.textContent||"未分類";const label=document.createElement("label");label.className="compare-option";const input=document.createElement("input");input.type="checkbox";input.value=id;const text=document.createElement("span");text.innerHTML="<b></b><small></small>";text.querySelector("b").textContent=name;text.querySelector("small").textContent=cat+" · "+status;label.append(input,text);options.append(label);input.addEventListener("change",()=>{const checked=[...options.querySelectorAll("input:checked")];if(checked.length>3){input.checked=false;return}modal.querySelector(".compare-show").disabled=checked.length<2})});
+  const close=()=>{modal.hidden=true;launch.querySelector("button").focus()};
+  launch.querySelector("button").addEventListener("click",()=>{modal.hidden=false;modal.querySelector(".compare-show").disabled=true;result.replaceChildren()});
+  modal.querySelector(".compare-close").addEventListener("click",close);
+  modal.addEventListener("click",e=>{if(e.target===modal)close()});
+  modal.querySelector(".compare-reset").addEventListener("click",()=>{options.querySelectorAll("input").forEach(x=>x.checked=false);result.replaceChildren();modal.querySelector(".compare-show").disabled=true});
+  modal.querySelector(".compare-show").addEventListener("click",()=>{result.replaceChildren();const chosen=[...options.querySelectorAll("input:checked")];const table=document.createElement("div");table.className="compare-table";chosen.forEach(input=>{const row=rows.find(r=>r.id===input.value);const card=document.createElement("article");card.innerHTML="<h3></h3><span></span><p></p><a>詳細を見る ↗</a>";card.querySelector("h3").textContent=row.querySelector("h2")?.textContent||input.value;card.querySelector("span").textContent=row.querySelector(".status")?.textContent||"未設定";card.querySelector("p").textContent=row.querySelector("p")?.textContent||"";card.querySelector("a").href="project.html?id="+encodeURIComponent(input.value);table.append(card)});result.append(table)});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!modal.hidden)close()});
+ }
+ const print=document.createElement("button");print.type="button";print.className="print-page";print.textContent="ページを印刷 ↗";print.addEventListener("click",()=>window.print());
+ const foot=document.querySelector(".footer");if(foot&&!foot.querySelector(".print-page"))foot.append(print);
+})();
