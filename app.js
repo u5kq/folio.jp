@@ -37,7 +37,7 @@ const SOCIALS={
 };
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
-if(menu&&nav)menu.addEventListener("click",()=>{const open=nav.classList.toggle("open");menu.setAttribute("aria-expanded",String(open));menu.textContent=open?"×":"☰"});
+
 if(header){const theme=document.createElement("button");theme.type="button";theme.className="theme-toggle";theme.setAttribute("aria-label","テーマを切り替える");theme.title="ライト／ダーク切り替え";header.insertBefore(theme,menu||null);try{if(localStorage.getItem("folio-theme")==="dark")document.body.classList.add("dark")}catch{}const sync=()=>{theme.textContent=document.body.classList.contains("dark")?"☀":"◐";theme.setAttribute("aria-pressed",String(document.body.classList.contains("dark")))};sync();theme.addEventListener("click",()=>{document.body.classList.toggle("dark");try{localStorage.setItem("folio-theme",document.body.classList.contains("dark")?"dark":"light")}catch{}sync()})}
 const progress=document.createElement("div");progress.className="scroll-progress";progress.setAttribute("aria-hidden","true");document.body.append(progress);
 const toTop=document.createElement("button");toTop.type="button";toTop.className="to-top";toTop.textContent="↑";toTop.setAttribute("aria-label","ページ上部へ戻る");document.body.append(toTop);
@@ -119,14 +119,23 @@ if(document.querySelector("#project-detail")){
 })();
 
 
-/* Final navigation behavior and accessibility */
+
+
+
+/* Single source of truth for the vertical page menu */
 (function(){
- const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),button=header?.querySelector(".menu");
+ const header=document.querySelector(".topbar");
+ const nav=header&&header.querySelector("nav");
+ const button=header&&header.querySelector(".menu");
  if(!header||!nav||!button)return;
- nav.id="folio-main-nav";button.setAttribute("aria-controls",nav.id);
+ nav.id="folio-main-nav";
+ button.setAttribute("aria-controls",nav.id);
  const close=()=>{nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.textContent="☰"};
- button.addEventListener("click",()=>{const opened=nav.classList.contains("open");if(opened){close()}else{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"}});
- nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
- document.addEventListener("pointerdown",e=>{if(nav.classList.contains("open")&&!header.contains(e.target))close()});
- document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
+ button.addEventListener("click",()=>{
+  const opened=nav.classList.contains("open");
+  if(opened)close();else{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"}
+ });
+ nav.querySelectorAll("a").forEach(link=>link.addEventListener("click",close));
+ document.addEventListener("pointerdown",event=>{if(nav.classList.contains("open")&&!header.contains(event.target))close()});
+ document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
 })();
