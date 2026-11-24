@@ -252,3 +252,28 @@ body{animation:none!important;transform:none!important}
  .folio-intro,.page-curtain{display:none!important}
  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+
+/* Editorial illustrations — custom inline SVG artwork */
+.card-art{position:relative;overflow:hidden;isolation:isolate}
+.card-art:before{content:"";position:absolute;width:110px;height:110px;border:1px solid currentColor;border-radius:50%;opacity:.12;right:-42px;top:-45px;z-index:-1}
+.card-art svg{width:min(76%,112px);height:auto;max-height:112px;overflow:visible;display:block}
+.art-one{background:linear-gradient(145deg,#e9eddf,#f6f7f2)}
+.art-two{background:linear-gradient(145deg,#e8ebe5,#f5f6f2)}
+.art-three{background:linear-gradient(145deg,#e4eadf,#f4f6ef)}
+.art-four{background:linear-gradient(145deg,#eeeade,#f8f7f1)}
+.project-row .row-mark svg{width:100%;height:100%;padding:10px;display:block;overflow:visible}
+.project-row .row-mark{background:linear-gradient(145deg,#eef1e8,#e4eadd);color:#61724d}
+.project-row:nth-child(2n) .row-mark{background:linear-gradient(145deg,#efefeb,#e5e8df);color:#51584b}
+.project-row:nth-child(3n) .row-mark{background:linear-gradient(145deg,#e9eee8,#dfe9df);color:#5a705b}
+.about-illustration{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;background:linear-gradient(145deg,var(--soft),var(--surface));border:1px solid var(--line);border-radius:18px;color:#788b60;min-height:250px}
+.about-illustration svg{width:min(100%,280px);height:auto}
+.about-illustration span{font:9px 'DM Mono',monospace;letter-spacing:2px;color:var(--muted)}
+@media(max-width:700px){
+ .card-art svg{width:min(78%,92px);max-height:92px}
+ .project-row .row-mark svg{padding:5px}
+ .about-illustration{min-height:190px;padding:12px}
+}
+body.dark .card-art{background:#2a3025;color:#d5e3bf}
+body.dark .project-row .row-mark{background:#2a3025;color:#d5e3bf}
+body.dark .about-illustration{background:linear-gradient(145deg,#252a21,#20231e);color:#b4d47a}
