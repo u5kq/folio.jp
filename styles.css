@@ -395,3 +395,35 @@ body.dark .hero-art svg path,body.dark .hero-art svg circle{opacity:.9}
  .topbar nav.open a:last-child{border-bottom:0!important}
  .topbar nav.open a::after{content:"↗";font:14px Manrope,sans-serif;color:var(--muted);opacity:.65}
 }
+
+
+/* Global vertical navigation panel — desktop and mobile */
+.topbar{position:sticky;z-index:80}
+.topbar .menu{display:grid!important;flex:0 0 42px;width:42px;height:42px;border-radius:10px;font-size:19px;transition:background .2s,border-color .2s,transform .2s}
+.topbar .menu[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.topbar nav{
+ display:none;position:absolute;top:calc(100% + 10px);right:max(24px,calc((100vw - 1120px)/2));
+ left:auto;width:min(310px,calc(100vw - 36px));padding:12px;
+ flex-direction:column;align-items:stretch;gap:3px;
+ background:var(--surface);border:1px solid var(--line);border-radius:14px;
+ box-shadow:0 22px 60px rgba(20,24,16,.15);backdrop-filter:blur(18px);
+}
+.topbar nav.open{display:flex!important;animation:nav-panel-in .18s ease both}
+.topbar nav a{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ min-height:46px;padding:12px 14px;border-radius:8px;
+ font:10px 'DM Mono',monospace;letter-spacing:1.4px;color:var(--muted);
+}
+.topbar nav a:after{content:"↗";font:14px Manrope,sans-serif;color:var(--muted);opacity:.5}
+.topbar nav a:hover{background:var(--soft);color:var(--ink)}
+.topbar nav a.active{background:var(--soft);color:var(--ink);font-weight:700}
+.topbar nav a.active:after{content:"●";font-size:7px;color:var(--accent);opacity:1}
+.topbar .theme-toggle{margin-left:auto;width:42px;height:42px;border-radius:10px}
+@keyframes nav-panel-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){
+ .topbar{gap:10px}
+ .topbar nav{top:calc(100% + 1px);left:0;right:0;width:100%;max-height:calc(100dvh - 82px);overflow:auto;padding:14px 18px 20px;border-radius:0 0 14px 14px;border-top:0}
+ .topbar nav a{min-height:50px;padding:14px 12px}
+ .topbar .theme-toggle{margin-left:auto}
+}
+@media(prefers-reduced-motion:reduce){.topbar nav.open{animation:none}}
