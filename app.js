@@ -1,18 +1,31 @@
-/* folio — refined navigation and page-opening experience */
+/* folio — restrained, accessible page transitions */
 (function(){
  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- const splash=document.createElement("div");
- splash.className="folio-intro";
- splash.setAttribute("aria-hidden","true");
- splash.innerHTML='<div class="intro-inner"><span class="intro-word">folio<span>.</span></span><span class="intro-caption">IDEAS INTO SOMETHING REAL</span><div class="intro-track"><i></i></div></div>';
- document.body.append(splash);
+ document.documentElement.classList.add("folio-ready");
+ // A short first-visit brand reveal. No blocking loader on later page views.
  let seen=false;try{seen=sessionStorage.getItem("folio-intro-seen")==="1"}catch{}
- if(reduce||seen){splash.classList.add("intro-out");setTimeout(()=>splash.remove(),30)}
- else{requestAnimationFrame(()=>splash.classList.add("intro-active"));setTimeout(()=>{splash.classList.add("intro-out");try{sessionStorage.setItem("folio-intro-seen","1")}catch{}setTimeout(()=>splash.remove(),650)},1050)}
+ if(!reduce&&!seen){
+  const splash=document.createElement("div");
+  splash.className="folio-intro";
+  splash.setAttribute("aria-hidden","true");
+  splash.innerHTML='<div class="intro-inner"><span class="intro-word">folio<span>.</span></span><span class="intro-caption">IDEAS INTO SOMETHING REAL</span></div>';
+  document.body.append(splash);
+  requestAnimationFrame(()=>splash.classList.add("intro-active"));
+  setTimeout(()=>{splash.classList.add("intro-out");try{sessionStorage.setItem("folio-intro-seen","1")}catch{}setTimeout(()=>splash.remove(),420)},620);
+ }
  document.addEventListener("click",e=>{
-  const a=e.target.closest("a[href]");if(!a||reduce||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==="_blank"||a.hasAttribute("download"))return;
-  const url=new URL(a.href,location.href);if(url.origin!==location.origin||url.pathname===location.pathname&&url.hash)return;
-  e.preventDefault();const curtain=document.createElement("div");curtain.className="page-curtain";curtain.innerHTML='<span>folio<span>.</span></span>';document.body.append(curtain);requestAnimationFrame(()=>curtain.classList.add("curtain-active"));setTimeout(()=>location.href=url.href,260);
+  const a=e.target.closest("a[href]");
+  if(!a||reduce||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==="_blank"||a.hasAttribute("download"))return;
+  let url;try{url=new URL(a.href,location.href)}catch{return}
+  if(url.origin!==location.origin||url.pathname===location.pathname||a.hasAttribute("data-no-transition"))return;
+  e.preventDefault();
+  const curtain=document.createElement("div");
+  curtain.className="page-curtain";
+  curtain.setAttribute("aria-hidden","true");
+  curtain.innerHTML='<span>folio<span>.</span></span>';
+  document.body.append(curtain);
+  requestAnimationFrame(()=>curtain.classList.add("curtain-active"));
+  setTimeout(()=>{location.href=url.href},160);
  });
 })();
 
