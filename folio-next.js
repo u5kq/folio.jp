@@ -15,7 +15,7 @@ const button=(label,action,cls="")=>{const b=document.createElement("button");b.
 const toolrow=document.createElement("div");toolrow.className="fn-quick-tools";toolrow.innerHTML='<button type="button" data-fn="search" aria-label="コマンドパレット">⌘ K</button><button type="button" data-fn="share" aria-label="共有センター">↗</button>';root.append(toolrow);
 const command=overlay("コマンドパレット",'<p class="fn-kicker">FOLIO / QUICK ACCESS</p><h2>Command palette.</h2><input class="fn-command-input" type="search" placeholder="ページ・プロジェクトを検索..." aria-label="検索"><div class="fn-command-results"></div><p class="fn-hint">Enterで開く · Escで閉じる</p>');
 const commandInput=$(".fn-command-input",command.el),commandResults=$(".fn-command-results",command.el);
-const pageList=[["HOME","index.html"],["PROJECTS","projects.html"],["BRAND","brand.html"],["NEWS","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"],["folio. LAB","lab.html"],["folio. Terminal","terminal.html"],["SYSTEM STATUS","status.html"],["VERSION HISTORY","versions.html"],["PROJECT GALLERY","gallery.html"],["SITE MAP","sitemap.html"]];
+const pageList=[["HOME","index.html"],["PROJECTS","projects.html"],["BRAND","brand.html"],["NEWS","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"],["folio. LAB","lab.html"],["folio. Terminal","terminal.html"],["SYSTEM STATUS","status.html"],["VERSION HISTORY","versions.html"],["PROJECT GALLERY","gallery.html"],["FAVORITES","favorites.html"],["RECENT HISTORY","history.html"],["SITE MAP","sitemap.html"]];
 function drawCommands(q=""){commandResults.replaceChildren();const list=[...pageList.map(([name,url])=>({name,url,sub:"PAGE"})),...projects.map(p=>({name:p.name,url:p.url,sub:"PROJECT"}))].filter(x=>(x.name+" "+x.sub).toLowerCase().includes(q.toLowerCase()));list.slice(0,12).forEach(item=>{const a=document.createElement("a");a.href=item.url;a.className="fn-command-item";const b=document.createElement("b");b.textContent=item.name;const s=document.createElement("small");s.textContent=item.sub;a.append(b,s);commandResults.append(a)});if(!list.length)commandResults.textContent="該当する項目がありません。"}
 drawCommands();commandInput.addEventListener("input",()=>drawCommands(commandInput.value));commandInput.addEventListener("keydown",e=>{if(e.key==="Enter"){const first=$(".fn-command-item",commandResults);if(first)location.href=first.href}});
 function openCommand(){command.el.hidden=false;commandInput.value="";drawCommands();commandInput.focus()}
@@ -34,7 +34,7 @@ const pageName=document.title.replace(/\s*[—|｜-]\s*folio.*$/i,"").trim()||cu
 let hist=safe(histKey,[]);hist=[{url:location.pathname+location.search,name:pageName,date:Date.now()},...hist.filter(x=>x.url!==location.pathname+location.search)].slice(0,20);save(histKey,hist);
 const favs=safe(favKey,[]);
 function addFavorite(target){const next=safe(favKey,[]);const exists=next.some(x=>x.url===target.url);save(favKey,exists?next.filter(x=>x.url!==target.url):[...next,{...target,date:Date.now()}]);toast(exists?"お気に入りから削除しました":"お気に入りに追加しました");return !exists}
-$$(".project-row,.project-card").forEach(el=>{const isRow=el.classList.contains("project-row");const id=isRow?el.id:(new URL(el.href,location.href)).searchParams.get("id");if(!id)return;const name=$("h2",el)?.textContent||$("h3",el)?.textContent||id;const url="project.html?id="+encodeURIComponent(id);const b=button("☆",()=>{const active=addFavorite({id,name,url});b.textContent=active?"★":"☆";b.setAttribute("aria-pressed",String(active))},"fn-fav");b.setAttribute("aria-label",name+"をお気に入り");b.setAttribute("aria-pressed",String(favs.some(x=>x.id===id)));if(b.getAttribute("aria-pressed")==="true")b.textContent="★";el.append(b)});
+$(".project-row,.project-card").forEach(el=>{const isRow=el.classList.contains("project-row");const id=isRow?el.id:(new URL(el.href,location.href)).searchParams.get("id");if(!id)return;const name=$("h2",el)?.textContent||$("h3",el)?.textContent||id;const url="project.html?id="+encodeURIComponent(id);const b=button("☆",()=>{const active=addFavorite({id,name,url});b.textContent=active?"★":"☆";b.setAttribute("aria-pressed",String(active))},"fn-fav");b.setAttribute("aria-label",name+"をお気に入り");b.setAttribute("aria-pressed",String(favs.some(x=>x.id===id)));if(b.getAttribute("aria-pressed")==="true")b.textContent="★";if(isRow)el.append(b);else{const wrap=document.createElement("div");wrap.className="fn-card-wrap";el.before(wrap);wrap.append(el,b)}});
 /* stage labels derived from existing project status, never invented progress percentages */
 const stageFor=s=>/LIVE|PUBLISHED|公開/i.test(s)?"公開":/DEVELOP|IN DEVELOPMENT/i.test(s)?"開発中":/TEST/i.test(s)?"テスト":/CONCEPT|IDEA/i.test(s)?"構想": "プロジェクト";
 projects.forEach(p=>{const tag=document.createElement("span");tag.className="fn-stage";tag.textContent="STAGE / "+stageFor(p.status);const status=$(".status",p.row);if(status)status.insertAdjacentElement("afterend",tag)});
@@ -54,4 +54,22 @@ if(currentFile==="history.html"){const main=$("main")||document.body;const secti
 if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const item=document.createElement("div");item.className="fn-launch-counter";item.innerHTML="<strong>—</strong><span>DAYS SINCE LAUNCH</span>";item.title="正式なサイト公開日が設定されると日数を表示します";target.append(item)}}
 /* add a compact quick access link group without changing existing navigation */
 const nav=$(".topbar nav");if(nav&&!nav.querySelector('[data-fn-nav="lab"]')){const a=document.createElement("a");a.href="lab.html";a.dataset.fnNav="lab";a.textContent="LAB";nav.append(a)}
+})();
+/* Data-backed views: load the canonical project list on standalone feature pages. */
+(function(){
+ const file=location.pathname.split("/").pop();
+ if(!["status.html","gallery.html"].includes(file))return;
+ fetch("projects.html").then(r=>{if(!r.ok)throw new Error("projects unavailable");return r.text()}).then(html=>{
+  const doc=new DOMParser().parseFromString(html,"text/html");
+  const rows=[...doc.querySelectorAll(".project-row")];
+  const main=document.querySelector("main");
+  if(file==="status.html"){
+   const target=document.querySelector(".fn-status-list");if(!target)return;target.replaceChildren();
+   rows.forEach(row=>{const item=document.createElement("div");item.className="fn-status-row";const name=document.createElement("b");name.textContent=row.querySelector("h2")?.textContent||row.id;const status=document.createElement("span");status.textContent=row.querySelector(".status")?.textContent||"STATUS NOT SET";item.append(name,status);target.append(item)});
+  }
+  if(file==="gallery.html"){
+   const target=document.querySelector(".fn-gallery-grid");if(!target)return;target.replaceChildren();
+   rows.forEach(row=>{const card=document.createElement("a");card.className="fn-gallery-card";card.href="project.html?id="+encodeURIComponent(row.id);const art=row.querySelector(".row-mark svg");if(art)card.append(art.cloneNode(true));const name=document.createElement("b");name.textContent=row.querySelector("h2")?.textContent||row.id;const desc=document.createElement("p");desc.textContent=row.querySelector("p")?.textContent||"";card.append(name,desc);target.append(card)});
+  }
+ }).catch(()=>{const target=document.querySelector(".fn-status-list,.fn-gallery-grid");if(target){const note=document.createElement("p");note.textContent="プロジェクト情報を読み込めませんでした。PROJECTSページをご確認ください。";target.append(note)}});
 })();
