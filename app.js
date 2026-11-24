@@ -17,3 +17,25 @@ const targets=document.querySelectorAll(".project-card,.project-row,.about-layou
 if("IntersectionObserver"in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("is-visible");io.unobserve(e.target)}}),{threshold:.08});targets.forEach(el=>io.observe(el))}else targets.forEach(el=>el.classList.add("is-visible"));
 const list=document.querySelector(".project-list");if(list){const bar=document.createElement("div");bar.className="project-tools";bar.innerHTML='<input class="project-search" type="search" placeholder="プロジェクトを検索..." aria-label="プロジェクトを検索"><div class="filter-set" aria-label="カテゴリーで絞り込み"><button class="filter-chip" data-filter="all" aria-pressed="true">ALL</button><button class="filter-chip" data-filter="AI" aria-pressed="false">AI</button><button class="filter-chip" data-filter="WEB" aria-pressed="false">WEB</button><button class="filter-chip" data-filter="EDUCATION" aria-pressed="false">EDUCATION</button></div>';list.before(bar);const rows=[...list.querySelectorAll(".project-row")];let active="all";const search=bar.querySelector("input");const apply=()=>{let count=0;rows.forEach(row=>{const category=row.querySelector(".kicker").innerText.toUpperCase(),ok=(active==="all"||category.includes(active))&&row.innerText.toLowerCase().includes(search.value.toLowerCase());row.hidden=!ok;if(ok)count++});let empty=list.querySelector(".empty-state");if(!count&&!empty){empty=document.createElement("p");empty.className="empty-state";empty.textContent="該当するプロジェクトがありません。";list.append(empty)}else if(count&&empty)empty.remove()};search.addEventListener("input",apply);bar.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{active=b.dataset.filter;bar.querySelectorAll("[data-filter]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));apply()}))}
 const form=document.querySelector("#contact-form");if(form)form.addEventListener("submit",event=>{event.preventDefault();const recipient="",error=document.querySelector("#form-error");if(!recipient){error.hidden=false;error.textContent="現在、送信先メールアドレスが設定されていません。公開前に安全な送信先設定が必要です。";return}const data=new FormData(form),subject=encodeURIComponent(data.get("subject")),body=encodeURIComponent("お名前: "+data.get("name")+"\n返信先: "+data.get("email")+"\n\n"+data.get("message"));location.href="mailto:"+recipient+"?subject="+subject+"&body="+body});
+
+
+/* Project discovery tools */
+const projectList=document.querySelector(".project-list");
+if(projectList){
+ const rows=[...projectList.querySelectorAll(".project-row")];
+ const toolsBar=document.querySelector(".project-tools");
+ if(toolsBar){
+  const count=document.createElement("p");count.className="project-count";count.setAttribute("aria-live","polite");toolsBar.append(count);
+  const search=toolsBar.querySelector(".project-search");
+  const updateCount=()=>{const visible=rows.filter(r=>!r.hidden).length;count.textContent=visible+" / "+rows.length+" PROJECTS";};
+  const originalApply=()=>{const active=toolsBar.querySelector('[aria-pressed="true"]')?.dataset.filter||"all";rows.forEach(row=>{const cat=row.querySelector(".kicker")?.textContent.toUpperCase()||"";row.hidden=!((active==="all"||cat.includes(active))&&row.textContent.toLowerCase().includes(search.value.toLowerCase()))});let empty=projectList.querySelector(".empty-state");if(!rows.some(r=>!r.hidden)){if(!empty){empty=document.createElement("p");empty.className="empty-state";empty.textContent="該当するプロジェクトがありません。検索語やカテゴリーを変更してください。";projectList.append(empty)}}else empty?.remove();updateCount();};
+  search?.addEventListener("input",updateCount);toolsBar.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",updateCount));updateCount();
+  document.addEventListener("keydown",e=>{if(e.key==="/"&&!/input|textarea/i.test(document.activeElement.tagName)){e.preventDefault();search?.focus()}if(e.key==="Escape"&&document.activeElement===search){search.value="";search.dispatchEvent(new Event("input"));search.blur()}});
+  search?.setAttribute("placeholder","検索する... （ / ）");
+ }
+ rows.forEach(row=>{
+  const action=document.createElement("button");action.className="project-share";action.type="button";action.textContent="COPY LINK ↗";action.setAttribute("aria-label",row.querySelector("h2")?.textContent+"のリンクをコピー");
+  action.addEventListener("click",async()=>{const url=location.origin+location.pathname+"#"+row.id;try{await navigator.clipboard.writeText(url);action.textContent="COPIED ✓";setTimeout(()=>action.textContent="COPY LINK ↗",1800)}catch{action.textContent="コピーできません";setTimeout(()=>action.textContent="COPY LINK ↗",1800)}});
+  const content=row.children[1];if(content)content.append(action);
+ });
+}
