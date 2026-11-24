@@ -194,3 +194,28 @@ body.dark .statement{background:#0f110e}
  .project-row .kicker{padding-right:58px;font-size:7.5px}
  .project-row h2{font-size:20px}
 }
+
+/* Homepage project cards — explicit grid placement prevents narrow text columns */
+.project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:16px}
+.project-card{display:grid;grid-template-columns:88px minmax(0,1fr);grid-template-rows:auto auto 1fr auto;align-items:center;column-gap:18px;row-gap:8px;min-width:0;min-height:188px;padding:22px}
+.project-card .project-no{grid-column:1/-1;grid-row:1;margin:0 0 5px;white-space:nowrap}
+.project-card .card-art{grid-column:1;grid-row:2/5;width:88px;height:104px;min-width:0;margin:0;border-radius:13px;font-size:28px;line-height:1.05;align-self:center;display:grid;place-content:center;text-align:center}
+.project-card h3{grid-column:2;grid-row:2;min-width:0;margin:0;font-size:18px;line-height:1.35;overflow-wrap:anywhere}
+.project-card p{grid-column:2;grid-row:3;min-width:0;min-height:0;margin:0;font-size:12px;line-height:1.85;overflow-wrap:anywhere;word-break:normal}
+.project-card .card-arrow{grid-column:2;grid-row:4;justify-self:start;align-self:end;margin:4px 0 0;white-space:normal;line-height:1.5;font-size:9px}
+.project-card:hover .card-art{transform:scale(1.025);transition:transform .25s ease}
+@media(max-width:700px){
+ .project-grid{grid-template-columns:1fr;gap:12px}
+ .project-card{grid-template-columns:76px minmax(0,1fr);grid-template-rows:auto auto 1fr auto;min-height:154px;padding:17px;column-gap:15px;row-gap:7px;border-radius:12px}
+ .project-card .project-no{grid-column:1/-1;grid-row:1;margin:0 0 3px;font-size:9px}
+ .project-card .card-art{grid-column:1;grid-row:2/5;width:76px;height:88px;margin:0;border-radius:11px;font-size:24px}
+ .project-card h3{grid-column:2;grid-row:2;font-size:17px;line-height:1.35}
+ .project-card p{grid-column:2;grid-row:3;font-size:12px;line-height:1.8;min-height:0}
+ .project-card .card-arrow{grid-column:2;grid-row:4;font-size:8px;margin-top:3px}
+}
+@media(max-width:360px){
+ .project-card{grid-template-columns:64px minmax(0,1fr);column-gap:12px;padding:14px}
+ .project-card .card-art{width:64px;height:76px;font-size:21px}
+ .project-card h3{font-size:15px}
+ .project-card p{font-size:11px}
+}
