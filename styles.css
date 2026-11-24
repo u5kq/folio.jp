@@ -753,11 +753,9 @@ body.dark .mini-device-screen{background:#252c20}
 .folio-library-tools button[aria-pressed=true]{background:var(--ink);color:var(--surface)}
 .faq-search{display:flex;flex-direction:column;gap:8px;margin:25px 0 0;font:9px 'DM Mono',monospace;letter-spacing:1px;color:var(--muted)}
 .faq-search input{width:100%;padding:13px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:12px 'Noto Sans JP',sans-serif}
-.reading-controls{display:flex;align-items:center;gap:4px;margin-left:auto;color:var(--muted);font:8px 'DM Mono',monospace;letter-spacing:.7px}
-.reading-controls button{padding:6px 7px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);font-size:10px;cursor:pointer}
 .page-share-button{padding:7px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);font:9px 'DM Mono',monospace;cursor:pointer}
-body.font-large{font-size:1.08em}body.font-small{font-size:.94em}
-@media(max-width:700px){.reading-controls{margin:6px 0 0 4px}.folio-library-tools{align-items:flex-start}.folio-library-tools button{margin-left:0}.footer .page-share-button{margin-top:8px}}
+
+@media(max-width:700px){.folio-library-tools{align-items:flex-start}.folio-library-tools button{margin-left:0}.footer .page-share-button{margin-top:8px}}
 
 
 /* folio information hub and comparison UI */
