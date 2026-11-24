@@ -284,3 +284,45 @@ if(document.querySelector("#project-detail")){
  const print=document.createElement("button");print.type="button";print.className="print-page";print.textContent="ページを印刷 ↗";print.addEventListener("click",()=>window.print());
  const foot=document.querySelector(".footer");if(foot&&!foot.querySelector(".print-page"))foot.append(print);
 })();
+
+
+/* Final usability touches: breadcrumb, back-to-top, recent projects, 404 recovery */
+(function(){
+ const path=location.pathname.split("/").pop()||"index.html";
+ const labels={"index.html":"HOME","projects.html":"PROJECTS","project.html":"PROJECT","brand.html":"BRAND","news.html":"NEWS","about.html":"ABOUT","contact.html":"CONTACT","faq.html":"FAQ","sitemap.html":"SITEMAP","journal.html":"JOURNAL","releases.html":"RELEASES","technology.html":"TECHNOLOGY","timeline.html":"TIMELINE","partnership.html":"PARTNERSHIP","privacy.html":"PRIVACY","404.html":"NOT FOUND"};
+ const main=document.querySelector("main");
+ if(main&&path!=="index.html"&&!main.querySelector(".folio-breadcrumb")){
+  const crumb=document.createElement("nav");crumb.className="folio-breadcrumb";crumb.setAttribute("aria-label","パンくずリスト");
+  const home=document.createElement("a");home.href="index.html";home.textContent="HOME";
+  const sep=document.createElement("span");sep.textContent="/";
+  const current=document.createElement("span");current.textContent=labels[path]||"PAGE";current.setAttribute("aria-current","page");
+  crumb.append(home,sep,current);main.prepend(crumb);
+ }
+ if(!document.querySelector(".folio-top-button")){
+  const top=document.createElement("button");top.type="button";top.className="folio-top-button";top.setAttribute("aria-label","ページの先頭へ戻る");top.textContent="↑";document.body.append(top);
+  const update=()=>top.classList.toggle("is-visible",window.scrollY>420);
+  window.addEventListener("scroll",update,{passive:true});update();
+  top.addEventListener("click",()=>window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
+ }
+ try{
+  if(path==="project.html"){
+   const id=new URLSearchParams(location.search).get("id");
+   if(id){const key="folio_recent_projects_v1";let list=JSON.parse(localStorage.getItem(key)||"[]");list=[id,...list.filter(x=>x!==id)].slice(0,6);localStorage.setItem(key,JSON.stringify(list))}
+  }
+  if(path==="projects.html"){
+   const recent=JSON.parse(localStorage.getItem("folio_recent_projects_v1")||"[]");
+   const rows=[...document.querySelectorAll(".project-row")],found=recent.map(id=>rows.find(row=>row.id===id)).filter(Boolean);
+   if(found.length){const section=document.createElement("section");section.className="folio-recent";const heading=document.createElement("div");heading.className="folio-recent-heading";heading.innerHTML="<span>YOUR HISTORY</span><h2>Recently viewed.</h2>";const list=document.createElement("div");list.className="folio-recent-list";
+    found.forEach(row=>{const a=document.createElement("a");a.href="project.html?id="+encodeURIComponent(row.id);const b=document.createElement("b");b.textContent=row.querySelector("h2")?.textContent||row.id;const p=document.createElement("small");p.textContent=row.querySelector("p")?.textContent||"";const arrow=document.createElement("span");arrow.textContent="↗";a.append(b,p,arrow);list.append(a)});
+    section.append(heading,list);const first=main.querySelector(".project-row");if(first?.parentElement)first.parentElement.before(section);else main.append(section);
+   }
+  }
+ }catch(e){/* Storage unavailable: leave navigation fully usable. */}
+ if(path==="404.html"&&main&&!main.querySelector(".folio-recovery")){
+  const box=document.createElement("section");box.className="folio-recovery";box.innerHTML='<label for="folio-recovery-search">SEARCH THE SITE</label><div><input id="folio-recovery-search" type="search" placeholder="ページ名・プロジェクト名"><button type="button">検索</button></div><p aria-live="polite"></p>';main.append(box);
+  const input=box.querySelector("input"),button=box.querySelector("button"),status=box.querySelector("p");
+  const pages=[["HOME","index.html"],["PROJECTS","projects.html"],["BRAND","brand.html"],["NEWS","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"],["FAQ","faq.html"],["JOURNAL","journal.html"],["RELEASES","releases.html"],["TECHNOLOGY","technology.html"],["TIMELINE","timeline.html"],["PARTNERSHIP","partnership.html"],["PRIVACY","privacy.html"],["SITE MAP","sitemap.html"]];
+  const search=()=>{const q=input.value.trim().toLowerCase();const match=pages.find(([name,url])=>(name+" "+url).toLowerCase().includes(q));if(match)location.href=match[1];else status.textContent="該当するページが見つかりません。サイトマップをご利用ください。"};
+  button.addEventListener("click",search);input.addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+ }
+})();
