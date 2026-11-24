@@ -151,3 +151,67 @@ if(document.querySelector("#project-detail")){
  input.addEventListener("keydown",e=>{if(e.key==="Escape"){input.value="";update();input.blur()}});
  document.querySelectorAll("[data-home-filter]").forEach(button=>button.addEventListener("click",()=>{category=button.dataset.homeFilter;document.querySelectorAll("[data-home-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b===button)));update()}));
 })();
+
+
+/* folio corporate utilities: global search, utility navigation, accessible shortcuts */
+(function(){
+ const header=document.querySelector(".topbar");
+ if(header){
+  const nav=header.querySelector("nav");
+  if(nav){
+   [["FAQ","faq.html"],["SITE MAP","sitemap.html"]].forEach(([label,href])=>{
+    if(!nav.querySelector('a[href="'+href+'"]')){
+     const a=document.createElement("a");a.href=href;a.textContent=label;nav.append(a);
+    }
+   });
+  }
+  if(!header.querySelector(".global-search-trigger")){
+   const b=document.createElement("button");b.type="button";b.className="global-search-trigger";b.setAttribute("aria-label","サイト内検索");b.title="サイト内検索 ( / )";b.innerHTML='<span aria-hidden="true">⌕</span><small>SEARCH</small>';header.insertBefore(b,header.querySelector(".menu")||null);
+   const overlay=document.createElement("div");overlay.className="search-overlay";overlay.hidden=true;
+   overlay.innerHTML='<section class="search-dialog" role="dialog" aria-modal="true" aria-label="サイト内検索"><div class="search-dialog-head"><b>Search folio<span>.</span></b><button type="button" class="search-close" aria-label="閉じる">×</button></div><label class="global-search-label"><span>SEARCH THE SITE</span><input type="search" class="global-search-input" placeholder="プロジェクト・ページ・キーワードを検索" autocomplete="off"></label><p class="search-hint">キーワードを入力すると、関連ページを表示します。</p><div class="global-search-results" aria-live="polite"></div><div class="search-dialog-foot"><span>ESC TO CLOSE</span><span>FOLIO / SITE SEARCH</span></div></section>';
+   document.body.append(overlay);
+   const input=overlay.querySelector("input"),results=overlay.querySelector(".global-search-results"),close=()=>{overlay.hidden=true;b.focus()};
+   const entries=[
+    ["HOME","トップページ・folioの紹介","index.html","ブランド / スタジオ / ホーム"],
+    ["PROJECTS","すべてのプロジェクト一覧","projects.html","開発 / プロジェクト / 一覧"],
+    ["StudyPlan AI","学習計画・タスク管理プロジェクト","project.html?id=studyplan","学習 / 計画 / AI"],
+    ["MY AI","パーソナルAI構想","project.html?id=myai","AI / アシスタント"],
+    ["Social Quiz","社会科クイズ学習サイト","project.html?id=socialquiz","社会 / クイズ"],
+    ["QR PAY","QR決済体験のUI・機能開発","project.html?id=qrpay","決済 / QR / デジタル"],
+    ["Seat Labo","席替え・座席管理ツール","project.html?id=seatlabo","座席 / 管理"],
+    ["Home Reception","来客受付システム","project.html?id=reception","受付 / システム"],
+    ["9科テスト対策","9科目から選んでクイズに挑戦する学習サイト","project.html?id=nine-subjects","国語 / 数学 / 英語 / 理科 / 社会 / 音楽 / 美術 / 保健体育 / 技術家庭"],
+    ["BRAND","Mission・Vision・Values","brand.html","ブランド / 価値観"],
+    ["NEWS","お知らせ・サイト更新情報","news.html","ニュース / 更新"],
+    ["ABOUT","folioについて","about.html","概要 / 制作方針"],
+    ["CONTACT","お問い合わせ","contact.html","連絡 / 問い合わせ"],
+    ["FAQ","よくある質問","faq.html","質問 / 利用 / 情報"],
+    ["SITE MAP","サイト全体のページ一覧","sitemap.html","サイトマップ / ページ"]
+   ];
+   const render=()=>{
+    const q=input.value.trim().toLocaleLowerCase("ja");results.replaceChildren();
+    if(!q){results.textContent="検索したい言葉を入力してください。";return}
+    const found=entries.filter(x=>x.join(" ").toLocaleLowerCase("ja").includes(q)).slice(0,8);
+    if(!found.length){results.textContent="一致するページがありません。別のキーワードをお試しください。";return}
+    found.forEach(x=>{const a=document.createElement("a");a.className="global-search-result";a.href=x[2];const t=document.createElement("span");t.textContent=x[0];const d=document.createElement("small");d.textContent=x[1];const arrow=document.createElement("i");arrow.textContent="↗";a.append(t,d,arrow);results.append(a)});
+   };
+   b.addEventListener("click",()=>{overlay.hidden=false;input.value="";render();setTimeout(()=>input.focus(),30)});
+   overlay.querySelector(".search-close").addEventListener("click",close);
+   overlay.addEventListener("click",e=>{if(e.target===overlay)close()});
+   input.addEventListener("input",render);
+   document.addEventListener("keydown",e=>{
+    if(e.key==="Escape"&&!overlay.hidden)close();
+    if((e.key==="/"||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"))&&!/input|textarea|select/i.test(document.activeElement.tagName)){
+     e.preventDefault();b.click();
+    }
+   });
+  }
+ }
+ document.querySelectorAll(".footer").forEach(f=>{
+  if(!f.querySelector(".footer-utility-links")){
+   const links=document.createElement("div");links.className="footer-utility-links";
+   [["FAQ","faq.html"],["SITE MAP","sitemap.html"]].forEach(([t,u])=>{const a=document.createElement("a");a.href=u;a.textContent=t;links.append(a)});
+   f.append(links);
+  }
+ });
+})();
