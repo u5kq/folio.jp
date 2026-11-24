@@ -29,3 +29,10 @@ body.dark{color-scheme:dark;--bg:#191b18;--surface:#22251f;--ink:#f0f1eb;--muted
 .studio-strip strong{font:500 22px 'DM Mono',monospace;letter-spacing:-1px}
 .studio-strip span{font:9px 'DM Mono',monospace;letter-spacing:1px;color:var(--muted)}
 @media(max-width:700px){.studio-strip{padding:14px 0}.studio-strip>div{padding:0 8px;gap:5px;flex-direction:column}.studio-strip strong{font-size:18px}.studio-strip span{font-size:7px;letter-spacing:.6px}}
+
+/* Homepage studio facts strip */
+.studio-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px 0;border-block:1px solid var(--line)}
+.studio-strip div{display:flex;align-items:baseline;gap:10px}
+.studio-strip strong{font:500 22px 'DM Mono',monospace;letter-spacing:-1px}
+.studio-strip span{font:9px 'DM Mono',monospace;letter-spacing:1px;color:var(--muted)}
+@media(max-width:700px){.studio-strip{gap:8px;padding:14px 0}.studio-strip div{flex-direction:column;gap:4px}.studio-strip strong{font-size:18px}.studio-strip span{font-size:8px}}
