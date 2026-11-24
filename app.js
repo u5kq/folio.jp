@@ -1,4 +1,21 @@
-/* folio — lightweight, accessible interactions */
+/* folio — refined navigation and page-opening experience */
+(function(){
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const splash=document.createElement("div");
+ splash.className="folio-intro";
+ splash.setAttribute("aria-hidden","true");
+ splash.innerHTML='<div class="intro-inner"><span class="intro-word">folio<span>.</span></span><span class="intro-caption">IDEAS INTO SOMETHING REAL</span><div class="intro-track"><i></i></div></div>';
+ document.body.append(splash);
+ let seen=false;try{seen=sessionStorage.getItem("folio-intro-seen")==="1"}catch{}
+ if(reduce||seen){splash.classList.add("intro-out");setTimeout(()=>splash.remove(),30)}
+ else{requestAnimationFrame(()=>splash.classList.add("intro-active"));setTimeout(()=>{splash.classList.add("intro-out");try{sessionStorage.setItem("folio-intro-seen","1")}catch{}setTimeout(()=>splash.remove(),650)},1050)}
+ document.addEventListener("click",e=>{
+  const a=e.target.closest("a[href]");if(!a||reduce||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==="_blank"||a.hasAttribute("download"))return;
+  const url=new URL(a.href,location.href);if(url.origin!==location.origin||url.pathname===location.pathname&&url.hash)return;
+  e.preventDefault();const curtain=document.createElement("div");curtain.className="page-curtain";curtain.innerHTML='<span>folio<span>.</span></span>';document.body.append(curtain);requestAnimationFrame(()=>curtain.classList.add("curtain-active"));setTimeout(()=>location.href=url.href,260);
+ });
+})();
+
 const SOCIALS={
  instagram:{url:"https://www.instagram.com/",label:"Instagram",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="1.2"/></svg>'},
  x:{url:"https://x.com/",label:"X",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20Z"/></svg>'},
