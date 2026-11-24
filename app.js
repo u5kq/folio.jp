@@ -359,3 +359,31 @@ if(document.querySelector("#project-detail")){
  input.addEventListener("keydown",event=>{if(event.key==="Escape"){input.value="";apply();input.blur()}});
  apply();
 })();
+
+/* Signature interactions: pointer-responsive surfaces and cinematic section reveals */
+(function(){
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ const finePointer=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+ if(finePointer){
+  document.querySelectorAll(".hero-art-showcase,.project-card,.corporate-link-grid a,.business-grid article,.philosophy-value-grid article").forEach(el=>{
+   el.addEventListener("pointermove",event=>{
+    const r=el.getBoundingClientRect(),x=((event.clientX-r.left)/r.width)*100,y=((event.clientY-r.top)/r.height)*100;
+    if(el.classList.contains("hero-art-showcase")){el.style.setProperty("--pointer-x",x+"%");el.style.setProperty("--pointer-y",y+"%");el.classList.add("is-pointed")}
+    else{el.style.setProperty("--spot-x",x+"%");el.style.setProperty("--spot-y",y+"%")}
+   });
+   el.addEventListener("pointerleave",()=>el.classList.remove("is-pointed"));
+  });
+ }
+ if(!reduce&&"IntersectionObserver"in window){
+  const targets=[...document.querySelectorAll("main > section,main .section-head,main .studio-intro-copy,main .studio-links > a")];
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+   if(entry.isIntersecting){entry.target.classList.add("folio-reveal","is-in");observer.unobserve(entry.target)}
+  }),{threshold:.08,rootMargin:"0px 0px -35px 0px"});
+  targets.forEach((el,i)=>{if(!el.classList.contains("hero")){el.dataset.delay=String(i%4);observer.observe(el)}});
+ }
+ const current=location.pathname.split("/").pop()||"index.html";
+ document.querySelectorAll(".topbar nav a[href]").forEach(a=>{
+  const href=a.getAttribute("href");
+  if(href===current){a.classList.add("active");a.setAttribute("aria-current","page")}
+ });
+})();
