@@ -29,6 +29,20 @@
  });
 })();
 
+async function copyText(value){
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await copyText(value);return true}
+ }catch(error){}
+ const field=document.createElement("textarea");
+ field.value=String(value);field.setAttribute("readonly","");
+ field.style.position="fixed";field.style.opacity="0";field.style.pointerEvents="none";
+ document.body.append(field);field.select();field.setSelectionRange(0,field.value.length);
+ let copied=false;try{copied=document.execCommand("copy")}catch(error){}
+ field.remove();
+ if(!copied)throw new Error("Clipboard copy unavailable");
+ return true;
+}
+
 const SOCIALS={
  instagram:{url:"https://www.instagram.com/",label:"Instagram",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="1.2"/></svg>'},
  x:{url:"https://x.com/",label:"X",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20Z"/></svg>'},
@@ -56,7 +70,7 @@ if(list){
  bar.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{list.classList.toggle("compact-view",b.dataset.view==="compact");bar.querySelectorAll("[data-view]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)))}));
  bar.querySelector(".reset-filters").addEventListener("click",()=>{search.value="";sort.value="default";category=stage="all";bar.querySelectorAll("[data-filter],[data-stage]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.filter==="all"||x.dataset.stage==="all")));list.classList.remove("compact-view");bar.querySelectorAll("[data-view]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.view==="list")));apply()});
  document.addEventListener("keydown",e=>{if(e.key==="/"&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();search.focus()}if(e.key==="Escape"&&document.activeElement===search){search.value="";apply();search.blur()}});
- rows.forEach(row=>{const btn=document.createElement("button");btn.type="button";btn.className="project-share";btn.textContent="リンクをコピー ↗";btn.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(location.href.split("#")[0]+"#"+row.id);btn.textContent="コピーしました ✓"}catch{btn.textContent="コピーできませんでした"}setTimeout(()=>btn.textContent="リンクをコピー ↗",1600)});row.children[1]?.append(btn)});apply();
+ rows.forEach(row=>{const btn=document.createElement("button");btn.type="button";btn.className="project-share";btn.textContent="リンクをコピー ↗";btn.addEventListener("click",async()=>{try{await copyText(location.href.split("#")[0]+"#"+row.id);btn.textContent="コピーしました ✓"}catch{btn.textContent="コピーできませんでした"}setTimeout(()=>btn.textContent="リンクをコピー ↗",1600)});row.children[1]?.append(btn)});apply();
 }
 const form=document.querySelector("#contact-form");if(form)form.addEventListener("submit",e=>{e.preventDefault();const error=document.querySelector("#form-error");if(error){error.hidden=false;error.textContent="現在、送信先が未設定のため送信できません。公開前に安全な送信先設定が必要です。"}});
 
@@ -86,43 +100,21 @@ if(document.querySelector("#project-detail")){
  const toolsBar=document.createElement("div");toolsBar.className="detail-actions";
  toolsBar.innerHTML='<button type="button" class="detail-action" data-copy>リンクをコピー <span>↗</span></button><button type="button" class="detail-action" data-share>共有する <span>⌁</span></button>';
  root.prepend(toolsBar);
- toolsBar.querySelector("[data-copy]").addEventListener("click",async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(location.href);b.textContent="コピーしました ✓"}catch{b.textContent="コピーできませんでした"}setTimeout(()=>b.innerHTML='リンクをコピー <span>↗</span>',1800)});
- toolsBar.querySelector("[data-share]").addEventListener("click",async e=>{const b=e.currentTarget;if(navigator.share){try{await navigator.share({title:document.title,url:location.href})}catch(err){if(err.name!=="AbortError")b.textContent="共有できません"}}else{try{await navigator.clipboard.writeText(location.href);b.textContent="URLをコピーしました ✓"}catch{b.textContent="共有に対応していません"}}});
+ toolsBar.querySelector("[data-copy]").addEventListener("click",async e=>{const b=e.currentTarget;try{await copyText(location.href);b.textContent="コピーしました ✓"}catch{b.textContent="コピーできませんでした"}setTimeout(()=>b.innerHTML='リンクをコピー <span>↗</span>',1800)});
+ toolsBar.querySelector("[data-share]").addEventListener("click",async e=>{const b=e.currentTarget;if(navigator.share){try{await navigator.share({title:document.title,url:location.href})}catch(err){if(err.name!=="AbortError")b.textContent="共有できません"}}else{try{await copyText(location.href);b.textContent="URLをコピーしました ✓"}catch{b.textContent="共有に対応していません"}}});
  const meter=document.createElement("div");meter.className="reading-meter";meter.innerHTML="<i></i>";document.body.append(meter);
  const updateMeter=()=>{const max=document.documentElement.scrollHeight-innerHeight;meter.firstElementChild.style.width=(max>0?scrollY/max*100:0)+"%"};addEventListener("scroll",updateMeter,{passive:true});updateMeter();
  const back=document.createElement("a");back.href="projects.html";back.className="detail-back-floating";back.textContent="← PROJECTS";document.body.append(back);
 }
 
 
-/* Navigation usability: close on selection, outside tap and Escape */
-(function(){
- const header=document.querySelector(".topbar");
- const nav=header?.querySelector("nav");
- const menu=header?.querySelector(".menu");
- if(!header||!nav||!menu)return;
- const close=()=>{
-  nav.classList.remove("open");
-  menu.setAttribute("aria-expanded","false");
-  menu.textContent="☰";
- };
- menu.setAttribute("aria-controls","folio-main-nav");
- nav.id="folio-main-nav";
- nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
- document.addEventListener("click",e=>{
-  if(nav.classList.contains("open")&&!header.contains(e.target))close();
- });
- document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"&&nav.classList.contains("open")){
-   close();menu.focus();
-  }
- });
-})();
 
 
 
 
 
-/* Single source of truth for the vertical page menu */
+
+/* Single, accessible navigation controller */
 (function(){
  const header=document.querySelector(".topbar");
  const nav=header&&header.querySelector("nav");
@@ -131,11 +123,15 @@ if(document.querySelector("#project-detail")){
  nav.id="folio-main-nav";
  button.setAttribute("aria-controls",nav.id);
  const close=()=>{nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.textContent="☰"};
- button.addEventListener("click",()=>{
-  const opened=nav.classList.contains("open");
-  if(opened)close();else{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"}
+ const open=()=>{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"};
+ const current=location.pathname.split("/").pop()||"index.html";
+ nav.querySelectorAll("a[href]").forEach(link=>{
+  const target=new URL(link.href,location.href).pathname.split("/").pop()||"index.html";
+  const active=target===current||(current==="project.html"&&target==="projects.html");
+  if(active){link.classList.add("active");link.setAttribute("aria-current","page")}
+  link.addEventListener("click",close);
  });
- nav.querySelectorAll("a").forEach(link=>link.addEventListener("click",close));
+ button.addEventListener("click",()=>nav.classList.contains("open")?close():open());
  document.addEventListener("pointerdown",event=>{if(nav.classList.contains("open")&&!header.contains(event.target))close()});
  document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
 })();
@@ -248,7 +244,7 @@ if(document.querySelector("#project-detail")){
  }
  const faq=document.querySelector(".faq-list");
  if(faq){const wrap=document.createElement("label");wrap.className="faq-search";wrap.innerHTML='<span>SEARCH FAQ</span><input type="search" placeholder="質問・キーワードを検索" aria-label="FAQを検索">';faq.before(wrap);const input=wrap.querySelector("input");input.addEventListener("input",()=>{const q=input.value.trim().toLocaleLowerCase();faq.querySelectorAll("details").forEach(d=>d.hidden=!d.textContent.toLocaleLowerCase().includes(q))})}
- const pageShare=document.createElement("button");pageShare.type="button";pageShare.className="page-share-button";pageShare.textContent="このページを共有 ↗";pageShare.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else{await navigator.clipboard.writeText(location.href);pageShare.textContent="URLをコピーしました ✓"}}catch(e){if(e.name!=="AbortError")pageShare.textContent="共有できませんでした"}setTimeout(()=>pageShare.textContent="このページを共有 ↗",1800)});
+ const pageShare=document.createElement("button");pageShare.type="button";pageShare.className="page-share-button";pageShare.textContent="このページを共有 ↗";pageShare.addEventListener("click",async()=>{try{if(navigator.share)await navigator.share({title:document.title,url:location.href});else{await copyText(location.href);pageShare.textContent="URLをコピーしました ✓"}}catch(e){if(e.name!=="AbortError")pageShare.textContent="共有できませんでした"}setTimeout(()=>pageShare.textContent="このページを共有 ↗",1800)});
  const footer=document.querySelector(".footer");if(footer&&!footer.querySelector(".page-share-button"))footer.append(pageShare);
 })();
 
