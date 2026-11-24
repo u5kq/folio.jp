@@ -967,3 +967,57 @@ body.dark .studio-links>a:hover{border-color:#647653}
  .news-item h3{font-size:15px}.news-item p{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){.news-item{transition:none}}
+
+/* Expanded corporate storytelling */
+.brand-detail-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:45px;padding:58px 0;border-bottom:1px solid var(--line)}
+.brand-detail-intro h2,.brand-detail-focus h2{font-size:clamp(27px,4vw,40px);line-height:1.4;margin:12px 0}
+.brand-detail-intro>p,.brand-detail-focus p{font-size:12px;line-height:2.2;color:var(--muted);margin:0}
+.brand-detail-steps{padding:55px 0;border-bottom:1px solid var(--line)}
+.brand-detail-steps>h2{font-size:clamp(32px,5vw,48px);margin:10px 0 25px;letter-spacing:-1.5px}
+.brand-step-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.brand-step-grid article{padding:20px 16px 22px 0;border-right:1px solid var(--line)}
+.brand-step-grid article+article{padding-left:16px}.brand-step-grid article:last-child{border-right:0}
+.brand-step-grid article>span{font:11px 'DM Mono',monospace;color:#8eae4f}
+.brand-step-grid h3{font:19px 'DM Mono',monospace;margin:15px 0 8px}
+.brand-step-grid p{font-size:11px;line-height:2;color:var(--muted);margin:0}
+.brand-detail-focus{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center;padding:48px 0;border-bottom:1px solid var(--line)}
+.brand-detail-focus .tags{justify-content:flex-start}
+.brand-detail-portfolio{display:grid;grid-template-columns:1fr .8fr;gap:35px;align-items:center;padding:55px 0}
+.brand-detail-portfolio h2{font-size:clamp(25px,4vw,36px);margin:10px 0}
+.brand-detail-portfolio p,.brand-detail-end p{font-size:12px;line-height:2;color:var(--muted)}
+.brand-portfolio-note{min-height:175px;padding:25px;border-radius:10px;background:var(--ink);color:var(--surface);display:flex;flex-direction:column;justify-content:space-between;font:10px 'DM Mono',monospace;letter-spacing:1.3px}
+.brand-portfolio-note strong{font-size:30px}.brand-portfolio-note span{opacity:.7}.brand-portfolio-note b{text-align:right;font-weight:400}
+.brand-detail-end{padding:40px 0 55px;border-top:1px solid var(--line)}
+.brand-detail-end h2{font-size:clamp(30px,5vw,46px);margin:10px 0}
+.journey-intro{max-width:720px;padding:55px 0 35px}
+.journey-intro h2{font-size:clamp(27px,4vw,40px);line-height:1.45;margin:12px 0}
+.journey-intro p{font-size:12px;line-height:2.2;color:var(--muted)}
+.journey-timeline{position:relative;padding:10px 0 45px}
+.journey-entry{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);gap:22px;padding-bottom:38px}
+.journey-entry:before{content:"";position:absolute;left:23px;top:48px;bottom:0;width:1px;background:var(--line)}
+.journey-entry:last-child:before{display:none}
+.journey-marker{z-index:1;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:var(--bg);display:grid;place-items:center;font:11px 'DM Mono',monospace}
+.journey-content{padding-top:3px}.journey-phase{font:9px 'DM Mono',monospace;letter-spacing:1.3px;color:#829b5c}
+.journey-content h2{font-size:clamp(20px,3vw,27px);margin:8px 0}
+.journey-content p{max-width:700px;font-size:12px;line-height:2.1;color:var(--muted);margin:0}
+.journey-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.journey-tags span{padding:6px 9px;border:1px solid var(--line);border-radius:4px;font:8px 'DM Mono',monospace;color:var(--muted)}
+.journey-future .journey-marker{background:var(--ink);color:var(--surface)}
+.journey-principle{padding:38px 24px;margin:0 0 48px;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.journey-principle blockquote{font-size:clamp(20px,4vw,32px);line-height:1.5;margin:18px 0}
+.journey-principle>p{font-size:11px;color:var(--muted);margin-bottom:20px}
+.journey-cta{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:30px 0;border-top:1px solid var(--line)}
+.journey-cta>div:last-child{display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+@media(max-width:700px){
+ .brand-detail-intro,.brand-detail-focus,.brand-detail-portfolio{grid-template-columns:1fr;gap:15px;padding:38px 0}
+ .brand-step-grid{grid-template-columns:1fr 1fr}
+ .brand-step-grid article:nth-child(2){border-right:0}
+ .brand-step-grid article:nth-child(n+3){border-top:1px solid var(--line)}
+ .brand-step-grid article:nth-child(3){padding-left:0}
+ .journey-intro{padding:40px 0 25px}
+ .journey-entry{grid-template-columns:40px minmax(0,1fr);gap:15px}
+ .journey-entry:before{left:19px;top:40px}
+ .journey-marker{width:40px;height:40px}
+ .journey-cta{align-items:flex-start;flex-direction:column}
+ .journey-cta>div:last-child{align-items:flex-start}
+}
