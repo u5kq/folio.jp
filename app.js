@@ -230,12 +230,21 @@ if(document.querySelector("#project-detail")){
  if(current)addRecent(current);
  const favs=read(KEY_FAV);
  const makeFav=(id)=>{const b=document.createElement("button");b.type="button";b.className="folio-favorite";b.dataset.favorite=id;const sync=()=>{const on=read(KEY_FAV).includes(id);b.textContent=on?"♥ 保存済み":"♡ お気に入り";b.setAttribute("aria-pressed",String(on))};sync();b.addEventListener("click",()=>{let a=read(KEY_FAV);a=a.includes(id)?a.filter(x=>x!==id):[id,...a];write(KEY_FAV,a);sync();document.dispatchEvent(new CustomEvent("folio:favorites-change"))});return b};
- document.querySelectorAll('a[href*="project.html?id="]').forEach(a=>{try{const u=new URL(a.href,location.href),id=u.searchParams.get("id");if(!ids.includes(id)||a.querySelector(".folio-favorite"))return;const b=makeFav(id);b.addEventListener("click",e=>e.preventDefault());a.append(b)}catch{}});
+ const rows=[...document.querySelectorAll(".project-row")];
+ rows.forEach(row=>{if(ids.includes(row.id)){const action=row.querySelector(".detail-cta");if(action&&!row.querySelector(".folio-favorite"))action.before(makeFav(row.id))}});
+ const detail=document.querySelector("#project-detail");
+ if(current&&detail&&ids.includes(current)){const actions=detail.querySelector(".detail-actions")||detail; if(!actions.querySelector(".folio-favorite"))actions.prepend(makeFav(current))}
  const list=document.querySelector(".project-list");
  if(list){
   const bar=document.createElement("div");bar.className="folio-library-tools";
-  const render=()=>{bar.replaceChildren();const title=document.createElement("strong");title.textContent="MY FOLIO";const saved=document.createElement("span");saved.textContent=read(KEY_FAV).length+" SAVED";const recent=document.createElement("span");recent.textContent="RECENT: "+(read(KEY_RECENT).map(x=>names[x]).filter(Boolean).slice(0,3).join(" · ")||"閲覧履歴なし");const toggle=document.createElement("button");toggle.type="button";toggle.textContent="お気に入りだけ表示";toggle.setAttribute("aria-pressed","false");toggle.addEventListener("click",()=>{const active=toggle.getAttribute("aria-pressed")!=="true";toggle.setAttribute("aria-pressed",String(active));toggle.textContent=active?"すべて表示":"お気に入りだけ表示";[...list.querySelectorAll(".project-row")].forEach(row=>{const id=row.id;row.hidden=active?!read(KEY_FAV).includes(id):false})});bar.append(title,saved,recent,toggle)};
-  list.before(bar);render();document.addEventListener("folio:favorites-change",render);
+  const title=document.createElement("strong");title.textContent="MY FOLIO";
+  const saved=document.createElement("span");saved.className="folio-saved-count";
+  const recent=document.createElement("span");recent.className="folio-recent-count";
+  const toggle=document.createElement("button");toggle.type="button";toggle.textContent="お気に入りだけ表示";toggle.setAttribute("aria-pressed","false");
+  const applySaved=()=>{const active=toggle.getAttribute("aria-pressed")==="true";const favorites=read(KEY_FAV);list.querySelectorAll(".project-row").forEach(row=>row.classList.toggle("favorite-hidden",active&&!favorites.includes(row.id)));saved.textContent=favorites.length+" SAVED";recent.textContent="RECENT: "+(read(KEY_RECENT).map(x=>names[x]).filter(Boolean).slice(0,3).join(" · ")||"閲覧履歴なし");toggle.textContent=active?"すべて表示":"お気に入りだけ表示"};
+  toggle.addEventListener("click",()=>{toggle.setAttribute("aria-pressed",String(toggle.getAttribute("aria-pressed")!=="true"));applySaved()});
+  bar.append(title,saved,recent,toggle);list.before(bar);applySaved();
+  document.addEventListener("folio:favorites-change",applySaved);
  }
  const faq=document.querySelector(".faq-list");
  if(faq){const wrap=document.createElement("label");wrap.className="faq-search";wrap.innerHTML='<span>SEARCH FAQ</span><input type="search" placeholder="質問・キーワードを検索" aria-label="FAQを検索">';faq.before(wrap);const input=wrap.querySelector("input");input.addEventListener("input",()=>{const q=input.value.trim().toLocaleLowerCase();faq.querySelectorAll("details").forEach(d=>d.hidden=!d.textContent.toLocaleLowerCase().includes(q))})}
