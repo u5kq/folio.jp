@@ -92,3 +92,28 @@ if(document.querySelector("#project-detail")){
  const updateMeter=()=>{const max=document.documentElement.scrollHeight-innerHeight;meter.firstElementChild.style.width=(max>0?scrollY/max*100:0)+"%"};addEventListener("scroll",updateMeter,{passive:true});updateMeter();
  const back=document.createElement("a");back.href="projects.html";back.className="detail-back-floating";back.textContent="← PROJECTS";document.body.append(back);
 }
+
+
+/* Navigation usability: close on selection, outside tap and Escape */
+(function(){
+ const header=document.querySelector(".topbar");
+ const nav=header?.querySelector("nav");
+ const menu=header?.querySelector(".menu");
+ if(!header||!nav||!menu)return;
+ const close=()=>{
+  nav.classList.remove("open");
+  menu.setAttribute("aria-expanded","false");
+  menu.textContent="☰";
+ };
+ menu.setAttribute("aria-controls","folio-main-nav");
+ nav.id="folio-main-nav";
+ nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
+ document.addEventListener("click",e=>{
+  if(nav.classList.contains("open")&&!header.contains(e.target))close();
+ });
+ document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&nav.classList.contains("open")){
+   close();menu.focus();
+  }
+ });
+})();
