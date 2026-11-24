@@ -54,8 +54,6 @@ const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),
 
 if(header){const theme=document.createElement("button");theme.type="button";theme.className="theme-toggle";theme.setAttribute("aria-label","テーマを切り替える");theme.title="ライト／ダーク切り替え";header.insertBefore(theme,menu||null);try{if(localStorage.getItem("folio-theme")==="dark")document.body.classList.add("dark")}catch{}const sync=()=>{theme.textContent=document.body.classList.contains("dark")?"☀":"◐";theme.setAttribute("aria-pressed",String(document.body.classList.contains("dark")))};sync();theme.addEventListener("click",()=>{document.body.classList.toggle("dark");try{localStorage.setItem("folio-theme",document.body.classList.contains("dark")?"dark":"light")}catch{}sync()})}
 const progress=document.createElement("div");progress.className="scroll-progress";progress.setAttribute("aria-hidden","true");document.body.append(progress);
-const toTop=document.createElement("button");toTop.type="button";toTop.className="to-top";toTop.textContent="↑";toTop.setAttribute("aria-label","ページ上部へ戻る");document.body.append(toTop);
-const onScroll=()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?scrollY/max*100:0)+"%";toTop.classList.toggle("visible",scrollY>350)};addEventListener("scroll",onScroll,{passive:true});onScroll();toTop.addEventListener("click",()=>scrollTo({top:0,behavior:"smooth"}));
 const reveal=document.querySelectorAll(".project-card,.project-row,.about-layout,.values,.contact-form,.statement .wrap");if("IntersectionObserver"in window){const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("is-visible");observer.unobserve(e.target)}}),{threshold:.06});reveal.forEach(el=>{el.classList.add("reveal");observer.observe(el)})}else reveal.forEach(el=>el.classList.add("is-visible"));
 const list=document.querySelector(".project-list");
 if(list){
@@ -305,8 +303,8 @@ if(document.querySelector("#project-detail")){
  }
  if(!document.querySelector(".folio-top-button")){
   const top=document.createElement("button");top.type="button";top.className="folio-top-button";top.setAttribute("aria-label","ページの先頭へ戻る");top.textContent="↑";document.body.append(top);
-  const update=()=>top.classList.toggle("is-visible",window.scrollY>420);
-  window.addEventListener("scroll",update,{passive:true});update();
+  const update=()=>{const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(max>0?window.scrollY/max*100:0)+"%";top.classList.toggle("is-visible",window.scrollY>420)};
+  window.addEventListener("scroll",update,{passive:true});window.addEventListener("resize",update);update();
   top.addEventListener("click",()=>window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
  }
  try{
@@ -330,4 +328,34 @@ if(document.querySelector("#project-detail")){
   const search=()=>{const q=input.value.trim().toLowerCase();const match=pages.find(([name,url])=>(name+" "+url).toLowerCase().includes(q));if(match)location.href=match[1];else status.textContent="該当するページが見つかりません。サイトマップをご利用ください。"};
   button.addEventListener("click",search);input.addEventListener("keydown",e=>{if(e.key==="Enter")search()});
  }
+})();
+
+/* Newsroom: one search and category filter for the update archive */
+(function(){
+ const root=document.querySelector(".news-page");
+ if(!root)return;
+ const input=root.querySelector(".news-search"),items=[...root.querySelectorAll("[data-news-item]")];
+ const buttons=[...root.querySelectorAll("[data-news-filter]")],count=root.querySelector(".news-results"),empty=root.querySelector(".news-empty");
+ if(!input||!items.length)return;
+ let category="all";
+ const apply=()=>{
+  const q=input.value.trim().toLocaleLowerCase("ja");
+  let visible=0;
+  items.forEach(item=>{
+   const matchesCategory=category==="all"||item.dataset.category===category;
+   const matchesText=item.textContent.toLocaleLowerCase("ja").includes(q);
+   item.hidden=!(matchesCategory&&matchesText);
+   if(!item.hidden)visible++;
+  });
+  count.textContent=String(visible).padStart(2,"0")+" / "+String(items.length).padStart(2,"0")+" UPDATES";
+  empty.hidden=visible!==0;
+ };
+ input.addEventListener("input",apply);
+ buttons.forEach(button=>button.addEventListener("click",()=>{
+  category=button.dataset.newsFilter;
+  buttons.forEach(other=>other.setAttribute("aria-pressed",String(other===button)));
+  apply();
+ }));
+ input.addEventListener("keydown",event=>{if(event.key==="Escape"){input.value="";apply();input.blur()}});
+ apply();
 })();
