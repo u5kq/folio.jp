@@ -340,3 +340,21 @@ body.dark .visual-grid i:nth-child(5){background:#67864b}
 body.dark .visual-grid i:nth-child(8){background:#343f2f}
 body.dark .visual-grid i:nth-child(3n){background:transparent;border-color:rgba(225,238,210,.16)}
 @media(prefers-reduced-motion:reduce){.visual-editorial *{animation:none!important;transition:none!important}}
+
+/* Product-studio project browser */
+.filter-heading{margin:18px 0 8px;font:9px 'DM Mono',monospace;letter-spacing:1.6px;color:var(--muted)}
+.stage-set{padding-bottom:2px}
+.stage-chip,.view-switch button{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);padding:8px 12px;font:9px 'DM Mono',monospace;cursor:pointer;transition:.18s}
+.stage-chip[aria-pressed="true"],.stage-chip:hover,.view-switch button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.project-tools-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.project-tools-bottom .project-count{width:auto;margin:0}
+.view-switch{display:flex;gap:6px}
+.subject-list{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px}
+.subject-list span{font-size:10px;border:1px solid var(--line);border-radius:3px;padding:5px 9px;color:var(--muted)}
+.project-note{padding:10px 13px;border-left:2px solid #a4c66d;background:color-mix(in srgb,var(--surface) 70%,transparent);font-size:11px!important}
+.project-list.compact-view .project-row{grid-template-columns:36px minmax(0,1fr) 60px;gap:14px;padding:22px 12px}
+.project-list.compact-view .project-row p{display:none}
+.project-list.compact-view .row-mark{width:52px;height:52px;font-size:15px}
+.project-list.compact-view .subject-list,.project-list.compact-view .project-note{display:none}
+body.dark .stage-chip[aria-pressed="true"],body.dark .stage-chip:hover,body.dark .view-switch button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#171815}
+@media(max-width:760px){.project-tools-bottom{align-items:flex-start}.stage-chip{padding:8px 10px}.subject-list{gap:5px}.subject-list span{font-size:9px;padding:5px 7px}}
