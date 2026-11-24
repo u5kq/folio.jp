@@ -66,3 +66,16 @@ if(detailRoot){
  detailRoot.innerHTML='<div class="eyebrow"><i></i> PROJECT / '+d.category+'</div><a class="back-link" href="projects.html">← ALL PROJECTS</a><h1 class="page-title detail-title">'+d.name+'<span>.</span></h1><div class="detail-meta"><span class="status">'+d.status+'</span><span class="detail-id">PROJECT / '+id.toUpperCase()+'</span></div><p class="detail-summary">'+d.summary+'</p><div class="detail-layout"><section class="detail-panel"><span class="kicker">01 / PURPOSE</span><h2>このプロジェクトについて</h2><p>'+d.purpose+'</p></section><section class="detail-panel"><span class="kicker">02 / SCOPE</span><h2>取り組み・機能の範囲</h2><p>'+d.scope+'</p>'+subjects+'</section><section class="detail-panel detail-note"><span class="kicker">03 / DEVELOPMENT NOTE</span><h2>開発状況について</h2><p>'+d.note+'</p><p class="detail-disclaimer">掲載内容は現在整理できている情報です。未確認の機能を実装済みとして掲載していません。</p></section></div><div class="detail-bottom"><a class="text-link" href="projects.html">← すべてのプロジェクト</a><a class="text-link" href="contact.html">CONTACT ↗</a></div>';
  }
 }
+
+/* Detail-page utilities: share, reading progress and section navigation */
+if(document.querySelector("#project-detail")){
+ const root=document.querySelector("#project-detail");
+ const toolsBar=document.createElement("div");toolsBar.className="detail-actions";
+ toolsBar.innerHTML='<button type="button" class="detail-action" data-copy>リンクをコピー <span>↗</span></button><button type="button" class="detail-action" data-share>共有する <span>⌁</span></button>';
+ root.prepend(toolsBar);
+ toolsBar.querySelector("[data-copy]").addEventListener("click",async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(location.href);b.textContent="コピーしました ✓"}catch{b.textContent="コピーできませんでした"}setTimeout(()=>b.innerHTML='リンクをコピー <span>↗</span>',1800)});
+ toolsBar.querySelector("[data-share]").addEventListener("click",async e=>{const b=e.currentTarget;if(navigator.share){try{await navigator.share({title:document.title,url:location.href})}catch(err){if(err.name!=="AbortError")b.textContent="共有できません"}}else{try{await navigator.clipboard.writeText(location.href);b.textContent="URLをコピーしました ✓"}catch{b.textContent="共有に対応していません"}}});
+ const meter=document.createElement("div");meter.className="reading-meter";meter.innerHTML="<i></i>";document.body.append(meter);
+ const updateMeter=()=>{const max=document.documentElement.scrollHeight-innerHeight;meter.firstElementChild.style.width=(max>0?scrollY/max*100:0)+"%"};addEventListener("scroll",updateMeter,{passive:true});updateMeter();
+ const back=document.createElement("a");back.href="projects.html";back.className="detail-back-floating";back.textContent="← PROJECTS";document.body.append(back);
+}
