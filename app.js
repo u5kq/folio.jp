@@ -117,3 +117,16 @@ if(document.querySelector("#project-detail")){
   }
  });
 })();
+
+
+/* Final navigation behavior and accessibility */
+(function(){
+ const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),button=header?.querySelector(".menu");
+ if(!header||!nav||!button)return;
+ nav.id="folio-main-nav";button.setAttribute("aria-controls",nav.id);
+ const close=()=>{nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.textContent="☰"};
+ button.addEventListener("click",()=>{const opened=nav.classList.contains("open");if(opened){close()}else{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"}});
+ nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
+ document.addEventListener("pointerdown",e=>{if(nav.classList.contains("open")&&!header.contains(e.target))close()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
+})();
