@@ -47,7 +47,7 @@ const quickActions=[
 ];
 let commandFilter="all",commandActive=0,commandItems=[];
 const searchHistoryKey="folio-search-history-v1";
-const normalizeCommand=s=>String(s||"").toLocaleLowerCase("ja").normalize("NFKC").replace(/[・.\s_-]/g,"");
+const normalizeCommand=s=>String(s||"").toLocaleLowerCase("ja").normalize("NFKC").replace(/[・._-]/g," ").replace(/\s+/g," ").trim();
 function commandDataset(){const catalog=projectCatalog.map(item=>{const live=projects.find(p=>p.id===item.id);return {...item,desc:live?.desc||item.desc,type:"project",keywords:(item.keywords||"")+" "+(live?.status||"")}});return [...pageList,...catalog,...featureList,...quickActions]}
 function rememberSearch(q){const term=String(q||"").trim();if(term.length<2)return;const old=safe(searchHistoryKey,[]);save(searchHistoryKey,[term,...old.filter(x=>x!==term)].slice(0,5))}
 function renderRecent(){commandRecent.replaceChildren();const recent=safe(searchHistoryKey,[]);if(!recent.length){commandRecent.hidden=true;return}commandRecent.hidden=false;const label=document.createElement("span");label.className="fn-search-recent-label";label.textContent="最近の検索";commandRecent.append(label);recent.forEach(term=>{const b=button(term,()=>{commandInput.value=term;drawCommands(term);commandInput.focus()},"fn-search-chip");commandRecent.append(b)})}
