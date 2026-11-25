@@ -395,3 +395,16 @@ if(document.querySelector("#project-detail")){
   if(href===current){a.classList.add("active");a.setAttribute("aria-current","page")}
  });
 })();
+
+
+/* iPhone-first navigation dock: compact, thumb-friendly, and hidden on larger screens. */
+(function(){
+ if(document.querySelector(".folio-mobile-dock"))return;
+ const current=location.pathname.split("/").pop()||"index.html";
+ const dock=document.createElement("nav");
+ dock.className="folio-mobile-dock";
+ dock.setAttribute("aria-label","クイックナビゲーション");
+ dock.innerHTML='<a href="index.html" data-page="index.html"><span aria-hidden="true">⌂</span><small>HOME</small></a><a href="projects.html" data-page="projects.html"><span aria-hidden="true">▦</span><small>PROJECTS</small></a><button type="button" data-fn="search" aria-label="サイト内検索"><span aria-hidden="true">⌕</span><small>SEARCH</small></button><a href="lab.html" data-page="lab.html"><span aria-hidden="true">✳</span><small>LAB</small></a>';
+ dock.querySelectorAll("[data-page]").forEach(link=>{if(link.dataset.page===current||(current==="project.html"&&link.dataset.page==="projects.html")){link.classList.add("is-current");link.setAttribute("aria-current","page")}});
+ document.body.append(dock);
+})();
