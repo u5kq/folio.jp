@@ -85,3 +85,24 @@ const nav=$(".topbar nav");if(nav&&!nav.querySelector('[data-fn-nav="lab"]')){co
   }
  }).catch(()=>{const target=document.querySelector(".fn-status-list,.fn-gallery-grid");if(target){const note=document.createElement("p");note.textContent="プロジェクト情報を読み込めませんでした。PROJECTSページをご確認ください。";target.append(note)}});
 })();
+
+/* Simple, reliable in-site back control */
+(function(){
+ const path=location.pathname.split("/").pop()||"index.html";
+ if(path==="index.html"||path==="")return;
+ const main=document.querySelector("main");
+ if(!main||document.querySelector(".folio-back-control"))return;
+ const fallback=path==="project.html"?"projects.html":"index.html";
+ const back=document.createElement("button");
+ back.type="button";
+ back.className="folio-back-control";
+ back.innerHTML='<span aria-hidden="true">←</span><span>戻る</span>';
+ back.setAttribute("aria-label","前のページに戻る");
+ back.addEventListener("click",()=>{
+  let internal=false;
+  try{internal=!!document.referrer&&new URL(document.referrer).origin===location.origin}catch{}
+  if(internal&&history.length>1){history.back();return}
+  location.assign(fallback);
+ });
+ main.prepend(back);
+})();
