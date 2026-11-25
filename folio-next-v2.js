@@ -7,7 +7,7 @@ const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 const projects=$$(".project-row").map(row=>({id:row.id,name:$("h2",row)?.textContent||row.id,desc:$("p",row)?.textContent||"",status:$(".status",row)?.textContent||"STATUS UNKNOWN",url:"project.html?id="+encodeURIComponent(row.id),row}));
 const allCards=$$(".project-card");
 const currentFile=location.pathname.split("/").pop()||"index.html";
-const style=document.createElement("link");style.rel="stylesheet";style.href="folio-next.css?v=20261125-09";document.head.append(style);
+const style=document.createElement("link");style.rel="stylesheet";style.href="folio-next.css?v=20261125-10";document.head.append(style);
 const root=document.createElement("div");root.id="folio-next-root";document.body.append(root);
 const overlay=(name,html)=>{const el=document.createElement("section");el.className="fn-overlay";el.hidden=true;el.setAttribute("aria-label",name);el.innerHTML='<div class="fn-panel" role="dialog" aria-modal="true" aria-label="'+name+'"><button class="fn-close" type="button" aria-label="閉じる">×</button>'+html+'</div>';root.append(el);const close=()=>{el.hidden=true};$(".fn-close",el).addEventListener("click",close);el.addEventListener("click",e=>{if(e.target===el)close()});document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});return {el,close};};
 const toast=(msg)=>{let t=$(".fn-toast",root);if(!t){t=document.createElement("div");t.className="fn-toast";t.setAttribute("role","status");root.append(t)}t.textContent=msg;t.classList.add("show");clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove("show"),2200)};
