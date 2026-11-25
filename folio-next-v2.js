@@ -81,7 +81,7 @@ const nav=$(".topbar nav");if(nav&&!nav.querySelector('[data-fn-nav="lab"]')){co
   }
   if(file==="gallery.html"){
    const target=document.querySelector(".fn-gallery-grid");if(!target)return;target.replaceChildren();
-   rows.forEach(row=>{const card=document.createElement("a");card.className="fn-gallery-card";card.href="project.html?id="+encodeURIComponent(row.id);const art=row.querySelector(".row-mark svg");if(art)card.append(art.cloneNode(true));const name=document.createElement("b");name.textContent=row.querySelector("h2")?.textContent||row.id;const desc=document.createElement("p");desc.textContent=row.querySelector("p")?.textContent||"";card.append(name,desc);target.append(card)});
+   rows.forEach(row=>{const card=document.createElement("a");card.className="fn-gallery-card";card.href="project.html?id="+encodeURIComponent(row.id);const art=row.querySelector(".row-mark svg");if(art)card.append(art.cloneNode(true));const name=document.createElement("b");name.textContent=row.querySelector("h2")?.textContent||row.id;const desc=document.createElement("p");desc.textContent=row.querySelector("p")?.textContent||"";card.append(name,desc);target.append(card)});document.querySelector(".fn-gallery-search input")?.dispatchEvent(new Event("input"));
   }
  }).catch(()=>{const target=document.querySelector(".fn-status-list,.fn-gallery-grid");if(target){const note=document.createElement("p");note.textContent="プロジェクト情報を読み込めませんでした。PROJECTSページをご確認ください。";target.append(note)}});
 })();
