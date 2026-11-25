@@ -66,7 +66,6 @@ if(header){
   account.innerHTML='ログイン <span aria-hidden="true">↗</span>';
  }
  /* Place folio ID directly beside the wordmark, outside the collapsible menu. */
- const nav=header.querySelector("nav");
  header.insertBefore(account,nav||header.querySelector(".theme-toggle")||menu||null);
 }
 
