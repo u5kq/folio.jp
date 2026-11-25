@@ -57,6 +57,24 @@ const SOCIALS={
 };
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
+/* Initialize mobile navigation immediately, before optional page enhancements run. */
+(function(){
+ if(!header||!nav||!menu)return;
+ nav.id="folio-main-navigation";
+ menu.type="button";
+ menu.setAttribute("aria-controls",nav.id);
+ menu.setAttribute("aria-haspopup","true");
+ const setOpen=open=>{
+  nav.classList.toggle("open",open);
+  menu.setAttribute("aria-expanded",String(open));
+  menu.textContent=open?"×":"☰";
+ };
+ menu.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();setOpen(!nav.classList.contains("open"))});
+ nav.addEventListener("click",event=>{if(event.target.closest("a[href]"))setOpen(false)});
+ document.addEventListener("pointerdown",event=>{if(!header.contains(event.target))setOpen(false)});
+ document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){setOpen(false);menu.focus()}});
+ window.addEventListener("resize",()=>{if(window.innerWidth>760)setOpen(false)});
+})();
 /* Keep folio ID entry visible in every shared site header, including mobile layouts. */
 if(header){
  let account=header.querySelector(".folio-account-quick");
@@ -380,27 +398,4 @@ if(document.querySelector("#project-detail")){
 
 
 
-/* One navigation controller: a single source of truth for mobile menu state. */
-(function(){
- const header=document.querySelector(".topbar");
- const nav=header?.querySelector("nav");
- const button=header?.querySelector(".menu");
- if(!header||!nav||!button)return;
- nav.id="folio-main-navigation";
- button.type="button";
- button.setAttribute("aria-controls",nav.id);
- button.setAttribute("aria-haspopup","true");
- nav.querySelectorAll("a[href]").forEach(link=>link.setAttribute("data-no-transition",""));
- button.setAttribute("aria-haspopup","true");
- nav.querySelectorAll("a[href]").forEach(link=>link.setAttribute("data-no-transition",""));
- const setOpen=open=>{
-  nav.classList.toggle("open",open);
-  button.setAttribute("aria-expanded",String(open));
-  button.textContent=open?"×":"☰";
- };
- button.addEventListener("click",()=>setOpen(!nav.classList.contains("open")));
- nav.addEventListener("click",event=>{if(event.target.closest("a"))setOpen(false)});
- document.addEventListener("pointerdown",event=>{if(!header.contains(event.target))setOpen(false)});
- document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){setOpen(false);button.focus()}});
- window.addEventListener("resize",()=>{if(window.innerWidth>760)setOpen(false)});
-})();
+
