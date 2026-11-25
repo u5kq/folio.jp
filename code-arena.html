@@ -1,22 +1,27 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10120f"><meta name="description" content="folio. CODE ARENA — アルゴリズムを設計し、コードで課題を解くプログラミングゲーム。"><title>CODE ARENA — folio.</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="styles.css?v=20261125-35"><style>
 body{background:#10120f;color:#edf1e8}.topbar{background:#10120fee;border-color:#30382d}.topbar a{color:#edf1e8}.ca{max-width:1200px;margin:auto;padding:35px 22px 85px}.hero{padding:28px 0 38px}.kicker,.label{font:700 10px ui-monospace,monospace;letter-spacing:.18em;color:#b5d879}.hero h1{font-size:clamp(48px,8vw,82px);letter-spacing:-.08em;line-height:.9;margin:18px 0}.hero h1 em{font-style:normal;color:#b5d879}.hero p{max-width:650px;color:#a2ad9a;font-size:14px;line-height:1.9}.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.pill{border:1px solid #30382d;border-radius:99px;padding:8px 12px;color:#a2ad9a;font:10px ui-monospace,monospace}.pill b{color:#edf1e8}.layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{background:#181c17;border:1px solid #30382d;border-radius:18px;overflow:hidden}.head{padding:16px 18px;border-bottom:1px solid #30382d;display:flex;justify-content:space-between}.body{padding:18px}.levels{display:flex;gap:7px;flex-wrap:wrap}.level,.btn{border:1px solid #3a4534;border-radius:9px;padding:10px 12px;background:#22291f;color:#eaf0e3;cursor:pointer;font-size:11px}.level.active,.btn.primary{background:#b5d879;color:#172012;border-color:#b5d879;font-weight:800}.desc{color:#a2ad9a;font-size:13px;line-height:1.8}.objective{background:#20291c;border:1px solid #536344;border-radius:11px;padding:12px;font-size:12px;line-height:1.7;margin:14px 0}.board{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:5px;max-width:420px;margin:18px auto;padding:9px;background:#0d100c;border-radius:13px}.cell{aspect-ratio:1;display:grid;place-items:center;border-radius:6px;background:#252d22;font-size:clamp(16px,3vw,25px)}.cell.wall{background:#4a5541}.cell.goal{background:#35482b}.editor{width:100%;min-height:270px;resize:vertical;background:#0c0f0c;color:#d9e6d0;border:1px solid #3a4534;border-radius:11px;padding:15px;font:13px/1.85 ui-monospace,monospace;outline:none}.editor:focus{border-color:#b5d879;box-shadow:0 0 0 3px #b5d87920}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.output{min-height:62px;background:#10140f;border:1px solid #30382d;border-radius:10px;padding:13px;margin-top:13px;color:#a2ad9a;font:12px/1.7 ui-monospace,monospace;white-space:pre-wrap}.output.good{color:#c7e99a;border-color:#627d45}.output.bad{color:#e9b19b;border-color:#795244}.help{color:#a2ad9a;font-size:11px;line-height:1.9;margin-top:14px}.help code{color:#b5d879;background:#252d21;padding:2px 5px;border-radius:4px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.metric{border:1px solid #30382d;border-radius:9px;padding:10px}.metric small{display:block;color:#a2ad9a;font:9px ui-monospace,monospace}.metric b{display:block;margin-top:5px;font:700 18px ui-monospace,monospace}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.small{padding:18px}.small p,.small li{font-size:12px;color:#a2ad9a;line-height:1.8}.back{display:inline-block;color:#a2ad9a;text-decoration:none;font-size:12px;margin-bottom:12px}@media(max-width:800px){.layout,.bottom{grid-template-columns:1fr}}@media(max-width:520px){.ca{padding:22px 13px 60px}.body{padding:13px}.editor{min-height:235px;font-size:12px}}
 
-/* CODE ARENA / Soft Minimal — blue primary, game area only */
+/* CODE ARENA / Blue Soft Minimal — preserve the site's normal upper page */
 .ca{
-  max-width:none!important;
-  padding:35px max(22px,calc((100vw - 1200px)/2)) 85px!important;
-  background:#f4f7fb!important;
-  color:#172536!important;
+  max-width:1200px!important;
+  margin:auto!important;
+  padding:35px 22px 85px!important;
+  background:transparent!important;
+  color:#edf1e8!important;
 }
-.ca .back{color:#526579!important}
-.ca .hero{background:transparent!important}
-.ca .hero p,.ca .desc,.ca .small p,.ca .small li,.ca .help{color:#5c6d7e!important}
-.ca .kicker,.ca .label{color:#2867a8!important}
-.ca .hero h1 em{color:#347fc5!important}
-.ca .pill{border-color:#d7e2ee!important;color:#5c6d7e!important;background:#fff!important}
-.ca .pill b{color:#20364d!important}
-.ca .panel{background:#fff!important;border:1px solid #dce6f0!important;box-shadow:0 10px 28px rgba(28,65,105,.055)!important}
+/* Upper navigation, intro and metadata retain the site's original look */
+.ca .back{color:#a2ad9a!important}
+.ca .hero p,.ca .desc,.ca .small p,.ca .small li,.ca .help{color:#a2ad9a!important}
+.ca .kicker,.ca .label{color:#b5d879!important}
+.ca .hero h1 em{color:#b5d879!important}
+.ca .pill{border:1px solid #30382d!important;border-radius:99px!important;background:transparent!important;color:#a2ad9a!important}
+.ca .pill b{color:#edf1e8!important}
+.ca > div:first-of-type a{background:#20291c!important;border-color:#536344!important;color:#dce9ce!important}
+.ca > div:first-of-type a span{color:#b5d879!important}
+/* Blue theme applies to the actual game panels only */
+.ca .panel{background:#fff!important;color:#20364d!important;border:1px solid #dce6f0!important;box-shadow:0 10px 28px rgba(28,65,105,.055)!important}
 .ca .head{border-bottom:1px solid #e5edf5!important}
+.ca .panel .label{color:#2867a8!important}
 .ca .level,.ca .btn{border:1px solid #d4e0ec!important;background:#f5f8fc!important;color:#29415a!important}
 .ca .level.active,.ca .btn.primary{background:#286fba!important;color:#fff!important;border-color:#286fba!important}
 .ca .objective{background:#edf5fd!important;border:1px solid #c8ddf2!important;color:#254d73!important}
@@ -34,8 +39,6 @@ body{background:#10120f;color:#edf1e8}.topbar{background:#10120fee;border-color:
 .ca .metric small{color:#6a7b8d!important}
 .ca .small{color:#20364d!important}
 .ca .small p,.ca .small li{color:#5c6d7e!important}
-.ca > div:first-of-type a{background:#edf5fd!important;border-color:#c8ddf2!important;color:#205f9e!important}
-.ca > div:first-of-type a span{color:#286fba!important}
 @media(max-width:520px){.ca{padding:22px 13px 60px!important}}
 
 </style></head><body><header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active">PLAY</a><a href="brand.html">STUDIO</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
