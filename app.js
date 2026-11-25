@@ -57,25 +57,48 @@ const SOCIALS={
 };
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
-/* Initialize mobile navigation immediately, before optional page enhancements run. */
+/* Single, forceful navigation controller. Inline important state wins over legacy CSS layers. */
 (function(){
  if(!header||!nav||!menu)return;
- nav.id="folio-main-navigation";
+ nav.id="folio-main-nav";
  menu.type="button";
  menu.setAttribute("aria-controls",nav.id);
  menu.setAttribute("aria-haspopup","true");
+ menu.setAttribute("aria-expanded","false");
+ menu.style.setProperty("display","grid","important");
+ menu.style.setProperty("visibility","visible","important");
+ menu.style.setProperty("pointer-events","auto","important");
  const setOpen=open=>{
   nav.classList.toggle("open",open);
   menu.setAttribute("aria-expanded",String(open));
   menu.textContent=open?"×":"☰";
+  nav.style.setProperty("display",open?"flex":"none","important");
+  nav.style.setProperty("visibility",open?"visible":"hidden","important");
+  nav.style.setProperty("opacity",open?"1":"0","important");
+  nav.style.setProperty("pointer-events",open?"auto":"none","important");
+  nav.style.setProperty("z-index","10001","important");
+  nav.setAttribute("aria-hidden",String(!open));
  };
- menu.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();setOpen(!nav.classList.contains("open"))});
- nav.addEventListener("click",event=>{if(event.target.closest("a[href]"))setOpen(false)});
- document.addEventListener("pointerdown",event=>{if(!header.contains(event.target))setOpen(false)});
- document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){setOpen(false);menu.focus()}});
- window.addEventListener("resize",()=>{if(window.innerWidth>760)setOpen(false)});
-})();
-/* Keep folio ID entry visible in every shared site header, including mobile layouts. */
+ setOpen(false);
+ menu.addEventListener("click",event=>{
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+  setOpen(menu.getAttribute("aria-expanded")!=="true");
+ },true);
+ nav.addEventListener("click",event=>{
+  if(event.target.closest("a[href]"))setOpen(false);
+ });
+ document.addEventListener("pointerdown",event=>{
+  if(!header.contains(event.target))setOpen(false);
+ },true);
+ document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&menu.getAttribute("aria-expanded")==="true"){
+   setOpen(false);menu.focus();
+  }
+ });
+ window.addEventListener("resize",()=>setOpen(false));
+})();/* Keep folio ID entry visible in every shared site header, including mobile layouts. */
 if(header){
  let account=header.querySelector(".folio-account-quick");
  if(!account){
