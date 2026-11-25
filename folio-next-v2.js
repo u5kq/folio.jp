@@ -181,3 +181,73 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
  const menu=header.querySelector(".menu");
  if(menu){menu.setAttribute("aria-controls","folio-main-nav");nav.id="folio-main-nav"}
 })();
+
+
+/* EN / JP language switch — persistent, page-wide and safe for dynamic UI */
+(function(){
+ "use strict";
+ const KEY="folio-language";
+ const translations={
+ "HOME":"HOME","PROJECTS":"PROJECTS","STUDIO":"STUDIO","JOURNAL":"JOURNAL","ABOUT":"ABOUT","CONTACT":"CONTACT",
+ "メインナビゲーション":"Main navigation","メニュー":"Menu","テーマを切り替える":"Toggle theme","ライト／ダーク切り替え":"Toggle light / dark theme",
+ "Ideas, made useful":"Ideas, made useful","ブランド概要":"Brand overview","お知らせ":"News & updates","プロジェクトを見る":"Explore projects",
+ "アイデアを、設計する。かたちにする。":"Design ideas. Build them into reality.",
+ "folioは、アイデアをデジタルプロダクトへ育てるプロダクトスタジオです。":"folio is an independent product studio turning ideas into thoughtful digital products.",
+ "folioは、日常の小さな気づきからプロダクトを考え、デザインと技術で形にしていくスタジオです。企画から試作、改善までのプロセスを大切にしています。":"folio turns everyday observations into products through design and technology. We value the entire process, from planning and prototyping to continuous improvement.",
+ "ブランド概要":"Brand overview","SELECTED WORK":"SELECTED WORK","Things in motion":"Things in motion",
+ "毎日の学習を、もっと整理して前へ。":"Organise daily learning and keep moving forward.",
+ "自分の基準で動く、パーソナルAI構想。":"A personal AI concept built around your own principles.",
+ "決済体験を考えるUI・機能開発。":"Exploring payment experiences through thoughtful UI and features.",
+ "プロジェクトを検索...":"Search projects...","プロジェクト名・キーワード":"Project name or keyword",
+ "すべて":"All","開発中":"In development","構想":"Concept","詳細を見る":"View details","詳細を見る ↗":"View details ↗",
+ "アイデアから生まれたプロジェクト。構想中のものも、開発中のものも含めて記録しています。":"Projects born from ideas. This collection includes concepts, works in progress and experiments.",
+ "プロジェクトを検索":"Search projects","並び替え":"Sort by","おすすめ順":"Featured","名前順 A–Z":"Name A–Z","名前順 Z–A":"Name Z–A",
+ "カテゴリー":"Category","ステータス":"Status","RESET":"RESET","検索結果がありません":"No results found",
+ "何をお探しですか？":"What are you looking for?","ページ・プロジェクト・操作を検索...":"Search pages, projects and actions...",
+ "すべて":"All","ページ":"Pages","プロジェクト":"Projects","操作":"Actions","閉じる":"Close",
+ "コマンドパレット":"Command palette","共有センター":"Share center","お気に入り":"Favourites","閲覧履歴":"Recently viewed",
+ "お気に入りに追加":"Add to favourites","お気に入りから削除":"Remove from favourites",
+ "プロジェクト一覧":"All projects","プロジェクトを探す":"Explore projects","最新情報":"Latest updates",
+ "THE STUDIO":"THE STUDIO","BRAND OVERVIEW":"BRAND OVERVIEW","ALL PROJECTS":"ALL PROJECTS","EXPLORE PROJECTS":"EXPLORE PROJECTS",
+ "IN DEVELOPMENT":"IN DEVELOPMENT","CONCEPT":"CONCEPT","PROJECT":"PROJECT","EDUCATION":"EDUCATION",
+ "学習タスク・固定予定・進捗をまとめ、日々の学習計画を組み立てるツール。予定の自動調整や振り返り機能を構想し、使いやすい学習体験を目指しています。":"A study-planning tool that brings tasks, fixed schedules and progress together. It aims to make learning easier through features such as schedule adjustments and reviews.",
+ "自分の考え方や判断基準を大切にするパーソナルAI構想。勉強のサポートから日常の整理まで、根拠と実行しやすさを重視します。":"A personal AI concept shaped around individual thinking and decision-making. It aims to support study and everyday organisation with evidence-based, actionable guidance.",
+ "社会科の知識をクイズ形式で確認できる学習サイト。繰り返し取り組みやすい構成と、理解度を高める体験を目指しています。":"A quiz-based learning site for reviewing social studies. Designed to make practice approachable and help build understanding.",
+ "QRコードを使った支払いの流れを題材に、利用者向け画面や店舗側画面、セルフレジなどのUIと操作性を研究・制作。":"An exploration of QR-based payment experiences, including customer and merchant interfaces and self-checkout concepts.",
+ "席替えや座席管理をサポートするツール。操作のわかりやすさと、実際の利用場面を意識した機能設計に取り組んでいます。":"A tool concept for seating arrangements and seat management, designed around clear interactions and practical use.",
+ "来客受付をデジタル化するサイト。受付フォーム、管理者向け一覧、端末ごとの表示など、シンプルで使いやすい仕組みを目指します。":"A digital visitor reception concept, with a simple workflow for forms, management views and different devices.",
+ "国語・数学・英語・理科・社会・音楽・美術・保健体育・技術家庭の9科目から、好きな教科を選んでクイズに挑戦できる学習サイト。":"A study site where learners can choose from nine school subjects and practise with quizzes.",
+ "ホーム":"Home","プロジェクト":"Projects","ブランド":"Studio","ニュース":"Journal","お問い合わせ":"Contact",
+ "ページが見つかりません":"Page not found","トップページへ戻る":"Back to home","前のページへ戻る":"Go back"
+ };
+ const replacements=Object.entries(translations).sort((a,b)=>b[0].length-a[0].length);
+ let lang="ja";
+ try{lang=localStorage.getItem(KEY)==="en"?"en":"ja"}catch{}
+ const translateString=s=>{if(lang!=="en")return s;let out=s;for(const [ja,en] of replacements){if(out.includes(ja))out=out.split(ja).join(en)}return out};
+ const originals=new WeakMap();
+ const translateNode=node=>{
+  if(node.nodeType===Node.TEXT_NODE){if(!originals.has(node))originals.set(node,node.nodeValue);const source=originals.get(node);const next=translateString(source);if(node.nodeValue!==next)node.nodeValue=next}
+  else if(node.nodeType===Node.ELEMENT_NODE){
+   ["placeholder","aria-label","title","alt"].forEach(attr=>{if(node.hasAttribute(attr)){const key="data-folio-original-"+attr;if(!node.hasAttribute(key))node.setAttribute(key,node.getAttribute(attr));const source=node.getAttribute(key);const next=translateString(source);if(node.getAttribute(attr)!==next)node.setAttribute(attr,next)}});
+   node.childNodes.forEach(translateNode);
+  }
+ };
+ const apply=()=>{
+  lang=lang==="en"?"en":"ja";
+  document.documentElement.lang=lang;
+  document.querySelectorAll("title").forEach(el=>{if(!el.dataset.folioOriginal)el.dataset.folioOriginal=el.textContent;el.textContent=translateString(el.dataset.folioOriginal)});
+  translateNode(document.body);
+  const toggle=document.querySelector(".folio-language-switch");
+  if(toggle){toggle.innerHTML='<span class="'+(lang==="ja"?"is-active":"")+'">JP</span><i></i><span class="'+(lang==="en"?"is-active":"")+'">EN</span>';toggle.setAttribute("aria-label",lang==="ja"?"Switch language to English":"言語を日本語に切り替え");toggle.setAttribute("aria-pressed",String(lang==="en"))}
+ };
+ const header=document.querySelector(".topbar");
+ if(header){
+  const toggle=document.createElement("button");toggle.type="button";toggle.className="folio-language-switch";toggle.setAttribute("aria-label","Switch language to English");toggle.innerHTML='<span>JP</span><i></i><span>EN</span>';
+  const menu=header.querySelector(".menu");
+  header.insertBefore(toggle,menu||null);
+  toggle.addEventListener("click",()=>{lang=lang==="ja"?"en":"ja";try{localStorage.setItem(KEY,lang)}catch{}apply()});
+ }
+ apply();
+ const observer=new MutationObserver(records=>records.forEach(record=>{record.addedNodes.forEach(node=>{if(node.nodeType===Node.ELEMENT_NODE||node.nodeType===Node.TEXT_NODE)translateNode(node)});if(record.type==="characterData")translateNode(record.target)}));
+ observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+})();
