@@ -7,7 +7,7 @@ const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 const projects=$$(".project-row").map(row=>({id:row.id,name:$("h2",row)?.textContent||row.id,desc:$("p",row)?.textContent||"",status:$(".status",row)?.textContent||"STATUS UNKNOWN",url:"project.html?id="+encodeURIComponent(row.id),row}));
 const allCards=$$(".project-card");
 const currentFile=location.pathname.split("/").pop()||"index.html";
-const style=document.createElement("link");style.rel="stylesheet";style.href="folio-next.css?v=20261125-16";document.head.append(style);
+const style=document.createElement("link");style.rel="stylesheet";style.href="folio-next.css?v=20261125-17";document.head.append(style);
 const root=document.createElement("div");root.id="folio-next-root";document.body.append(root);
 const overlay=(name,html)=>{const el=document.createElement("section");el.className="fn-overlay";el.hidden=true;el.setAttribute("aria-label",name);el.innerHTML='<div class="fn-panel" role="dialog" aria-modal="true" aria-label="'+name+'"><button class="fn-close" type="button" aria-label="閉じる">×</button>'+html+'</div>';root.append(el);const close=()=>{el.hidden=true};$(".fn-close",el).addEventListener("click",close);el.addEventListener("click",e=>{if(e.target===el)close()});document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});return {el,close};};
 const toast=(msg)=>{let t=$(".fn-toast",root);if(!t){t=document.createElement("div");t.className="fn-toast";t.setAttribute("role","status");root.append(t)}t.textContent=msg;t.classList.add("show");clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove("show"),2200)};
@@ -27,7 +27,7 @@ const projectCatalog=[
  {id:"nine-subjects",name:"9科テスト対策",url:"project.html?id=nine-subjects"}
 ];
 const pageList=[
- ["HOME","ホーム","index.html","home"],["PROJECTS","プロジェクト一覧","projects.html","grid"],["BRAND","ブランドについて","brand.html","brand"],["NEWS","ニュース・更新情報","news.html","news"],["ABOUT","folio.について","about.html","about"],["CONTACT","お問い合わせ","contact.html","contact"],["PHILOSOPHY","理念","philosophy.html","理念"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","journal"],["RELEASES","リリース情報","releases.html","リリース"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","質問"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","lab"],["folio. Terminal","ターミナル","terminal.html","terminal"],["SYSTEM STATUS","開発ステータス","status.html","status"],["VERSION HISTORY","更新履歴","versions.html","version"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","gallery"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","履歴"]
+ ["HOME","ホーム","index.html","home"],["PROJECTS","プロジェクト一覧","projects.html","grid"],["PLAY","folio.のゲーム","play.html","play quiz game"],["BRAND","ブランドについて","brand.html","brand"],["NEWS","ニュース・更新情報","news.html","news"],["ABOUT","folio.について","about.html","about"],["CONTACT","お問い合わせ","contact.html","contact"],["PHILOSOPHY","理念","philosophy.html","理念"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","journal"],["RELEASES","リリース情報","releases.html","リリース"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","質問"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","lab"],["folio. Terminal","ターミナル","terminal.html","terminal"],["SYSTEM STATUS","開発ステータス","status.html","status"],["VERSION HISTORY","更新履歴","versions.html","version"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","gallery"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","履歴"]
 ].map(([name,desc,url,keywords])=>({name,desc,url,type:"page",keywords}));
 const quickActions=[
  {name:"ページの先頭へ戻る",desc:"現在のページを一番上までスクロール",type:"action",keywords:"top scroll",run:()=>{window.scrollTo({top:0,behavior:"smooth"});command.close()}},
@@ -175,7 +175,7 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
  const nav=document.querySelector(".topbar nav"),header=document.querySelector(".topbar");
  if(!nav||!header)return;
  const items=[
-  ["HOME","index.html"],["PROJECTS","projects.html"],["STUDIO","brand.html"],["JOURNAL","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"]
+  ["HOME","index.html"],["PROJECTS","projects.html"],["PLAY","play.html"],["STUDIO","brand.html"],["JOURNAL","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"]
  ];
  nav.replaceChildren();
  const current=location.pathname.split("/").pop()||"index.html";
@@ -197,7 +197,7 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
  "use strict";
  const KEY="folio-language";
  const translations={
- "HOME":"HOME","PROJECTS":"PROJECTS","STUDIO":"STUDIO","JOURNAL":"JOURNAL","ABOUT":"ABOUT","CONTACT":"CONTACT",
+ "HOME":"HOME","PROJECTS":"PROJECTS","PLAY":"PLAY","STUDIO":"STUDIO","JOURNAL":"JOURNAL","ABOUT":"ABOUT","CONTACT":"CONTACT",
  "メインナビゲーション":"Main navigation","メニュー":"Menu","テーマを切り替える":"Toggle theme","ライト／ダーク切り替え":"Toggle light / dark theme",
  "Ideas, made useful":"Ideas, made useful","ブランド概要":"Brand overview","お知らせ":"News & updates","プロジェクトを見る":"Explore projects",
  "アイデアを、設計する。かたちにする。":"Design ideas. Build them into reality.",
