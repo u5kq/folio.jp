@@ -21,57 +21,71 @@
 .lab .chip{border:1px solid #c9dced;background:#f7fbff;border-radius:99px;padding:7px 10px;color:#2867a8;font:10px ui-monospace,monospace}
 .lab .head .kicker{color:#2867a8}
 @media(max-width:600px){.lab{padding:24px 14px 60px}.lab .body{padding:13px}.lab .editor{min-height:260px;font-size:12px}}
-</style></head><body><header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active">PLAY</a><a href="brand.html">STUDIO</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header><main class="lab"><a class="back" href="code-arena.html">← CODE ARENA</a><section style="padding:34px 0 18px"><span class="kicker">FOLIO / JAVASCRIPT PLAYGROUND</span><h1>CODE <span>LAB.</span></h1><p class="intro">JavaScriptを実際に書いて、実行して、結果を確かめる。小さな実験からアルゴリズムまで。コードは専用の隔離フレーム内で実行され、ページ本体のDOMや保存データにはアクセスできません。</p><div class="chips"><span class="chip">JAVASCRIPT</span><span class="chip">SANDBOXED</span><span class="chip">NO ACCOUNT</span></div></section><section class="panel"><div class="head"><span class="kicker">01 / EDITOR</span><span class="kicker">ECMASCRIPT</span></div><div class="body"><textarea id="source" class="editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">const numbers = [4, 8, 15, 16, 23, 42];\nconst total = numbers.reduce((sum, n) => sum + n, 0);\n\nconsole.log("Numbers:", numbers);\nconsole.log("Total:", total);\nconsole.log("Average:", total / numbers.length);</textarea><div class="actions"><button class="btn primary" id="run">▶ RUN CODE</button><button class="btn" id="reset">RESET EXAMPLE</button><button class="btn" id="clear">CLEAR OUTPUT</button></div><div class="output" id="output" role="status" aria-live="polite">実行待機中。RUN CODEを押してください。</div></div></section><section class="panel"><div class="body"><strong>SUPPORTED WORKFLOW</strong><p class="note">console.log()で出力を確認。配列・関数・ループ・オブジェクトなど、ブラウザ標準のJavaScriptを試せます。実行時間には上限があります。ネットワーク接続や外部ファイルの読み込みは制限しています。</p><p class="note"><strong>安全設計：</strong>コードはsandbox属性付きiframe内で実行。実行時間を超えた場合は実行環境を破棄します。個人情報・秘密情報をコードに入力しないでください。</p></div></section></main><footer class="footer wrap"><a class="wordmark" href="index.html">folio<span>.</span></a><span>© 2026 folio. All rights reserved.</span></footer><script src="app.js?v=20261126-review1"></script><script>
-(()=>{const $=id=>document.getElementById(id),initial=$("source").value;let frame=null,timer=null,runId=0;
-function makeFrame(){const f=document.createElement("iframe");f.setAttribute("sandbox","allow-scripts");f.setAttribute("title","Isolated JavaScript execution environment");f.style.cssText="position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";f.srcdoc='<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \\'none\\'; script-src \\'unsafe-inline\\' \\'unsafe-eval\\'; connect-src \\'none\\'; img-src \\'none\\'; style-src \\'none\\'; form-action \\'none\\';"><script>(()=> {
-  const $ = id => document.getElementById(id);
-  const initial = $("source").value;
-  let frame = null, timer = null, runId = 0;
-  function resetFrame() {
-    if (frame) frame.remove();
-    frame = document.createElement("iframe");
-    frame.setAttribute("sandbox", "allow-scripts");
-    frame.setAttribute("title", "Isolated JavaScript execution environment");
-    frame.style.cssText = "position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";
-    const childScript = "onmessage = function(e) {\n  const d = e.data;\n  if (!d || d.type !== \"execute\") return;\n  const id = d.id, out = [];\n  const fmt = function(v) {\n    try { return typeof v === \"string\" ? v : JSON.stringify(v); }\n    catch (_) { return String(v); }\n  };\n  const log = function() { out.push(Array.from(arguments).map(fmt).join(\" \")); };\n  try {\n    const fn = new Function(\"console\", '\"use strict\";\\\\n' + d.code);\n    fn({log:log, info:log, warn:log, error:log, table:log});\n    parent.postMessage({type:\"result\", id:id, lines:out, error:null}, \"*\");\n  } catch (err) {\n    parent.postMessage({type:\"result\", id:id, lines:out, error:String(err && err.stack || err)}, \"*\");\n  }\n};";
-    frame.srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\' \'unsafe-eval\'; connect-src \'none\'; img-src \'none\'; style-src \'none\'; form-action \'none\';"><script>(()=> {
-  const $ = id => document.getElementById(id), initial = $("source").value;
-  let frame = null, timer = null, runId = 0;
-  function resetFrame() {
-    if (frame) frame.remove();
-    frame = document.createElement("iframe");
-    frame.setAttribute("sandbox", "allow-scripts");
-    frame.setAttribute("title", "Isolated JavaScript execution environment");
-    frame.style.cssText = "position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";
-    const childScript = "onmessage = function(e) {\n  const d = e.data;\n  if (!d || d.type !== \"execute\") return;\n  const id = d.id, out = [];\n  const fmt = function(v) { try { return typeof v === \"string\" ? v : JSON.stringify(v); } catch (_) { return String(v); } };\n  const log = function() { out.push(Array.from(arguments).map(fmt).join(\" \")); };\n  try {\n    const fn = new Function(\"console\", '\"use strict\";' + String.fromCharCode(10) + d.code);\n    fn({log:log, info:log, warn:log, error:log, table:log});\n    parent.postMessage({type:\"result\", id:id, lines:out, error:null}, \"*\");\n  } catch (err) {\n    parent.postMessage({type:\"result\", id:id, lines:out, error:String(err && err.stack || err)}, \"*\");\n  }\n};";
-    frame.srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;; connect-src &#39;none&#39;; img-src &#39;none&#39;; style-src &#39;none&#39;; form-action &#39;none&#39;"><script>' + childScript + '<' + '/script>';
-    document.body.append(frame);
-  }
-  window.addEventListener("message", e => {
-    if (e.source !== frame?.contentWindow || e.data?.type !== "result" || e.data.id !== runId) return;
-    clearTimeout(timer);
-    const d = e.data, newline = String.fromCharCode(10);
-    let result = d.lines.join(newline);
-    if (d.error) result += (result ? newline + newline : "") + d.error;
-    $("output").textContent = result || "実行完了（出力なし）。";
-    $("output").style.color = d.error ? "#e9b19b" : "#c9d5bf";
-  });
-  $("run").addEventListener("click", () => {
-    clearTimeout(timer); resetFrame(); runId++;
-    $("output").textContent = "RUNNING…"; $("output").style.color = "#c9d5bf";
-    frame.contentWindow.postMessage({type:"execute", id:runId, code:$("source").value}, "*");
-    const id = runId;
-    timer = setTimeout(() => {
-      if (id !== runId) return;
-      resetFrame();
-      $("output").textContent = "TIME LIMIT — 実行時間の上限を超えたため、実行環境を停止しました。";
-      $("output").style.color = "#e9b19b";
-    }, 1500);
-  });
-  $("reset").addEventListener("click", () => {
-    $("source").value = initial; $("output").textContent = "サンプルコードを復元しました。";
-    $("output").style.color = "#c9d5bf";
-  });
-  $("clear").addEventListener("click", () => { $("output").textContent = ""; });
+</style></head><body><header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active">PLAY</a><a href="brand.html">STUDIO</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header><main class="lab"><a class="back" href="code-arena.html">← CODE ARENA</a><section style="padding:34px 0 18px"><span class="kicker">FOLIO / JAVASCRIPT PLAYGROUND</span><h1>CODE <span>LAB.</span></h1><p class="intro">JavaScriptを実際に書いて、実行して、結果を確かめる。小さな実験からアルゴリズムまで。コードは専用の隔離フレーム内で実行され、ページ本体のDOMや保存データにはアクセスできません。</p><div class="chips"><span class="chip">JAVASCRIPT</span><span class="chip">SANDBOXED</span><span class="chip">NO ACCOUNT</span></div></section><section class="panel"><div class="head"><span class="kicker">01 / EDITOR</span><span class="kicker">ECMASCRIPT</span></div><div class="body"><textarea id="source" class="editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off">const numbers = [4, 8, 15, 16, 23, 42];\nconst total = numbers.reduce((sum, n) => sum + n, 0);\n\nconsole.log("Numbers:", numbers);\nconsole.log("Total:", total);\nconsole.log("Average:", total / numbers.length);</textarea><div class="actions"><button class="btn primary" id="run">▶ RUN CODE</button><button class="btn" id="reset">RESET EXAMPLE</button><button class="btn" id="clear">CLEAR OUTPUT</button></div><div class="output" id="output" role="status" aria-live="polite">実行待機中。RUN CODEを押してください。</div></div></section><section class="panel"><div class="body"><strong>SUPPORTED WORKFLOW</strong><p class="note">console.log()で出力を確認。配列・関数・ループ・オブジェクトなど、ブラウザ標準のJavaScriptを試せます。実行時間には上限があります。ネットワーク接続や外部ファイルの読み込みは制限しています。</p><p class="note"><strong>安全設計：</strong>コードはsandbox属性付きiframe内で実行。実行時間を超えた場合は実行環境を破棄します。個人情報・秘密情報をコードに入力しないでください。</p></div></section></main><footer class="footer wrap"><a class="wordmark" href="index.html">folio<span>.</span></a><span>© 2026 folio. All rights reserved.</span></footer><script src="app.js?v=20261126-review1"></script><script>(()=>{"use strict";
+const $=id=>document.getElementById(id);
+const source=$("source"),output=$("output");
+if(!source||!output)return;
+const initial=source.value;
+let frame=null,timer=null,runId=0;
+function resetFrame(){
+ if(frame)frame.remove();
+ frame=document.createElement("iframe");
+ frame.setAttribute("sandbox","allow-scripts");
+ frame.setAttribute("title","Isolated JavaScript execution environment");
+ frame.style.cssText="position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";
+ const childScript=[
+  "onmessage = function(event) {",
+  " const data = event.data;",
+  " if (!data || data.type !== 'execute') return;",
+  " const lines = [];",
+  " const format = value => { try { return typeof value === 'string' ? value : JSON.stringify(value); } catch (_) { return String(value); } };",
+  " const log = (...args) => lines.push(args.map(format).join(' '));",
+  " try {",
+  "  const run = new Function('console', '\"use strict\";' + String.fromCharCode(10) + data.code);",
+  "  run({log, info:log, warn:log, error:log, table:log});",
+  "  parent.postMessage({type:'result', id:data.id, lines, error:null}, '*');",
+  " } catch (error) {",
+  "  parent.postMessage({type:'result', id:data.id, lines, error:String(error && error.stack || error)}, '*');",
+  " }",
+  "};"
+ ].join(String.fromCharCode(10));
+ frame.srcdoc="<!doctype html><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval'; connect-src 'none'; img-src 'none'; style-src 'none'; form-action 'none'\"><script>"+childScript+"<"+"/script>";
+ document.body.append(frame);
+}
+window.addEventListener("message",event=>{
+ if(!frame||event.source!==frame.contentWindow||event.data?.type!=="result"||event.data.id!==runId)return;
+ clearTimeout(timer);
+ const data=event.data,newline=String.fromCharCode(10);
+ let result=(data.lines||[]).join(newline);
+ if(data.error)result+=(result?newline+newline:"")+data.error;
+ output.textContent=result||"実行完了（出力なし）。";
+ output.style.color=data.error?"#e9b19b":"#c9d5bf";
+});
+$("run").addEventListener("click",()=>{
+ clearTimeout(timer);
+ const id=++runId;
+ output.textContent="RUNNING…";
+ output.style.color="#c9d5bf";
+ resetFrame();
+ frame.addEventListener("load",()=>{
+  if(id!==runId||!frame)return;
+  frame.contentWindow.postMessage({type:"execute",id,code:source.value},"*");
+ },{once:true});
+ timer=setTimeout(()=>{
+  if(id!==runId)return;
   resetFrame();
+  output.textContent="TIME LIMIT — 実行時間の上限を超えたため、実行環境を停止しました。";
+  output.style.color="#e9b19b";
+ },2000);
+});
+$("reset").addEventListener("click",()=>{
+ source.value=initial;
+ output.textContent="サンプルコードを復元しました。";
+ output.style.color="#c9d5bf";
+});
+$("clear").addEventListener("click",()=>{
+ output.textContent="";
+ output.style.color="#c9d5bf";
+});
+resetFrame();
 })();</script><script src="folio-next-v2.js?v=20261126-review1"></script></body></html>
