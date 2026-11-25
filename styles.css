@@ -1575,3 +1575,23 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
 @media(prefers-reduced-motion:reduce){
  .project-card,.explore-card,.round-link,.studio-links a{transition:none!important}
 }
+
+
+/* Readability refinement + preserve the original folio. wordmark dot */
+.wordmark span,
+.topbar .wordmark span,
+.footer .wordmark span{color:#8eae4f!important}
+:root{
+ --muted:#555b66;
+ --line:#dedbd3;
+}
+body.dark{--muted:#b9bdc7;--line:#41434d}
+body{ text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; }
+p,li,.lead,.detail-prose{line-height:1.85}
+a,button{ -webkit-tap-highlight-color:transparent; }
+.topbar nav a{font-size:10px;letter-spacing:.075em}
+.topbar nav a[aria-current="page"],.topbar nav a.active{font-weight:750}
+@media(max-width:700px){
+ .topbar nav a{font-size:11px;min-height:50px}
+ .topbar{gap:8px}
+}
