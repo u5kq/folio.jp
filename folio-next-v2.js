@@ -73,7 +73,19 @@ $(".fn-search-clear",command.el).addEventListener("click",()=>{commandInput.valu
 commandInput.addEventListener("keydown",e=>{if(e.key==="ArrowDown"){e.preventDefault();setCommandActive(commandActive+1)}else if(e.key==="ArrowUp"){e.preventDefault();setCommandActive(commandActive-1)}else if(e.key==="Enter"){e.preventDefault();const item=commandItems[commandActive];if(!item)return;rememberSearch(commandInput.value);if(item.run)item.run();else if(item.url&&item.url!=="#")location.href=item.url;else if(item.name==="共有センター"){command.close();share.el.hidden=false}}});
 function openCommand(){command.el.hidden=false;commandFilter="all";commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t.dataset.commandFilter==="all")));commandInput.value="";drawCommands();renderRecent();requestAnimationFrame(()=>commandInput.focus())}
 document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}});
+
 document.addEventListener("folio:open-command",openCommand);
+/* Persistent global-search entry point in the shared header */
+(function(){
+ const header=document.querySelector(".topbar");
+ if(!header||header.querySelector(".global-search-trigger"))return;
+ const trigger=document.createElement("button");
+ trigger.type="button";trigger.className="global-search-trigger";
+ trigger.setAttribute("aria-label","サイト全体を検索");trigger.title="サイト全体を検索";
+ trigger.textContent="⌕";trigger.addEventListener("click",openCommand);
+ const menu=header.querySelector(".menu");
+ header.insertBefore(trigger,menu||null);
+})();
 /* share center */
 const share=overlay("共有センター",'<p class="fn-kicker">FOLIO / SHARE</p><h2>Share this page.</h2><p class="fn-muted">このページを共有できます。</p><div class="fn-share-actions"></div><div class="fn-qr-wrap" hidden></div>');
 const shareActions=$(".fn-share-actions",share.el);
