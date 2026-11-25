@@ -211,3 +211,13 @@ body{background-image:radial-gradient(ellipse at 88% 7%,rgba(174,198,139,.105),t
 @media(prefers-reduced-motion:reduce){
  .fn-overlay,.fn-panel,.fn-command-item,.fn-saved-row{transition:none!important}
 }
+
+
+/* Layering correction: the modal root must sit above the sticky site header. */
+#folio-next-root{position:relative;z-index:2000}
+.fn-overlay{z-index:2100}
+.fn-quick-tools{z-index:2050}
+@media(max-width:700px){
+ .fn-overlay{align-items:center;justify-items:center}
+ .fn-panel{max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 32px)}
+}
