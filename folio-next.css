@@ -844,3 +844,25 @@ body.dark .fn-command-item:hover,body.dark .fn-command-item.is-active{background
  .global-search-trigger{width:34px;height:34px;flex-basis:34px;font-size:20px}
  .fn-quick-tools{right:14px;bottom:14px}
 }
+
+
+/* Navigation emergency fix — keep the header above floating utility layers. */
+header.topbar{
+ position:relative!important;
+ z-index:6000!important;
+ isolation:isolate!important;
+ pointer-events:auto!important;
+}
+.topbar nav,.topbar nav a,.topbar .menu,.topbar .global-search-trigger,
+.topbar .theme-toggle,.topbar .folio-language-switch{
+ pointer-events:auto!important;
+}
+.topbar nav a,.topbar .menu{
+ cursor:pointer!important;
+ touch-action:manipulation;
+}
+@media(max-width:760px){
+ .topbar nav{z-index:6001!important}
+ .topbar nav.open{pointer-events:auto!important}
+ .topbar nav.open a{position:relative;z-index:1;pointer-events:auto!important}
+}
