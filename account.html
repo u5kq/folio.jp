@@ -82,6 +82,56 @@ input:focus{border-color:#8c9b7e;box-shadow:0 0 0 4px #82936b1b;background:#fff}
 @media(max-width:760px){body{padding:24px 16px;place-items:start center}.wrap{width:min(100%,470px);grid-template-columns:1fr;gap:0}.brand{grid-column:1;grid-row:1;margin:0 auto 23px}.brand-intro{display:none}.card{grid-column:1;grid-row:2;padding:28px 23px;border-radius:19px}.foot{grid-row:3;margin-top:16px;flex-direction:column;align-items:center;gap:2px}}
 @media(max-width:390px){body{padding:15px 11px}.card{padding:25px 18px}h1{font-size:31px}.app-links{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* folio ID dashboard */
+.dashboard-shell{display:grid;grid-template-columns:164px minmax(0,1fr);gap:18px}
+.dashboard-side{padding:13px 10px;border:1px solid var(--line);border-radius:13px;background:#fafbf8}
+.dashboard-side-label{margin:2px 8px 10px;color:#92998c;font-size:8px;font-weight:850;letter-spacing:.16em}
+.dash-nav{display:grid;gap:4px}
+.dash-nav button{display:flex;align-items:center;gap:9px;width:100%;min-height:38px;padding:0 10px;border:0;border-radius:8px;background:transparent;color:#737b6d;text-align:left;font-size:10px;font-weight:700;cursor:pointer;transition:background .18s,color .18s}
+.dash-nav button[aria-current=page]{background:#eaf0e4;color:#42543a}
+.dash-nav button:hover{background:#f0f3ec}
+.dash-nav .nav-icon{display:grid;place-items:center;width:18px;font-size:13px}
+.dashboard-main{min-width:0}
+.dashboard-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 13px}
+.dashboard-topline small{color:#92998c;font-size:9px}
+.dashboard-topline strong{font-size:10px}
+.dashboard-view{animation:dashIn .24s var(--ease) both}
+@keyframes dashIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.dash-stat{padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.dash-stat small{display:block;color:#858d7e;font-size:9px}
+.dash-stat strong{display:block;margin-top:7px;font-size:17px;letter-spacing:-.04em}
+.dash-stat em{display:block;margin-top:3px;color:#8b9482;font-size:8px;font-style:normal}
+.dashboard-panel h3{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dash-link{padding:0;border:0;background:transparent;color:#657956;font-size:9px;font-weight:750;cursor:pointer}
+.product-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #f0f1ed}
+.product-icon{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:#eef1e9;color:#46573d;font-size:13px;font-weight:850}
+.product-info{min-width:0;flex:1}
+.product-info strong{display:block;font-size:10px}
+.product-info small{display:block;margin-top:3px;color:#8b9186;font-size:8px}
+.product-state{padding:5px 7px;border-radius:99px;background:#f3f4f0;color:#788071;font-size:8px;font-weight:750;white-space:nowrap}
+.activity-row{display:flex;gap:11px;padding:11px 0;border-top:1px solid #f0f1ed}
+.activity-dot{width:7px;height:7px;flex:0 0 7px;margin-top:4px;border-radius:50%;background:#91a181}
+.activity-row strong{display:block;font-size:10px}
+.activity-row small{display:block;margin-top:3px;color:#92998c;font-size:8px}
+.profile-form{display:grid;gap:11px}
+.profile-form label{margin:0}
+.profile-form input{height:42px;margin-top:6px}
+.profile-actions{display:flex;gap:8px;flex-wrap:wrap}
+.profile-actions button,.setting-row button{min-height:37px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:9px;font-weight:750;cursor:pointer}
+.profile-actions .primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid #f0f1ed}
+.setting-row strong{display:block;font-size:10px}
+.setting-row small{display:block;margin-top:3px;color:#92998c;font-size:8px;line-height:1.6}
+.switch{position:relative;width:38px;height:22px;padding:0;border:0;border-radius:99px;background:#dfe3da;cursor:pointer;transition:background .2s}
+.switch:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0002;transition:transform .2s}
+.switch[aria-checked=true]{background:#718462}
+.switch[aria-checked=true]:after{transform:translateX(16px)}
+.dashboard-note{font-size:8px}
+@media(max-width:760px){.dashboard-shell{grid-template-columns:1fr;gap:12px}.dashboard-side{padding:8px;overflow-x:auto}.dashboard-side-label{display:none}.dash-nav{display:flex;min-width:max-content}.dash-nav button{width:auto;padding:0 12px}.dashboard-main{width:100%}}
+@media(max-width:390px){.dash-grid{grid-template-columns:1fr 1fr}.dash-stat{padding:11px}.dashboard-topline{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -125,12 +175,78 @@ document.getElementById('accountForm').addEventListener('submit',e=>{
 forgot.addEventListener('click',()=>{status.textContent='パスワード再設定はデモ環境では利用できません。';});
 function showDashboard(){
  card.innerHTML=`
- <div class="dashboard-head"><span class="demo-status">DEMO SIGNED IN</span><div class="dashboard-mark">f.</div><div class="eyebrow">WELCOME TO YOUR FOLIO</div><h2>マイアカウント</h2><p>folio IDのデモページへようこそ。<br>共通アカウントの利用イメージを確認できます。</p></div>
- <section class="dashboard-panel"><h3>アカウント情報</h3><div class="account-detail"><span>表示名</span><span>folio Demo User</span></div><div class="account-detail"><span>メールアドレス</span><span>${DEMO_EMAIL}</span></div><div class="account-detail"><span>アカウント種別</span><span>デモアカウント</span></div><div class="account-detail"><span>状態</span><span>ログイン中（仮）</span></div></section>
- <section class="dashboard-panel"><h3>folioのプロダクト</h3><div class="app-links"><a href="index.html">公式サイト <span>↗</span></a><a href="projects.html">プロジェクト <span>↗</span></a><a href="https://u5kq.github.io/folio-calendar/#">folio. Calendar <span>↗</span></a><a href="account.html">アカウントTOP <span>↗</span></a></div></section>
- <div class="dashboard-note"><strong>デモ環境について</strong><br>このログイン状態は画面表示の確認専用です。認証情報やプロフィールは保存・送信されず、実際のアカウント機能・他サービスとの連携はまだ有効ではありません。</div>
+ <div class="dashboard-head"><span class="demo-status">DEMO ACCOUNT · SIGNED IN</span><div class="dashboard-mark">f.</div><div class="eyebrow">YOUR FOLIO SPACE</div><h2>マイアカウント</h2><p>folioの利用状況やアカウント情報を管理できます。</p></div>
+ <div class="dashboard-shell">
+  <aside class="dashboard-side"><p class="dashboard-side-label">ACCOUNT MENU</p><nav class="dash-nav" aria-label="マイアカウントメニュー">
+   <button type="button" data-view="overview" aria-current="page"><span class="nav-icon">⌂</span>概要</button>
+   <button type="button" data-view="profile"><span class="nav-icon">◉</span>プロフィール</button>
+   <button type="button" data-view="products"><span class="nav-icon">▦</span>プロダクト</button>
+   <button type="button" data-view="activity"><span class="nav-icon">◷</span>アクティビティ</button>
+   <button type="button" data-view="settings"><span class="nav-icon">⚙</span>設定</button>
+  </nav></aside>
+  <div class="dashboard-main"><div class="dashboard-topline"><strong id="viewTitle">アカウント概要</strong><small>DEMO USER · folio ID</small></div><div id="dashboardView" class="dashboard-view"></div></div>
+ </div>
+ <div class="dashboard-note"><strong>デモ環境：</strong>この画面の編集・設定は表示確認用です。変更内容は保存・送信されず、実際の認証やプロダクト連携も行われません。</div>
  <button class="logout" type="button" id="logoutButton">ログアウト</button>`;
+ const view=document.getElementById('dashboardView');
+ const title=document.getElementById('viewTitle');
+ let displayName='folio Demo User',bio='folioのサービスを利用中。';
+ let notices=true,weekly=false;
+ const views={
+ overview:`<div class="dash-grid">
+  <div class="dash-stat"><small>アカウント状態</small><strong>有効（仮）</strong><em>DEMO ACCOUNT</em></div>
+  <div class="dash-stat"><small>登録プロダクト</small><strong>4</strong><em>表示用サンプル</em></div>
+  <div class="dash-stat"><small>アカウント種別</small><strong>DEMO</strong><em>テストユーザー</em></div>
+  <div class="dash-stat"><small>プロフィール</small><strong>設定中</strong><em>この端末内の一時表示</em></div>
+ </div>
+ <section class="dashboard-panel"><h3>よく使うメニュー <button class="dash-link" data-jump="products">すべて見る ↗</button></h3>
+  <div class="product-row"><span class="product-icon">f.</span><div class="product-info"><strong>folio. 公式サイト</strong><small>ブランド・プロジェクト情報</small></div><span class="product-state">公開中</span></div>
+  <div class="product-row"><span class="product-icon">▦</span><div class="product-info"><strong>folio. Calendar</strong><small>スケジュール管理プロジェクト</small></div><span class="product-state">プレビュー</span></div>
+ </section>
+ <section class="dashboard-panel"><h3>最近のアクティビティ</h3><div class="activity-row"><span class="activity-dot"></span><div><strong>デモアカウントにログイン</strong><small>今回のセッション · この画面内のみ</small></div></div><div class="activity-row"><span class="activity-dot"></span><div><strong>マイアカウントを表示</strong><small>サンプル履歴</small></div></div></section>`,
+ profile:`<section class="dashboard-panel"><h3>プロフィール情報</h3><form id="profileForm" class="profile-form">
+ <label>表示名<input id="profileName" maxlength="32" value="${displayName}" required></label>
+ <label>メールアドレス<input value="${DEMO_EMAIL}" readonly></label>
+ <label>自己紹介<input id="profileBio" maxlength="80" value="${bio}"></label>
+ <div class="profile-actions"><button class="primary" type="submit">変更をプレビュー</button><button type="reset" id="profileReset">リセット</button></div>
+ <p id="profileMessage" class="status" aria-live="polite"></p></form></section>
+ <section class="dashboard-panel"><h3>プロフィールの公開範囲</h3><p style="margin:0;color:#858d7e;font-size:9px;line-height:1.8">このデモではプロフィールは公開されません。入力内容は画面内だけで使用され、保存・送信されません。</p></section>`,
+ products:`<section class="dashboard-panel"><h3>folioプロダクト</h3>
+ <div class="product-row"><span class="product-icon">f.</span><div class="product-info"><strong>folio. 公式サイト</strong><small>ブランド・お知らせ・プロジェクト</small></div><a class="product-state" href="index.html">開く ↗</a></div>
+ <div class="product-row"><span class="product-icon">▦</span><div class="product-info"><strong>folio. Calendar</strong><small>カレンダーアプリ</small></div><a class="product-state" href="https://u5kq.github.io/folio-calendar/#">開く ↗</a></div>
+ <div class="product-row"><span class="product-icon">QR</span><div class="product-info"><strong>QR PAY</strong><small>決済プロダクトのデモ・紹介</small></div><span class="product-state">準備中</span></div>
+ <div class="product-row"><span class="product-icon">AI</span><div class="product-info"><strong>StudyPlan AI</strong><small>学習計画プロジェクト</small></div><span class="product-state">開発中</span></div>
+ </section><p style="color:#92998c;font-size:8px;line-height:1.8">ここに表示される状態は紹介用の仮表示です。アカウントとの実際の連携状態を示すものではありません。</p>`,
+ activity:`<section class="dashboard-panel"><h3>最近のアクティビティ</h3>
+ <div class="activity-row"><span class="activity-dot"></span><div><strong>folio ID デモログイン</strong><small>現在のセッション · 仮の記録</small></div></div>
+ <div class="activity-row"><span class="activity-dot"></span><div><strong>マイアカウントを開く</strong><small>現在のセッション · 仮の記録</small></div></div>
+ <div class="activity-row"><span class="activity-dot"></span><div><strong>プロフィール確認</strong><small>サンプルイベント</small></div></div>
+ <p style="margin:12px 0 0;color:#92998c;font-size:8px">実際のログイン履歴・アクセスログは取得していません。</p></section>`,
+ settings:`<section class="dashboard-panel"><h3>通知設定</h3>
+ <div class="setting-row"><div><strong>お知らせを表示</strong><small>folioからのお知らせ表示（デモ）</small></div><button class="switch" id="noticeSwitch" role="switch" aria-checked="${notices}" aria-label="お知らせを表示"></button></div>
+ <div class="setting-row"><div><strong>週次まとめ</strong><small>週ごとの活動まとめ（デモ）</small></div><button class="switch" id="weeklySwitch" role="switch" aria-checked="${weekly}" aria-label="週次まとめ"></button></div>
+ </section>
+ <section class="dashboard-panel"><h3>セキュリティ</h3><div class="setting-row"><div><strong>ログイン方式</strong><small>架空のデモ認証情報</small></div><span class="product-state">DEMO</span></div><div class="setting-row"><div><strong>二段階認証</strong><small>本番認証の接続後に利用可能</small></div><span class="product-state">未接続</span></div></section>
+ <section class="dashboard-panel"><h3>アカウント情報</h3><div class="account-detail"><span>メールアドレス</span><span>${DEMO_EMAIL}</span></div><div class="account-detail"><span>認証基盤</span><span>未接続（デモ）</span></div></section>`
+ };
+ function render(name){
+  const labels={overview:'アカウント概要',profile:'プロフィール',products:'プロダクト',activity:'アクティビティ',settings:'設定'};
+  title.textContent=labels[name];view.innerHTML=views[name];
+  card.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.view===name)==='true'?'page':'false'));
+  card.querySelectorAll('[data-view]').forEach(b=>{if(b.dataset.view===name)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  if(name==='profile'){
+   document.getElementById('profileForm').addEventListener('submit',e=>{e.preventDefault();displayName=document.getElementById('profileName').value.trim()||'folio Demo User';bio=document.getElementById('profileBio').value.trim();document.getElementById('profileMessage').textContent='変更を画面に反映しました（保存はされません）。';});
+   document.getElementById('profileForm').addEventListener('reset',()=>setTimeout(()=>{document.getElementById('profileName').value=displayName;document.getElementById('profileBio').value=bio;},0));
+  }
+  if(name==='settings'){
+   document.getElementById('noticeSwitch').addEventListener('click',()=>{notices=!notices;render('settings');});
+   document.getElementById('weeklySwitch').addEventListener('click',()=>{weekly=!weekly;render('settings');});
+  }
+ }
+ card.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>render(b.dataset.view)));
+ card.addEventListener('click',e=>{const jump=e.target.closest('[data-jump]');if(jump)render(jump.dataset.jump);});
  document.getElementById('logoutButton').addEventListener('click',()=>location.reload());
+ render('overview');
 }
 </script>
 </body>
