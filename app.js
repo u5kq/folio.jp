@@ -396,3 +396,32 @@ if(document.querySelector("#project-detail")){
  });
 })();
 
+
+
+/* Homepage discovery: rotate a featured project without leaving the page. */
+(function(){
+ const link=document.querySelector("[data-discover-project]"),button=document.querySelector("[data-discover-refresh]"),caption=document.querySelector("[data-discover-caption]");
+ if(!link||!button)return;
+ const picks=[
+  ["studyplan","StudyPlan AI","学習の計画を、もっと使いやすく。"],
+  ["myai","MY AI","自分の基準で考えるAIの構想。"],
+  ["qrpay","QR PAY","支払い体験をデザインする。"],
+  ["nine-subjects","9科テスト対策","9教科から、今日の学びを選ぼう。"],
+  ["seatlabo","Seat Labo","座席管理を、もっと直感的に。"],
+  ["reception","Home Reception","受付の流れを、すっきりシンプルに。"],
+  ["socialquiz","Social Quiz","クイズで知識を確かめよう。"]
+ ];
+ let last=-1;
+ const choose=()=>{
+  let n=Math.floor(Math.random()*picks.length);
+  if(picks.length>1&&n===last)n=(n+1)%picks.length;
+  last=n;
+  const [id,name,description]=picks[n];
+  link.href="project.html?id="+encodeURIComponent(id);
+  link.querySelector("h3").textContent=name;
+  if(caption)caption.textContent=description;
+  button.animate?.([{transform:"rotate(0deg)"},{transform:"rotate(180deg)"}],{duration:360,easing:"cubic-bezier(.2,.8,.2,1)"});
+ };
+ choose();
+ button.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();choose()});
+})();
