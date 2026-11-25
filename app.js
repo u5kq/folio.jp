@@ -56,13 +56,18 @@ const SOCIALS={
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
 /* Keep folio ID entry visible in every shared site header, including mobile layouts. */
-if(header&&!header.querySelector(".folio-account-quick")){
- const account=document.createElement("a");
- account.className="folio-account-quick";
- account.href="account.html";
- account.setAttribute("aria-label","folio ID ログイン");
- account.innerHTML='ログイン <span aria-hidden="true">↗</span>';
- header.insertBefore(account,menu||null);
+if(header){
+ let account=header.querySelector(".folio-account-quick");
+ if(!account){
+  account=document.createElement("a");
+  account.className="folio-account-quick";
+  account.href="account.html";
+  account.setAttribute("aria-label","folio ID ログイン");
+  account.innerHTML='ログイン <span aria-hidden="true">↗</span>';
+ }
+ /* Keep the account action outside the collapsible navigation so it is always reachable. */
+ const themeButton=header.querySelector(".theme-toggle");
+ header.insertBefore(account,themeButton||menu||null);
 }
 
 if(header){const theme=document.createElement("button");theme.type="button";theme.className="theme-toggle";theme.setAttribute("aria-label","テーマを切り替える");theme.title="ライト／ダーク切り替え";header.insertBefore(theme,menu||null);try{if(localStorage.getItem("folio-theme")==="dark")document.body.classList.add("dark")}catch{}const sync=()=>{theme.textContent=document.body.classList.contains("dark")?"☀":"◐";theme.setAttribute("aria-pressed",String(document.body.classList.contains("dark")))};sync();theme.addEventListener("click",()=>{document.body.classList.toggle("dark");try{localStorage.setItem("folio-theme",document.body.classList.contains("dark")?"dark":"light")}catch{}sync()})}
