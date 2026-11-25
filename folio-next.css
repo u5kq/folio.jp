@@ -631,3 +631,26 @@ button,a,input{ -webkit-tap-highlight-color:transparent}
 @media(prefers-reduced-motion:reduce){
  .hero-art-showcase *, .project-card,.explore-card,.studio-links a{animation:none!important;transition:none!important}
 }
+
+/* GLOBAL INTERACTION LANGUAGE */
+:root{--folio-motion-fast:160ms;--folio-motion:240ms;--folio-motion-slow:420ms;--folio-ease:cubic-bezier(.22,.75,.25,1)}
+html{scroll-behavior:smooth}
+body{animation:folio-page-enter 360ms var(--folio-ease) both}
+@keyframes folio-page-enter{from{opacity:.86;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+a,button,[role=button],input,select,textarea,.project-card,.project-row,.explore-card,.fn-panel{transition-duration:var(--folio-motion);transition-timing-function:var(--folio-ease)}
+button:active,[role=button]:active{transform:scale(.985)}
+:focus-visible{outline:2px solid #8eae4f!important;outline-offset:3px!important}
+.page-curtain{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#20271e;color:#f5f6f1;opacity:0;pointer-events:none;transition:opacity 180ms var(--folio-ease)}
+.page-curtain.curtain-active{opacity:1}
+.page-curtain>span{font-size:clamp(28px,5vw,46px);font-weight:700;letter-spacing:-.08em}
+.page-curtain>span>span{color:#8eae4f}
+.folio-intro{background:#20271e;color:#f5f6f1;transition:opacity 260ms var(--folio-ease)}
+.folio-intro .intro-word span{color:#8eae4f}
+.fn-overlay{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.fn-overlay:not([hidden]){animation:folio-overlay-in 220ms var(--folio-ease) both}
+@keyframes folio-overlay-in{from{opacity:0}to{opacity:1}}
+.fn-panel{animation:folio-panel-in 260ms var(--folio-ease) both}
+@keyframes folio-panel-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.folio-reveal{opacity:0;transform:translateY(14px);transition:opacity 520ms var(--folio-ease),transform 520ms var(--folio-ease)}
+.folio-reveal.is-in{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body{animation:none}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.folio-reveal{opacity:1;transform:none}}
