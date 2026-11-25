@@ -1461,3 +1461,6 @@ body.dark .explore-status-art,body.dark .explore-discover{background:#292f25}
  .explore-main{min-height:584px}
 }
 @media(prefers-reduced-motion:reduce){.explore-card,.discover-refresh,.explore-discover-art i{animation:none!important;transition:none!important}}
+
+/* No persistent bottom navigation: all pages use the top navigation. */
+.folio-mobile-dock{display:none!important}
