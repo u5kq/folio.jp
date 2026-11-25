@@ -1845,3 +1845,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .contact-form{margin-top:var(--folio-stack-space)}.footer{padding-inline:var(--folio-page-gutter)}
 @media(max-width:760px){:root{--folio-page-gutter:16px;--folio-section-space:52px;--folio-card-space:16px;--folio-stack-space:20px}.wrap,.inner,.container,.page-container{width:calc(100% - 32px)}.inner{padding-top:38px;padding-bottom:64px}.section-head{margin-bottom:22px}.project-list{gap:10px}.project-row{padding:16px;gap:10px}.project-card,.explore-card{padding:16px}.detail-panel,.brand-card{padding:18px;margin-block:18px}.footer{gap:14px;padding:20px 16px}}
 @media(min-width:761px) and (max-width:1100px){:root{--folio-page-gutter:24px}}
+
+/* Always-visible folio ID entry on compact screens */
+.folio-account-quick{display:none;align-items:center;justify-content:center;gap:7px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-size:11px;font-weight:650;letter-spacing:.02em;text-decoration:none;white-space:nowrap;transition:background .2s,border-color .2s,transform .2s}
+.folio-account-quick span{color:#8eae4f;font-size:13px}
+.folio-account-quick:hover{background:var(--soft);border-color:#aab39e;transform:translateY(-1px)}
+@media(max-width:700px){.folio-account-quick{display:inline-flex;margin-left:auto}.topbar{gap:10px}.theme-toggle{margin-left:0!important}.menu{flex:0 0 38px}}
