@@ -654,3 +654,24 @@ button:active,[role=button]:active{transform:scale(.985)}
 .folio-reveal{opacity:0;transform:translateY(14px);transition:opacity 520ms var(--folio-ease),transform 520ms var(--folio-ease)}
 .folio-reveal.is-in{opacity:1;transform:translateY(0)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body{animation:none}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.folio-reveal{opacity:1;transform:none}}
+
+/* Language switch — compact, consistent with folio. navigation */
+.folio-language-switch{
+ display:inline-flex!important;align-items:center;justify-content:center;gap:7px;
+ min-width:66px;height:36px;padding:0 10px!important;
+ border:1px solid var(--line)!important;border-radius:999px!important;
+ background:var(--surface)!important;color:var(--muted)!important;
+ font:700 9px/1 ui-monospace,SFMono-Regular,monospace!important;letter-spacing:.08em!important;
+ cursor:pointer;white-space:nowrap;box-shadow:0 3px 12px rgba(31,39,24,.035);
+ transition:background .22s ease,border-color .22s ease,transform .22s ease,color .22s ease;
+}
+.folio-language-switch span{opacity:.52;transition:opacity .2s ease,color .2s ease}
+.folio-language-switch span.is-active{opacity:1;color:var(--ink)}
+.folio-language-switch i{height:12px;width:1px;background:var(--line);display:block}
+.folio-language-switch:hover{border-color:#b8c99b!important;background:#edf1e6!important;transform:translateY(-1px)}
+.folio-language-switch:focus-visible{outline:2px solid #8eae4f!important;outline-offset:3px!important}
+@media(max-width:760px){
+ .topbar{gap:8px!important}
+ .folio-language-switch{min-width:60px;height:34px;padding-inline:8px!important}
+ .topbar nav.open{z-index:50}
+}
