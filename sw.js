@@ -1,6 +1,6 @@
 const CACHE_PREFIX="folio-static-";
-const CACHE_NAME=CACHE_PREFIX+"2026-11-25-accountfix2";
-self.addEventListener("install",event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await cache.addAll(["./","./index.html","./projects.html","./project.html","./styles.css?v=20261126-review1","./app.js?v=20261126-review1","./folio-next-v2.js?v=20261126-review1","./folio-next.css?v=20261126-review1","./folio.webmanifest","./play.html","./code-arena.html","./code-lab.html"]);await self.skipWaiting()})())});
+const CACHE_NAME=CACHE_PREFIX+"2026-11-26-home-readability1";
+self.addEventListener("install",event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await cache.addAll(["./","./index.html","./projects.html","./project.html","./styles.css?v=20261126-home-readability1","./app.js?v=20261126-review1","./folio-next-v2.js?v=20261126-review1","./folio-next.css?v=20261126-review1","./folio.webmanifest","./play.html","./code-arena.html","./code-lab.html"]);await self.skipWaiting()})())});
 self.addEventListener("activate",event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith(CACHE_PREFIX)&&k!==CACHE_NAME).map(k=>caches.delete(k)));await self.clients.claim()})())});
 self.addEventListener("fetch",event=>{
  const req=event.request;
