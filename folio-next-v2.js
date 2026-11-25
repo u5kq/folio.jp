@@ -13,22 +13,31 @@ const overlay=(name,html)=>{const el=document.createElement("section");el.classN
 const toast=(msg)=>{let t=$(".fn-toast",root);if(!t){t=document.createElement("div");t.className="fn-toast";t.setAttribute("role","status");root.append(t)}t.textContent=msg;t.classList.add("show");clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove("show"),2200)};
 const button=(label,action,cls="")=>{const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=label;b.addEventListener("click",action);return b};
 const toolrow=document.createElement("div");toolrow.className="fn-quick-tools";toolrow.innerHTML='<button type="button" data-fn="share" aria-label="このページを共有" title="このページを共有">↗</button>';root.append(toolrow);
-/* Command palette — searchable pages, projects, and quick actions */
-const command=overlay("コマンドパレット",'<p class="fn-kicker">FOLIO / COMMAND</p><div class="fn-command-heading"><h2>何をお探しですか？</h2><span class="fn-command-shortcut">ESC</span></div><label class="fn-command-search"><span aria-hidden="true">⌕</span><input class="fn-command-input" type="search" placeholder="ページ・プロジェクト・操作を検索..." aria-label="サイト内を検索"><kbd>↵</kbd></label><div class="fn-command-tabs" role="group" aria-label="検索カテゴリー"><button type="button" data-command-filter="all" aria-pressed="true">すべて</button><button type="button" data-command-filter="page" aria-pressed="false">ページ</button><button type="button" data-command-filter="project" aria-pressed="false">プロジェクト</button><button type="button" data-command-filter="action" aria-pressed="false">操作</button></div><div class="fn-command-meta"><span class="fn-command-count" aria-live="polite"></span><span>↑ ↓ 移動　↵ 決定</span></div><div class="fn-command-results" role="listbox" aria-label="検索結果"></div><p class="fn-hint">⌘ K / Ctrl K でいつでも開く · Esc で閉じる</p>');
-const commandInput=$(".fn-command-input",command.el),commandResults=$(".fn-command-results",command.el),commandCount=$(".fn-command-count",command.el);
+/* Global search — unified pages, projects, features and actions */
+const command=overlay("サイト全体検索",'<p class="fn-kicker">FOLIO / SEARCH</p><div class="fn-command-heading"><h2>何をお探しですか？</h2><span class="fn-command-shortcut">ESC</span></div><label class="fn-command-search"><span aria-hidden="true">⌕</span><input class="fn-command-input" type="search" placeholder="プロジェクト・ページ・機能を検索..." aria-label="サイト全体を検索" autocomplete="off"><button class="fn-search-clear" type="button" aria-label="検索をクリア">×</button></label><div class="fn-command-tabs" role="group" aria-label="検索カテゴリー"><button type="button" data-command-filter="all" aria-pressed="true">すべて</button><button type="button" data-command-filter="project" aria-pressed="false">プロジェクト</button><button type="button" data-command-filter="page" aria-pressed="false">ページ</button><button type="button" data-command-filter="feature" aria-pressed="false">機能</button></div><div class="fn-search-recent" aria-label="最近の検索"></div><div class="fn-command-meta"><span class="fn-command-count" aria-live="polite"></span><span>↑ ↓ 移動　↵ 開く</span></div><div class="fn-command-results" role="listbox" aria-label="検索結果"></div><p class="fn-hint">⌘ K / Ctrl K で開く · Esc で閉じる</p>');
+const commandInput=$(".fn-command-input",command.el),commandResults=$(".fn-command-results",command.el),commandCount=$(".fn-command-count",command.el),commandRecent=$(".fn-search-recent",command.el);
 const commandTabs=$$(".fn-command-tabs button",command.el);
 const projectCatalog=[
- {id:"studyplan",name:"StudyPlan AI",url:"project.html?id=studyplan"},
- {id:"myai",name:"MY AI",url:"project.html?id=myai"},
- {id:"socialquiz",name:"Social Quiz",url:"project.html?id=socialquiz"},
- {id:"qrpay",name:"QR PAY",url:"project.html?id=qrpay"},
- {id:"seatlabo",name:"Seat Labo",url:"project.html?id=seatlabo"},
- {id:"reception",name:"Home Reception",url:"project.html?id=reception"},
- {id:"nine-subjects",name:"9科テスト対策",url:"project.html?id=nine-subjects"}
+ {id:"studyplan",name:"StudyPlan AI",desc:"学習タスク・予定・学習計画を整理するアプリ",keywords:"勉強 学習 スケジュール タスク 計画 studyplan",url:"project.html?id=studyplan"},
+ {id:"myai",name:"MY AI",desc:"自分の判断基準を大切にするパーソナルAI構想",keywords:"人工知能 AI assistant アシスタント",url:"project.html?id=myai"},
+ {id:"socialquiz",name:"Social Quiz",desc:"社会科の知識をクイズ形式で確認する学習サイト",keywords:"社会 歴史 地理 公民 クイズ",url:"project.html?id=socialquiz"},
+ {id:"qrpay",name:"QR PAY",desc:"QRコードを使った決済体験のUI・機能開発",keywords:"決済 支払い QR payment",url:"project.html?id=qrpay"},
+ {id:"seatlabo",name:"Seat Labo",desc:"席替え・座席管理を支援するツール",keywords:"席替え 座席 クラス 管理",url:"project.html?id=seatlabo"},
+ {id:"reception",name:"Home Reception",desc:"来客受付をデジタル化するサイト",keywords:"受付 来客 reception",url:"project.html?id=reception"},
+ {id:"nine-subjects",name:"9科テスト対策",desc:"9教科のクイズで学習できるサイト",keywords:"テスト 勉強 教科 9科目",url:"project.html?id=nine-subjects"}
 ];
 const pageList=[
- ["HOME","ホーム","index.html","home"],["PROJECTS","プロジェクト一覧","projects.html","grid"],["PLAY","folio.のゲーム","play.html","play quiz game"],["BRAND","ブランドについて","brand.html","brand"],["NEWS","ニュース・更新情報","news.html","news"],["ABOUT","folio.について","about.html","about"],["CONTACT","お問い合わせ","contact.html","contact"],["PHILOSOPHY","理念","philosophy.html","理念"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","journal"],["RELEASES","リリース情報","releases.html","リリース"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","質問"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","lab"],["folio. Terminal","ターミナル","terminal.html","terminal"],["SYSTEM STATUS","開発ステータス","status.html","status"],["VERSION HISTORY","更新履歴","versions.html","version"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","gallery"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","履歴"]
+ ["HOME","ホーム","index.html","トップ メイン"],["PROJECTS","プロジェクト一覧","projects.html","制作 作品 開発"],["PLAY","folio.のゲーム","play.html","ゲーム 遊ぶ クイズ"],["BRAND","ブランドについて","brand.html","ブランド"],["NEWS","ニュース・更新情報","news.html","お知らせ"],["ABOUT","folio.について","about.html","概要"],["CONTACT","お問い合わせ","contact.html","連絡"],["PHILOSOPHY","理念","philosophy.html","ミッション ビジョン"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","記事 開発記録"],["RELEASES","リリース情報","releases.html","更新"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表 歴史"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","ヘルプ"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","実験 デザイン"],["folio. Terminal","ターミナル","terminal.html","コマンド"],["SYSTEM STATUS","開発ステータス","status.html","状態"],["VERSION HISTORY","更新履歴","versions.html","バージョン"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","画像 ビジュアル"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","最近 見た ページ"]
 ].map(([name,desc,url,keywords])=>({name,desc,url,type:"page",keywords}));
+const featureList=[
+ {name:"サイト全体検索",desc:"ページ・プロジェクト・機能をまとめて検索",url:"#",type:"feature",keywords:"検索 search command palette"},
+ {name:"お気に入り",desc:"保存したプロジェクトやページを確認",url:"favorites.html",type:"feature",keywords:"保存 favorite"},
+ {name:"閲覧履歴",desc:"最近開いたページを確認",url:"history.html",type:"feature",keywords:"履歴 recent"},
+ {name:"共有センター",desc:"ページURLのコピー・共有・QR表示",url:"#",type:"feature",keywords:"share url qr コピー"},
+ {name:"folio. PLAY",desc:"クイズ・プロジェクト当て・記憶ゲーム",url:"play.html",type:"feature",keywords:"遊ぶ ゲーム quiz"},
+ {name:"folio. LAB",desc:"UIやモーションの実験",url:"lab.html",type:"feature",keywords:"実験 design motion"},
+ {name:"folio. Terminal",desc:"folio.の情報をコマンド形式で探索",url:"terminal.html",type:"feature",keywords:"terminal command"}
+];
 const quickActions=[
  {name:"ページの先頭へ戻る",desc:"現在のページを一番上までスクロール",type:"action",keywords:"top scroll",run:()=>{window.scrollTo({top:0,behavior:"smooth"});command.close()}},
  {name:"このページを共有",desc:"共有メニューを開く",type:"action",keywords:"share url copy",run:()=>{command.close();share.el.hidden=false}},
@@ -37,54 +46,33 @@ const quickActions=[
  {name:"閲覧履歴を開く",desc:"最近見たページを確認",type:"action",keywords:"history recent",run:()=>location.href="history.html"}
 ];
 let commandFilter="all",commandActive=0,commandItems=[];
+const searchHistoryKey="folio-search-history-v1";
 const normalizeCommand=s=>String(s||"").toLocaleLowerCase("ja").normalize("NFKC").replace(/[・.\s_-]/g,"");
-function commandDataset(){const catalog=projectCatalog.map(item=>{const live=projects.find(p=>p.id===item.id);return {name:item.name,desc:live?.desc||"プロジェクト詳細を開く",url:item.url,type:"project",keywords:live?.status||""}});return [...pageList,...catalog,...quickActions]}
+function commandDataset(){const catalog=projectCatalog.map(item=>{const live=projects.find(p=>p.id===item.id);return {...item,desc:live?.desc||item.desc,type:"project",keywords:(item.keywords||"")+" "+(live?.status||"")}});return [...pageList,...catalog,...featureList,...quickActions]}
+function rememberSearch(q){const term=String(q||"").trim();if(term.length<2)return;const old=safe(searchHistoryKey,[]);save(searchHistoryKey,[term,...old.filter(x=>x!==term)].slice(0,5))}
+function renderRecent(){commandRecent.replaceChildren();const recent=safe(searchHistoryKey,[]);if(!recent.length){commandRecent.hidden=true;return}commandRecent.hidden=false;const label=document.createElement("span");label.className="fn-search-recent-label";label.textContent="最近の検索";commandRecent.append(label);recent.forEach(term=>{const b=button(term,()=>{commandInput.value=term;drawCommands(term);commandInput.focus()},"fn-search-chip");commandRecent.append(b)})}
 function drawCommands(q=""){
- const query=normalizeCommand(q);
- commandItems=commandDataset().filter(item=>(commandFilter==="all"||item.type===commandFilter)&&(!query||normalizeCommand([item.name,item.desc,item.keywords,item.type].join(" ")).includes(query))).slice(0,30);
- commandActive=0;commandResults.replaceChildren();
- commandCount.textContent=commandItems.length+" 件";
+ const tokens=normalizeCommand(q).split(/\s+/).filter(Boolean);
+ commandItems=commandDataset().map(item=>{const hay=normalizeCommand([item.name,item.desc,item.keywords,item.type].join(" "));const score=tokens.reduce((n,t)=>n+(hay.includes(t)?1:0),0);return {...item,_score:score}}).filter(item=>(commandFilter==="all"||(commandFilter==="action"?item.type==="action":item.type===commandFilter))&&(!tokens.length||item._score===tokens.length)).sort((a,b)=>b._score-a._score||a.name.localeCompare(b.name,"ja")).slice(0,40);
+ commandActive=0;commandResults.replaceChildren();commandCount.textContent=commandItems.length+" 件";
  commandItems.forEach((item,index)=>{
-  const el=document.createElement(item.run?"button":"a");
-  if(item.run)el.type="button";else el.href=item.url;
-  el.className="fn-command-item"+(index===0?" is-active":"");
-  el.setAttribute("role","option");el.setAttribute("aria-selected",String(index===0));
-  const copy=document.createElement("span");copy.className="fn-command-copy";
-  const title=document.createElement("b");title.textContent=item.name;
-  const desc=document.createElement("small");desc.textContent=item.desc||"";
-  copy.append(title,desc);
-  const tag=document.createElement("span");tag.className="fn-command-type";tag.textContent=item.type==="page"?"PAGE":item.type==="project"?"PROJECT":"ACTION";
-  const arrow=document.createElement("span");arrow.className="fn-command-arrow";arrow.textContent=item.run?"↗":"→";
-  el.append(copy,tag,arrow);
+  const el=document.createElement(item.run?"button":"a");if(item.run)el.type="button";else if(item.url!=="#")el.href=item.url;else{el.href="#";el.addEventListener("click",e=>{e.preventDefault();if(item.name==="サイト全体検索"){commandInput.focus()}else if(item.name==="共有センター"){command.close();share.el.hidden=false}})}
+  el.className="fn-command-item"+(index===0?" is-active":"");el.setAttribute("role","option");el.setAttribute("aria-selected",String(index===0));
+  const copy=document.createElement("span");copy.className="fn-command-copy";const title=document.createElement("b");title.textContent=item.name;const desc=document.createElement("small");desc.textContent=item.desc||"";copy.append(title,desc);
+  const tag=document.createElement("span");tag.className="fn-command-type";tag.textContent=item.type==="page"?"ページ":item.type==="project"?"PROJECT":item.type==="feature"?"機能":"操作";
+  const arrow=document.createElement("span");arrow.className="fn-command-arrow";arrow.textContent=item.run||item.url==="#"?"↗":"→";el.append(copy,tag,arrow);
   if(item.run)el.addEventListener("click",item.run);
-  el.addEventListener("mouseenter",()=>setCommandActive(index));
-  commandResults.append(el);
+  el.addEventListener("click",()=>rememberSearch(commandInput.value));el.addEventListener("mouseenter",()=>setCommandActive(index));commandResults.append(el);
  });
- if(!commandItems.length){const empty=document.createElement("p");empty.className="fn-command-empty";empty.textContent="一致する項目がありません。別のキーワードで検索してください。";commandResults.append(empty)}
+ if(!commandItems.length){const empty=document.createElement("div");empty.className="fn-command-empty";const title=document.createElement("b");title.textContent="見つかりませんでした";const hint=document.createElement("p");hint.textContent="別の言い方や短いキーワードで検索してみてください。";const reset=button("検索条件をクリア",()=>{commandInput.value="";drawCommands();commandInput.focus()},"fn-search-reset");empty.append(title,hint,reset);commandResults.append(empty)}
 }
-function setCommandActive(index){
- commandActive=Math.max(0,Math.min(index,commandItems.length-1));
- $$(".fn-command-item",commandResults).forEach((el,i)=>{el.classList.toggle("is-active",i===commandActive);el.setAttribute("aria-selected",String(i===commandActive))});
- const active=$(".fn-command-item.is-active",commandResults);active?.scrollIntoView({block:"nearest"});
-}
-commandTabs.forEach(tab=>tab.addEventListener("click",()=>{
- commandFilter=tab.dataset.commandFilter;
- commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t===tab)));
- drawCommands(commandInput.value);
-}));
-commandInput.addEventListener("input",()=>drawCommands(commandInput.value));
-commandInput.addEventListener("keydown",e=>{
- if(e.key==="ArrowDown"){e.preventDefault();setCommandActive(commandActive+1)}
- else if(e.key==="ArrowUp"){e.preventDefault();setCommandActive(commandActive-1)}
- else if(e.key==="Enter"){e.preventDefault();const item=commandItems[commandActive];if(!item)return;if(item.run)item.run();else location.href=item.url}
-});
-function openCommand(){
- command.el.hidden=false;commandFilter="all";commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t.dataset.commandFilter==="all")));
- commandInput.value="";drawCommands();requestAnimationFrame(()=>commandInput.focus());
-}
-document.addEventListener("keydown",e=>{
- if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}
-});
+function setCommandActive(index){commandActive=Math.max(0,Math.min(index,commandItems.length-1));$$(".fn-command-item",commandResults).forEach((el,i)=>{el.classList.toggle("is-active",i===commandActive);el.setAttribute("aria-selected",String(i===commandActive))});$(".fn-command-item.is-active",commandResults)?.scrollIntoView({block:"nearest"})}
+commandTabs.forEach(tab=>tab.addEventListener("click",()=>{commandFilter=tab.dataset.commandFilter;commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t===tab)));drawCommands(commandInput.value)}));
+commandInput.addEventListener("input",()=>{drawCommands(commandInput.value);commandRecent.hidden=!!commandInput.value.trim()});
+$(".fn-search-clear",command.el).addEventListener("click",()=>{commandInput.value="";drawCommands();commandInput.focus();commandRecent.hidden=false});
+commandInput.addEventListener("keydown",e=>{if(e.key==="ArrowDown"){e.preventDefault();setCommandActive(commandActive+1)}else if(e.key==="ArrowUp"){e.preventDefault();setCommandActive(commandActive-1)}else if(e.key==="Enter"){e.preventDefault();const item=commandItems[commandActive];if(!item)return;rememberSearch(commandInput.value);if(item.run)item.run();else if(item.url&&item.url!=="#")location.href=item.url;else if(item.name==="共有センター"){command.close();share.el.hidden=false}}});
+function openCommand(){command.el.hidden=false;commandFilter="all";commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t.dataset.commandFilter==="all")));commandInput.value="";drawCommands();renderRecent();requestAnimationFrame(()=>commandInput.focus())}
+document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}});
 document.addEventListener("folio:open-command",openCommand);
 /* share center */
 const share=overlay("共有センター",'<p class="fn-kicker">FOLIO / SHARE</p><h2>Share this page.</h2><p class="fn-muted">このページを共有できます。</p><div class="fn-share-actions"></div><div class="fn-qr-wrap" hidden></div>');
