@@ -176,7 +176,7 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
  const nav=document.querySelector(".topbar nav"),header=document.querySelector(".topbar");
  if(!nav||!header)return;
  const items=[
-  ["HOME","index.html"],["PROJECTS","projects.html"],["PLAY","play.html"],["STUDIO","brand.html"],["JOURNAL","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"],["ログイン","account.html"]
+  ["HOME","index.html"],["PROJECTS","projects.html"],["PLAY","play.html"],["STUDIO","brand.html"],["JOURNAL","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"]
  ];
  nav.replaceChildren();
  const current=location.pathname.split("/").pop()||"index.html";
