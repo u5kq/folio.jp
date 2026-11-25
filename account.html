@@ -6,18 +6,45 @@
 <meta name="theme-color" content="#fff8f3">
 <title>folio ID — 共通アカウント</title>
 <style>
-:root{color-scheme:light;--ink:#24222b;--muted:#777482;--line:#eee8e5;--paper:#fff;--bg:#fff8f3;--pink:#ff806f;--purple:#7968d8;--yellow:#ffd66e;--mint:#a8d9c6}
-*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 8% 12%,#ffe1d8 0,transparent 28%),radial-gradient(ellipse at 92% 78%,#e5e0ff 0,transparent 29%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",sans-serif;display:grid;place-items:center;padding:28px 16px;overflow-x:hidden}
-.wrap{width:min(100%,460px);position:relative}.brand{display:flex;justify-content:center;align-items:center;gap:10px;font-size:25px;font-weight:850;letter-spacing:-.075em;margin-bottom:22px;text-decoration:none;color:var(--ink)}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:var(--ink);color:white;font-size:20px;box-shadow:4px 4px 0 var(--yellow)}.brand-word span{color:var(--pink)}
-.card{position:relative;background:#ffffffed;border:1px solid #fff;border-radius:28px;padding:clamp(24px,6vw,38px);box-shadow:0 24px 70px #4a344012,0 4px 14px #4a344008;backdrop-filter:blur(18px);overflow:hidden}.card:before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--pink),#ffbd78,var(--yellow),var(--mint),#9d91ed)}
-.eyebrow{text-align:center;font-size:10px;letter-spacing:.19em;color:var(--purple);font-weight:850;margin-top:5px}h1{text-align:center;font-size:34px;letter-spacing:-.065em;margin:10px 0 7px}.lead{text-align:center;color:var(--muted);font-size:13px;line-height:1.85;margin:0 0 23px}
-.pills{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:0 0 23px}.pill{font-size:10px;font-weight:750;padding:6px 10px;border-radius:999px}.pill:nth-child(1){background:#fff0ec;color:#d96e60}.pill:nth-child(2){background:#f0edff;color:#6f60c4}.pill:nth-child(3){background:#eaf7f1;color:#518b73}
-.tabs{display:grid;grid-template-columns:1fr 1fr;padding:5px;background:#f4f1ef;border-radius:14px;margin-bottom:21px;gap:4px}.tabs button{border:0;background:transparent;border-radius:10px;padding:12px;color:#817d87;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:background .18s,transform .18s}.tabs button:active{transform:scale(.98)}.tabs button[aria-selected=true]{background:white;color:var(--ink);box-shadow:0 2px 9px #332a2512}
-label{display:block;font-size:12px;font-weight:750;margin:15px 0 7px}input{width:100%;height:50px;border:1.5px solid #e9e4e2;border-radius:13px;padding:0 14px;background:#fff;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s}input::placeholder{color:#b3afb6}input:focus{border-color:#a79be9;box-shadow:0 0 0 4px #9d91ed20}
-.submit{width:100%;height:52px;border:0;border-radius:14px;background:var(--ink);color:white;font:inherit;font-weight:800;margin-top:22px;cursor:pointer;box-shadow:0 5px 0 #d9d3d1;transition:transform .16s,box-shadow .16s,background .16s}.submit:hover{background:#494454}.submit:active{transform:translateY(3px);box-shadow:0 2px 0 #d9d3d1}.sub-action{display:block;text-align:center;margin:17px auto 0;border:0;background:none;color:var(--purple);font:inherit;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.status{min-height:20px;text-align:center;font-size:12px;color:#a65d45;margin-top:13px;line-height:1.6}.notice{margin-top:18px;padding:13px 14px;background:#fff8e8;border:1px solid #f6ebca;border-radius:13px;color:#82734f;font-size:11px;line-height:1.8}.notice strong{color:#69552b}.foot{text-align:center;color:#99939a;font-size:10px;line-height:1.9;margin-top:20px}.foot a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:380px){body{padding:20px 13px}.card{padding:24px 19px}h1{font-size:30px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:root{color-scheme:light;--ink:#25232d;--muted:#85818e;--line:#ece9ed;--paper:#fff;--bg:#faf8f7;--coral:#f48678;--lav:#8879df;--mint:#8fcdb5;--sun:#f4ce78;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html{min-height:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100svh;display:grid;place-items:center;padding:34px 18px;background:radial-gradient(ellipse at 4% 8%,#ffe8e1 0,transparent 30%),radial-gradient(ellipse at 96% 88%,#eae6ff 0,transparent 31%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #8879df66;outline-offset:3px}
+.wrap{width:min(100%,440px);position:relative;animation:rise .55s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
+.brand{display:flex;justify-content:center;align-items:center;gap:11px;margin:0 auto 23px;color:var(--ink);text-decoration:none;font-size:24px;font-weight:850;letter-spacing:-.075em}
+.brand-mark{display:grid;place-items:center;width:39px;height:39px;border-radius:14px;background:var(--ink);color:#fff;font-size:20px;box-shadow:4px 4px 0 var(--sun)}
+.brand-word span{color:var(--coral)}
+.card{position:relative;overflow:hidden;padding:clamp(25px,6vw,38px);border:1px solid #fff;border-radius:27px;background:#ffffffed;box-shadow:0 22px 65px #40344b12,0 3px 12px #40344b08;backdrop-filter:blur(18px)}
+.card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--coral),#f6b28a,var(--sun),var(--mint),var(--lav))}
+.eyebrow{text-align:center;margin:5px 0 0;color:var(--lav);font-size:9px;font-weight:800;letter-spacing:.2em}
+h1{margin:11px 0 6px;text-align:center;font-size:35px;letter-spacing:-.07em;line-height:1.2}
+.lead{margin:0 0 22px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 0 24px}
+.pill{padding:6px 10px;border-radius:99px;font-size:9px;font-weight:750}
+.pill:nth-child(1){background:#fff0ec;color:#c96d60}.pill:nth-child(2){background:#f0edff;color:#6f60c4}.pill:nth-child(3){background:#eaf7f1;color:#518b73}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:22px;border-radius:13px;background:#f3f1f2}
+.tabs button{min-height:43px;border:0;border-radius:10px;background:transparent;color:#898591;font-size:12px;font-weight:750;cursor:pointer;transition:background .2s var(--ease),color .2s,box-shadow .2s,transform .2s}
+.tabs button:active{transform:scale(.985)}
+.tabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 2px 8px #30283b12}
+label{display:block;margin:15px 0 7px;color:#514d59;font-size:11px;font-weight:750}
+input{display:block;width:100%;height:49px;padding:0 14px;border:1px solid #e8e4e8;border-radius:12px;background:#fff;color:var(--ink);font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+input::placeholder{color:#b7b2bd}
+input:focus{border-color:#a69be8;box-shadow:0 0 0 4px #9d91ed1c;background:#fff}
+.submit{width:100%;height:51px;margin-top:22px;border:0;border-radius:13px;background:var(--ink);color:#fff;font-size:12px;font-weight:800;letter-spacing:.01em;cursor:pointer;box-shadow:0 4px 0 #dcd6d9;transition:transform .2s var(--ease),box-shadow .2s,background .2s}
+.submit:hover{background:#494454;transform:translateY(-1px);box-shadow:0 5px 0 #dcd6d9}
+.submit:active{transform:translateY(2px);box-shadow:0 1px 0 #dcd6d9}
+.sub-action{display:block;margin:16px auto 0;padding:5px 8px;border:0;background:transparent;color:#796bc9;font-size:11px;font-weight:700;cursor:pointer;text-underline-offset:3px}
+.sub-action:hover{text-decoration:underline}
+.status{min-height:20px;margin-top:12px;text-align:center;color:#a65d45;font-size:11px;line-height:1.65}
+.notice{margin-top:17px;padding:12px 13px;border:1px solid #f1e9d7;border-radius:12px;background:#fffaf0;color:#81734f;font-size:10px;line-height:1.8}
+.notice strong{color:#68552c}
+.foot{margin-top:19px;text-align:center;color:#99939d;font-size:9px;line-height:2}
+.foot a{color:inherit;text-underline-offset:3px}
+@media(max-width:420px){body{padding:20px 13px}.wrap{width:100%}.brand{margin-bottom:18px}.card{padding:25px 20px;border-radius:23px}h1{font-size:32px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -26,7 +53,7 @@ label{display:block;font-size:12px;font-weight:750;margin:15px 0 7px}input{width
 <section class="card" aria-labelledby="title">
 <div class="eyebrow">ONE ACCOUNT, MANY POSSIBILITIES</div>
 <h1 id="title">folio ID</h1>
-<p class="lead">ひとつのアカウントで、folioのプロダクトへ。</p>
+<p class="lead">ひとつのアカウントで、folioのプロダクトへ。<br>あなたの毎日を、もっとシンプルに。</p>
 <div class="pills" aria-label="folio IDの特徴"><span class="pill">シンプルにひとつ</span><span class="pill">プロダクト共通</span><span class="pill">あなたのfolio</span></div>
 <div class="tabs" role="tablist" aria-label="アカウント操作">
 <button type="button" id="loginTab" role="tab" aria-selected="true">ログイン</button>
