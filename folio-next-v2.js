@@ -24,7 +24,8 @@ const projectCatalog=[
  {id:"qrpay",name:"QR PAY",desc:"QRコードを使った決済体験のUI・機能開発",keywords:"決済 支払い QR payment",url:"project.html?id=qrpay"},
  {id:"seatlabo",name:"Seat Labo",desc:"席替え・座席管理を支援するツール",keywords:"席替え 座席 クラス 管理",url:"project.html?id=seatlabo"},
  {id:"reception",name:"Home Reception",desc:"来客受付をデジタル化するサイト",keywords:"受付 来客 reception",url:"project.html?id=reception"},
- {id:"nine-subjects",name:"9科テスト対策",desc:"9教科のクイズで学習できるサイト",keywords:"テスト 勉強 教科 9科目",url:"project.html?id=nine-subjects"}
+ {id:"nine-subjects",name:"9科テスト対策",desc:"9教科のクイズで学習できるサイト",keywords:"テスト 勉強 教科 9科目",url:"project.html?id=nine-subjects"},
+ {id:"calendar",name:"folio. Calendar",desc:"予定や日付を整理するWebカレンダー",keywords:"カレンダー 予定 スケジュール calendar productivity",url:"project.html?id=calendar"}
 ];
 const pageList=[
  ["HOME","ホーム","index.html","トップ メイン"],["PROJECTS","プロジェクト一覧","projects.html","制作 作品 開発"],["PLAY","folio.のゲーム","play.html","ゲーム 遊ぶ クイズ"],["BRAND","ブランドについて","brand.html","ブランド"],["NEWS","ニュース・更新情報","news.html","お知らせ"],["ABOUT","folio.について","about.html","概要"],["CONTACT","お問い合わせ","contact.html","連絡"],["PHILOSOPHY","理念","philosophy.html","ミッション ビジョン"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","記事 開発記録"],["RELEASES","リリース情報","releases.html","更新"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表 歴史"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","ヘルプ"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","実験 デザイン"],["folio. Terminal","ターミナル","terminal.html","コマンド"],["SYSTEM STATUS","開発ステータス","status.html","状態"],["VERSION HISTORY","更新履歴","versions.html","バージョン"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","画像 ビジュアル"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","最近 見た ページ"]
@@ -98,7 +99,7 @@ const histKey="folio-page-history-v1";
 let hist=safe(histKey,[]);hist=[{url:location.pathname+location.search,name:document.title.replace(/\\s*[—|｜-]\\s*folio.*$/i,"").trim()||currentFile,date:Date.now()},...hist.filter(x=>x.url!==location.pathname+location.search)].slice(0,30);save(histKey,hist);
 /* Favorites are managed by the canonical site-wide library in app.js. */
 const favKey="folio-favorites-v1";
-const projectNames={studyplan:"StudyPlan AI",myai:"MY AI",socialquiz:"Social Quiz",qrpay:"QR PAY",seatlabo:"Seat Labo",reception:"Home Reception","nine-subjects":"9科テスト対策"};
+const projectNames={studyplan:"StudyPlan AI",myai:"MY AI",socialquiz:"Social Quiz",qrpay:"QR PAY",seatlabo:"Seat Labo",reception:"Home Reception","nine-subjects":"9科テスト対策",calendar:"folio. Calendar"};
 /* stage labels derived from existing project status, never invented progress percentages */
 const stageFor=s=>/LIVE|PUBLISHED|公開/i.test(s)?"公開":/DEVELOP|IN DEVELOPMENT/i.test(s)?"開発中":/TEST/i.test(s)?"テスト":/CONCEPT|IDEA/i.test(s)?"構想": "プロジェクト";
 projects.forEach(p=>{const tag=document.createElement("span");tag.className="fn-stage";tag.textContent="STAGE / "+stageFor(p.status);const status=$(".status",p.row);if(status)status.insertAdjacentElement("afterend",tag)});
