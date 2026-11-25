@@ -13,15 +13,25 @@ function makeFrame(){const f=document.createElement("iframe");f.setAttribute("sa
     frame.setAttribute("title", "Isolated JavaScript execution environment");
     frame.style.cssText = "position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";
     const childScript = "onmessage = function(e) {\n  const d = e.data;\n  if (!d || d.type !== \"execute\") return;\n  const id = d.id, out = [];\n  const fmt = function(v) {\n    try { return typeof v === \"string\" ? v : JSON.stringify(v); }\n    catch (_) { return String(v); }\n  };\n  const log = function() { out.push(Array.from(arguments).map(fmt).join(\" \")); };\n  try {\n    const fn = new Function(\"console\", '\"use strict\";\\\\n' + d.code);\n    fn({log:log, info:log, warn:log, error:log, table:log});\n    parent.postMessage({type:\"result\", id:id, lines:out, error:null}, \"*\");\n  } catch (err) {\n    parent.postMessage({type:\"result\", id:id, lines:out, error:String(err && err.stack || err)}, \"*\");\n  }\n};";
-    frame.srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\' \'unsafe-eval\'; connect-src \'none\'; img-src \'none\'; style-src \'none\'; form-action \'none\';"><script>' + childScript + '<\\/script>';
+    frame.srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\' \'unsafe-eval\'; connect-src \'none\'; img-src \'none\'; style-src \'none\'; form-action \'none\';"><script>(()=> {
+  const $ = id => document.getElementById(id), initial = $("source").value;
+  let frame = null, timer = null, runId = 0;
+  function resetFrame() {
+    if (frame) frame.remove();
+    frame = document.createElement("iframe");
+    frame.setAttribute("sandbox", "allow-scripts");
+    frame.setAttribute("title", "Isolated JavaScript execution environment");
+    frame.style.cssText = "position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none";
+    const childScript = "onmessage = function(e) {\n  const d = e.data;\n  if (!d || d.type !== \"execute\") return;\n  const id = d.id, out = [];\n  const fmt = function(v) { try { return typeof v === \"string\" ? v : JSON.stringify(v); } catch (_) { return String(v); } };\n  const log = function() { out.push(Array.from(arguments).map(fmt).join(\" \")); };\n  try {\n    const fn = new Function(\"console\", '\"use strict\";' + String.fromCharCode(10) + d.code);\n    fn({log:log, info:log, warn:log, error:log, table:log});\n    parent.postMessage({type:\"result\", id:id, lines:out, error:null}, \"*\");\n  } catch (err) {\n    parent.postMessage({type:\"result\", id:id, lines:out, error:String(err && err.stack || err)}, \"*\");\n  }\n};";
+    frame.srcdoc = '<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;; connect-src &#39;none&#39;; img-src &#39;none&#39;; style-src &#39;none&#39;; form-action &#39;none&#39;"><script>' + childScript + '<' + '/script>';
     document.body.append(frame);
   }
   window.addEventListener("message", e => {
     if (e.source !== frame?.contentWindow || e.data?.type !== "result" || e.data.id !== runId) return;
     clearTimeout(timer);
-    const d = e.data;
-    let result = d.lines.join("\\n");
-    if (d.error) result += (result ? "\\n\\n" : "") + d.error;
+    const d = e.data, newline = String.fromCharCode(10);
+    let result = d.lines.join(newline);
+    if (d.error) result += (result ? newline + newline : "") + d.error;
     $("output").textContent = result || "実行完了（出力なし）。";
     $("output").style.color = d.error ? "#e9b19b" : "#c9d5bf";
   });
