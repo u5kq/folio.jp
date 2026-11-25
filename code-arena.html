@@ -1,5 +1,44 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10120f"><meta name="description" content="folio. CODE ARENA — アルゴリズムを設計し、コードで課題を解くプログラミングゲーム。"><title>CODE ARENA — folio.</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="styles.css?v=20261125-35"><style>
 body{background:#10120f;color:#edf1e8}.topbar{background:#10120fee;border-color:#30382d}.topbar a{color:#edf1e8}.ca{max-width:1200px;margin:auto;padding:35px 22px 85px}.hero{padding:28px 0 38px}.kicker,.label{font:700 10px ui-monospace,monospace;letter-spacing:.18em;color:#b5d879}.hero h1{font-size:clamp(48px,8vw,82px);letter-spacing:-.08em;line-height:.9;margin:18px 0}.hero h1 em{font-style:normal;color:#b5d879}.hero p{max-width:650px;color:#a2ad9a;font-size:14px;line-height:1.9}.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.pill{border:1px solid #30382d;border-radius:99px;padding:8px 12px;color:#a2ad9a;font:10px ui-monospace,monospace}.pill b{color:#edf1e8}.layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{background:#181c17;border:1px solid #30382d;border-radius:18px;overflow:hidden}.head{padding:16px 18px;border-bottom:1px solid #30382d;display:flex;justify-content:space-between}.body{padding:18px}.levels{display:flex;gap:7px;flex-wrap:wrap}.level,.btn{border:1px solid #3a4534;border-radius:9px;padding:10px 12px;background:#22291f;color:#eaf0e3;cursor:pointer;font-size:11px}.level.active,.btn.primary{background:#b5d879;color:#172012;border-color:#b5d879;font-weight:800}.desc{color:#a2ad9a;font-size:13px;line-height:1.8}.objective{background:#20291c;border:1px solid #536344;border-radius:11px;padding:12px;font-size:12px;line-height:1.7;margin:14px 0}.board{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:5px;max-width:420px;margin:18px auto;padding:9px;background:#0d100c;border-radius:13px}.cell{aspect-ratio:1;display:grid;place-items:center;border-radius:6px;background:#252d22;font-size:clamp(16px,3vw,25px)}.cell.wall{background:#4a5541}.cell.goal{background:#35482b}.editor{width:100%;min-height:270px;resize:vertical;background:#0c0f0c;color:#d9e6d0;border:1px solid #3a4534;border-radius:11px;padding:15px;font:13px/1.85 ui-monospace,monospace;outline:none}.editor:focus{border-color:#b5d879;box-shadow:0 0 0 3px #b5d87920}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.output{min-height:62px;background:#10140f;border:1px solid #30382d;border-radius:10px;padding:13px;margin-top:13px;color:#a2ad9a;font:12px/1.7 ui-monospace,monospace;white-space:pre-wrap}.output.good{color:#c7e99a;border-color:#627d45}.output.bad{color:#e9b19b;border-color:#795244}.help{color:#a2ad9a;font-size:11px;line-height:1.9;margin-top:14px}.help code{color:#b5d879;background:#252d21;padding:2px 5px;border-radius:4px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.metric{border:1px solid #30382d;border-radius:9px;padding:10px}.metric small{display:block;color:#a2ad9a;font:9px ui-monospace,monospace}.metric b{display:block;margin-top:5px;font:700 18px ui-monospace,monospace}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.small{padding:18px}.small p,.small li{font-size:12px;color:#a2ad9a;line-height:1.8}.back{display:inline-block;color:#a2ad9a;text-decoration:none;font-size:12px;margin-bottom:12px}@media(max-width:800px){.layout,.bottom{grid-template-columns:1fr}}@media(max-width:520px){.ca{padding:22px 13px 60px}.body{padding:13px}.editor{min-height:235px;font-size:12px}}
+
+/* CODE ARENA / Soft Minimal — game area only */
+.ca{
+  max-width:none;
+  padding:35px max(22px,calc((100vw - 1200px)/2)) 85px;
+  background:#f5f6f3;
+  color:#20251f;
+}
+.ca .back{color:#68736b}
+.ca .hero p,.ca .desc,.ca .small p,.ca .small li,.ca .help{color:#66716a}
+.ca .kicker,.ca .label{color:#557da5}
+.ca .hero h1 em{color:#557da5}
+.ca .pill{border-color:#e0e5e1;color:#69736d;background:#fff}
+.ca .pill b{color:#26312b}
+.ca .panel{background:#fff;border-color:#e2e7e3;box-shadow:0 10px 30px rgba(28,40,32,.045)}
+.ca .head{border-bottom-color:#e8ece9}
+.ca .level,.ca .btn{border-color:#dce3df;background:#f5f7f5;color:#344139}
+.ca .level.active,.ca .btn.primary{background:#557da5;color:#fff;border-color:#557da5}
+.ca .objective{background:#f1f5f8;border-color:#d8e3ec;color:#344b60}
+.ca .board{background:#e9edf0;border:1px solid #e0e5e8}
+.ca .cell{background:#fff;color:#344139;border:1px solid #e6eaec}
+.ca .cell.wall{background:#cbd3d8;border-color:#c0c9ce}
+.ca .cell.goal{background:#dceaf5;border-color:#9db9d0;color:#315b7c}
+.ca .editor{background:#f8fafb;color:#26343e;border-color:#dce4e9}
+.ca .editor:focus{border-color:#7297b8;box-shadow:0 0 0 3px rgba(85,125,165,.14)}
+.ca .output{background:#f6f8f9;border-color:#e1e7eb;color:#56636c}
+.ca .output.good{color:#376b50;border-color:#b8d6c3}
+.ca .output.bad{color:#9b5548;border-color:#e3c2bb}
+.ca .help code{color:#416d96;background:#edf3f8}
+.ca .metric{border-color:#e3e8e5;background:#fbfcfb}
+.ca .metric small{color:#748078}
+.ca .small{color:#26312b}
+.ca .small p,.ca .small li{color:#66716a}
+.ca > div:first-of-type a{background:#f0f4f7!important;border-color:#d8e2e9!important;color:#416d96!important}
+.ca > div:first-of-type a span{color:#557da5!important}
+@media(max-width:520px){
+  .ca{padding:22px 13px 60px}
+}
+
 </style></head><body><header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active">PLAY</a><a href="brand.html">STUDIO</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
 <main class="ca"><a class="back" href="play.html">← folio. PLAY に戻る</a><div style="margin:0 0 18px"><a href="code-lab.html" style="display:inline-flex;gap:10px;align-items:center;border:1px solid #536344;background:#20291c;color:#dce9ce;text-decoration:none;border-radius:10px;padding:12px 15px;font:700 11px ui-monospace,monospace">OPEN JAVASCRIPT LAB <span style="color:#b5d879">↗</span></a></div><section class="hero"><span class="kicker">FOLIO / ADVANCED PLAYGROUND</span><h1>CODE<br><em>ARENA.</em></h1><p>コードは、答えではなく考え方。命令を設計し、アルゴリズムを最適化し、限られた手数でパズルを解こう。REPEAT構文を使い、短く美しいプログラムを目指せ。</p><div class="stats"><span class="pill">MISSIONS <b>05</b></span><span class="pill">ENGINE <b>LOCAL DSL</b></span><span class="pill">NO ACCOUNT</span></div></section>
 <div class="layout"><section class="panel"><div class="head"><span class="label">01 / MISSION CONTROL</span><span class="label" id="progress">01 / 05</span></div><div class="body"><div class="levels" id="levels"></div><h2 id="mission" style="font-size:24px;margin:20px 0 7px">THE FIRST ROUTE</h2><p class="desc" id="description"></p><div class="objective" id="objective"></div><div class="board" id="board" style="--cols:6"></div><div class="metrics"><div class="metric"><small>INSTRUCTIONS</small><b id="steps">0</b></div><div class="metric"><small>CODE LINES</small><b id="lines">0</b></div><div class="metric"><small>BEST SCORE</small><b id="best">—</b></div></div></div></section>
