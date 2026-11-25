@@ -331,3 +331,22 @@ body.dark .topbar nav a:hover{background:rgba(255,255,255,.08);border-color:rgba
 @media(prefers-reduced-motion:reduce){
  .topbar nav,.topbar nav a,.topbar .menu,.topbar .theme-toggle,.topbar .global-search-trigger{transition:none!important}
 }
+
+
+/* Quiet, consistent back control — inline, never covers content */
+.folio-back-control{
+ display:inline-flex;align-items:center;gap:9px;
+ min-height:38px;margin:0 0 22px;padding:0 14px;
+ border:1px solid var(--line);border-radius:999px;
+ background:var(--surface);color:var(--muted);
+ font:600 10px/1 -apple-system,BlinkMacSystemFont,"Yu Gothic",sans-serif;
+ letter-spacing:.04em;cursor:pointer;
+ transition:color .2s ease,border-color .2s ease,background .2s ease,transform .2s ease;
+}
+.folio-back-control span:first-child{font:18px/1 -apple-system,BlinkMacSystemFont,sans-serif;transition:transform .2s ease}
+.folio-back-control:hover{color:var(--ink);border-color:var(--accent);background:var(--soft);transform:translateX(-2px)}
+.folio-back-control:hover span:first-child{transform:translateX(-3px)}
+.folio-back-control:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:3px}
+.detail-back-floating{display:none!important}
+@media(max-width:700px){.folio-back-control{min-height:40px;margin-bottom:18px;padding-inline:13px}}
+@media(prefers-reduced-motion:reduce){.folio-back-control,.folio-back-control span:first-child{transition:none}}
