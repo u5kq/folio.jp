@@ -170,3 +170,44 @@ body{background-image:radial-gradient(ellipse at 88% 7%,rgba(174,198,139,.105),t
  .fn-command-item{min-height:54px;padding:13px 12px}
  .fn-overlay{padding-left:12px;padding-right:12px}
 }
+
+
+/* Mobile command palette / feature controls */
+.fn-overlay{padding:clamp(10px,3vw,24px);align-items:center;overflow-y:auto}
+.fn-panel{width:min(620px,calc(100vw - 28px));max-height:min(76dvh,760px);min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:clamp(20px,4vw,34px)}
+.fn-panel>.fn-kicker,.fn-panel>h2,.fn-panel>.fn-command-input,.fn-panel>.fn-hint{flex:0 0 auto}
+.fn-panel>.fn-command-results{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;padding:2px 3px 4px}
+.fn-command-item{min-height:58px;align-items:center}
+.fn-command-input{font-size:16px;min-width:0}
+.fn-close{z-index:2;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:var(--bg,#f5f5f2)}
+.fn-saved-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.fn-saved-row a{color:inherit;text-decoration:none;font-weight:650}
+.fn-remove,.fn-remove-all{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 13px;border-radius:999px;cursor:pointer}
+.fn-remove:hover,.fn-remove-all:hover{background:var(--soft)}
+.fn-feature-page{min-width:0}
+.fn-feature-page input,.fn-feature-page button{font:inherit}
+.fn-terminal-form input{min-width:0}
+.fn-terminal-form label{display:flex;align-items:center;gap:8px;min-width:0}
+.fn-terminal-form label input{flex:1;width:auto}
+.fn-status-row{align-items:center}
+.fn-gallery-card{min-width:0;overflow:hidden}
+.fn-gallery-card svg{max-width:100%}
+@media(max-width:700px){
+ .fn-overlay{padding:10px}
+ .fn-panel{width:calc(100vw - 20px);max-height:min(69dvh,650px);padding:22px 18px;border-radius:20px}
+ .fn-panel h2{font-size:clamp(27px,7vw,38px);padding-right:26px}
+ .fn-command-results{gap:7px}
+ .fn-command-item{padding:14px 12px;min-height:56px}
+ .fn-command-item b{font-size:15px}
+ .fn-command-item small{font-size:11px;white-space:nowrap}
+ .fn-hint{font-size:11px}
+ .fn-feature-page{width:calc(100% - 32px);margin:42px auto 72px}
+ .fn-status-row,.fn-saved-row{padding:14px 12px}
+ .fn-terminal-form{padding:12px;gap:8px}
+ .fn-terminal-form label{font-size:11px}
+ .fn-terminal-form button{padding:8px 10px}
+ .fn-share-actions{display:grid;grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+ .fn-overlay,.fn-panel,.fn-command-item,.fn-saved-row{transition:none!important}
+}
