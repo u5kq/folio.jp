@@ -1859,3 +1859,18 @@ body.dark .folio-account-quick span{background:rgba(0,0,0,.08)}
 body.dark .folio-account-quick:hover{background:#fff;border-color:#fff}
 @media(prefers-reduced-motion:reduce){.folio-account-quick,.folio-account-quick span{transition:none!important}}
 @media(max-width:700px){.folio-account-quick{display:inline-flex;margin-left:auto}.topbar{gap:10px}.theme-toggle{margin-left:0!important}.menu{flex:0 0 38px}}
+
+
+/* folio ID header action — force a visible, stable slot across every viewport */
+.topbar .folio-account-quick{
+ display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;
+ justify-content:center!important;visibility:visible!important;opacity:1!important;
+ position:relative;z-index:5;min-height:42px;white-space:nowrap;
+}
+@media(max-width:760px){
+ .topbar .folio-account-quick{min-height:38px;padding:0 12px!important;gap:7px!important;font-size:10px!important}
+ .topbar .folio-account-quick span{width:18px;height:18px}
+ .topbar .wordmark{flex:0 0 auto}
+ .topbar .theme-toggle{flex:0 0 38px!important;width:38px!important;height:38px!important}
+ .topbar .menu{flex:0 0 38px!important;width:38px!important;height:38px!important}
+}
