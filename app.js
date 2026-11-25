@@ -372,6 +372,8 @@ if(document.querySelector("#project-detail")){
  nav.id="folio-main-navigation";
  button.type="button";
  button.setAttribute("aria-controls",nav.id);
+ button.setAttribute("aria-haspopup","true");
+ nav.querySelectorAll("a[href]").forEach(link=>link.setAttribute("data-no-transition",""));
  const setOpen=open=>{
   nav.classList.toggle("open",open);
   button.setAttribute("aria-expanded",String(open));
