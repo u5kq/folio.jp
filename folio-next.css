@@ -866,3 +866,38 @@ header.topbar{
  .topbar nav.open{pointer-events:auto!important}
  .topbar nav.open a{position:relative;z-index:1;pointer-events:auto!important}
 }
+
+
+/* FOLIO GLOBAL SEARCH — clearer hierarchy and touch-friendly controls */
+.fn-command-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fn-command-heading h2{margin:0 0 18px!important}
+.fn-command-search{display:flex!important;align-items:center;gap:10px;padding:5px 9px 5px 14px!important;border:1px solid var(--folio-line)!important;border-radius:16px!important;background:var(--folio-bg)!important}
+.fn-command-search .fn-command-input{flex:1;min-width:0;border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;padding:11px 2px!important}
+.fn-search-clear{width:34px;height:34px;border:0;border-radius:50%;background:var(--folio-soft);color:var(--folio-muted);font-size:20px;cursor:pointer}
+.fn-command-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0!important}
+.fn-command-tabs button{min-height:38px!important;padding:8px 15px!important;font-size:12px!important}
+.fn-search-recent{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:4px 0 14px}
+.fn-search-recent[hidden]{display:none!important}
+.fn-search-recent-label{font-size:11px;color:var(--folio-muted);margin-right:3px}
+.fn-search-chip,.fn-search-reset{border:1px solid var(--folio-line);border-radius:999px;background:var(--folio-bg);color:var(--folio-muted);padding:7px 11px;font-size:11px;cursor:pointer}
+.fn-search-chip:hover,.fn-search-reset:hover{background:var(--folio-soft);color:var(--folio-ink)}
+.fn-command-meta{display:flex;justify-content:space-between;gap:12px;margin:12px 2px 8px;font-size:11px;color:var(--folio-muted)}
+.fn-command-results{display:grid;gap:6px;max-height:min(42vh,390px);overflow:auto;padding:2px}
+.fn-command-item{display:flex!important;align-items:center;gap:12px;min-height:62px;padding:11px 13px!important;text-align:left;text-decoration:none!important}
+.fn-command-copy{display:grid;gap:4px;flex:1;min-width:0}
+.fn-command-copy b{font-size:13px;font-weight:650}
+.fn-command-copy small{font-size:11px;line-height:1.45;white-space:normal}
+.fn-command-type{flex:0 0 auto;font-size:9px;letter-spacing:.08em;color:var(--folio-muted);border:1px solid var(--folio-line);border-radius:999px;padding:4px 7px}
+.fn-command-arrow{color:var(--folio-accent);font-size:16px}
+.fn-command-empty{padding:24px 12px;text-align:center;color:var(--folio-ink)}
+.fn-command-empty p{font-size:12px;color:var(--folio-muted);margin:7px 0 15px}
+.fn-search-reset{padding:9px 15px}
+.fn-command-item:focus-visible,.fn-search-chip:focus-visible,.fn-search-clear:focus-visible{outline:2px solid var(--folio-accent);outline-offset:2px}
+@media(max-width:700px){
+ .fn-command-search{border-radius:13px!important}
+ .fn-command-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .fn-command-tabs button{padding:8px 4px!important;font-size:11px!important}
+ .fn-command-results{max-height:43vh}
+ .fn-command-item{min-height:58px;padding:10px!important}
+ .fn-command-meta span:last-child{font-size:10px}
+}
