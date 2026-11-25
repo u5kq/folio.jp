@@ -1233,7 +1233,6 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
 button,a{touch-action:manipulation}
 .topbar{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
 .topbar nav a{white-space:nowrap}
-.folio-mobile-dock{display:none}
 .detail-hero{min-width:0}
 .detail-document{scroll-margin-top:100px}
 .detail-toc{position:sticky;top:76px;z-index:20;display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:10px 2px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px)}
@@ -1251,7 +1250,7 @@ button,a{touch-action:manipulation}
  .detail-layout{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
- body{padding-bottom:calc(76px + var(--folio-safe-bottom))}
+ body{padding-bottom:0}
  .wrap{width:calc(100% - 36px)}
  .topbar{height:64px;padding-inline:18px;gap:8px}
  .wordmark{font-size:26px}
@@ -1284,20 +1283,11 @@ button,a{touch-action:manipulation}
  .detail-flow{grid-template-columns:1fr;gap:8px}
  .detail-flow li{min-height:58px}
  .footer{padding:24px 0;flex-wrap:wrap;align-items:flex-start}
- .folio-mobile-dock{position:fixed;z-index:1900;left:12px;right:12px;bottom:calc(10px + var(--folio-safe-bottom));display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:7px;border:1px solid color-mix(in srgb,var(--line) 78%,transparent);border-radius:19px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(22px);box-shadow:0 10px 38px rgba(20,25,16,.13)}
- .folio-mobile-dock a,.folio-mobile-dock button{min-width:0;min-height:50px;border:0;border-radius:13px;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
- .folio-mobile-dock span{font-size:20px;line-height:1.2}
- .folio-mobile-dock small{font:9px 'DM Mono',monospace;letter-spacing:.04em}
- .folio-mobile-dock .is-current{background:var(--soft);color:var(--ink)}
- .folio-mobile-dock button:active,.folio-mobile-dock a:active{transform:scale(.96)}
+
  .fn-quick-tools{bottom:calc(82px + var(--folio-safe-bottom))}
  .fn-overlay{z-index:2200}
  .fn-panel{max-height:calc(100dvh - 120px - var(--folio-safe-bottom))}
 }
-@media(min-width:701px){.folio-mobile-dock{display:none!important}}
-@media(prefers-reduced-motion:reduce){.folio-mobile-dock *{transition:none!important}}
-
-
 /* Viewport integrity: prevent iOS rubber-band from revealing the browser's white canvas. */
 html{
  width:100%;
