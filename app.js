@@ -50,12 +50,12 @@ async function copyText(value){
 }
 
 const SOCIALS={
- instagram:{url:"https://www.instagram.com/",label:"Instagram",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ig-brand" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse"><stop stop-color="#FFD776"/><stop offset=".32" stop-color="#F56040"/><stop offset=".68" stop-color="#C13584"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5.4" fill="none" stroke="url(#ig-brand)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="url(#ig-brand)" stroke-width="2.1"/><circle cx="18" cy="6.2" r="1.35" fill="#C13584"/></svg>'},
- x:{url:"https://x.com/",label:"X",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#111111" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20Z"/></svg>'},
- youtube:{url:"https://www.youtube.com/",label:"YouTube",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/><path fill="#fff" d="m9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>'},
- tiktok:{url:"https://www.tiktok.com/",label:"TikTok",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25F4EE" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z" transform="translate(-1 1)"/><path fill="#FE2C55" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z" transform="translate(1 -1)"/><path fill="#111" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z"/></svg>'}
+ instagram:{url:null,label:"Instagram",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ig-brand" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse"><stop stop-color="#FFD776"/><stop offset=".32" stop-color="#F56040"/><stop offset=".68" stop-color="#C13584"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5.4" fill="none" stroke="url(#ig-brand)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="url(#ig-brand)" stroke-width="2.1"/><circle cx="18" cy="6.2" r="1.35" fill="#C13584"/></svg>'},
+ x:{url:null,label:"X",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#111111" d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.5 22H2.3l7.3-8.4L1.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20Z"/></svg>'},
+ youtube:{url:null,label:"YouTube",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/><path fill="#fff" d="m9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>'},
+ tiktok:{url:null,label:"TikTok",svg:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25F4EE" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z" transform="translate(-1 1)"/><path fill="#FE2C55" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z" transform="translate(1 -1)"/><path fill="#111" d="M14.2 1h3.1c.2 2.2 1.5 4.2 3.7 5.1v3.2a9.2 9.2 0 0 1-3.7-1.5v7.1a6.7 6.7 0 1 1-6.7-6.7c.5 0 1 .1 1.5.2v3.5a3.3 3.3 0 1 0 1.9 3V1Z"/></svg>'}
 };
-document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
+document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.innerHTML=s.svg;if(s.url){a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.removeAttribute("aria-disabled");a.removeAttribute("tabindex");a.title=s.label+"公式アカウントを開く";a.setAttribute("aria-label",s.label+"公式アカウントを開く")}else{a.removeAttribute("href");a.removeAttribute("target");a.removeAttribute("rel");a.setAttribute("aria-disabled","true");a.setAttribute("tabindex","-1");a.title=s.label+"公式アカウントは準備中です";a.setAttribute("aria-label",s.label+"公式アカウントは準備中です");a.classList.add("social-account-pending")}});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
 /* Responsive, accessible navigation: desktop links stay visible; mobile uses the menu button. */
 (function(){
@@ -135,7 +135,7 @@ seatlabo:{name:"Seat Labo",category:"WEB / UTILITY",status:"PROJECT",summary:"�
 reception:{name:"Home Reception",category:"WEB / SYSTEM",status:"IN DEVELOPMENT",summary:"来客受付の流れをデジタル化し、受付側と管理側の確認をスムーズにするWebシステム。",overview:"来客者が入力する受付画面と、管理者が内容を確認する画面を分け、受付の流れをシンプルにすることを目指しています。複数の端末で使う場面も想定した設計です。",problem:"受付時に必要な情報や確認手順が分散すると、来客者にも管理者にも負担がかかります。Home Receptionでは、入力から確認までの流れを整理します。",features:[["来客者向け受付フォーム","必要な項目を分かりやすく入力できる画面を設計する","開発対象"],["管理者向け一覧","受付内容を管理側で確認する画面を設計する","開発対象"],["端末別レイアウト","スマートフォン・タブレット・PCでの表示を調整する","設計・改善"],["受付フロー","入力後に次に何をすればよいかを明確にする","設計方針"]],flow:["受付画面を開く","必要事項を入力","受付内容を確認","管理者側で確認"],purpose:"来客者の受付と管理者による確認を、分かりやすい一連の流れにすること。",scope:"受付フォーム・管理者向け一覧・端末ごとの表示などを開発対象としています。実際の運用やデータ保存の安全性は、公開前に別途検証が必要です。",note:"IN DEVELOPMENT。実際の来客者情報を公開デモや紹介ページに載せないよう配慮しています。",privacy:"このサイトの紹介資料には、実際の訪問者名・住所・訪問日時・連絡先などを含めません。"},
 "nine-subjects":{name:"9科テスト対策",category:"EDUCATION / EXAM PREPARATION",status:"STUDY PROJECT",summary:"9教科から好きな科目を選び、クイズ形式で学習できるテスト対策サイト。",overview:"主要5教科に加えて、実技教科も含む9科目を対象に、教科を選んで問題に挑戦できる学習サイトです。必要な教科へすぐ移動できる分かりやすい構成を目指しています。",problem:"複数教科を勉強するとき、教材や確認方法が分かれていると切り替えに手間がかかります。9科テスト対策では、教科選択からクイズまでを一つのサイトにまとめます。",features:[["9教科を選択","国語・数学・英語・理科・社会・音楽・美術・保健体育・技術家庭","企画内容"],["クイズに挑戦","選択した教科の問題に取り組む","サイトの中心機能"],["教科を切り替え","学習したい科目へ移動しやすい構成","設計方針"],["学習の振り返り","解答後に理解を確認する体験を検討する","今後の改善"]],flow:["教科を選ぶ","クイズを開始","問題に回答","解説・答えを確認","別の教科へ進む"],purpose:"9教科の学習内容をクイズ形式で確認し、好きな教科から取り組めるようにすること。",scope:"9科目のクイズ学習サイトです。学習計画や成績管理を行うStudyPlan AIとは役割を分けています。",note:"学習プロジェクト。問題データや各教科の収録状況は、確認できた範囲に合わせて紹介します。",privacy:"学校名・学級・個人の成績などを紹介ページに掲載しません。",subjects:["国語","数学","英語","理科","社会","音楽","美術","保健体育","技術家庭"]}
 };
-<style>.detail-policy-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid var(--line,#ddd);border-radius:999px;color:inherit;text-decoration:none;font-size:12px;transition:background .2s,border-color .2s}.detail-policy-link:hover{background:rgba(120,120,120,.08);border-color:currentColor}@media(max-width:600px){.detail-policy-link{width:100%}}</style>
+const detailPolicyStyle=document.createElement("style");detailPolicyStyle.textContent=".detail-policy-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid var(--line,#ddd);border-radius:999px;color:inherit;text-decoration:none;font-size:12px;transition:background .2s,border-color .2s}.detail-policy-link:hover{background:rgba(120,120,120,.08);border-color:currentColor}@media(max-width:600px){.detail-policy-link{width:100%}}";document.head.append(detailPolicyStyle);
 const detailRoot=document.querySelector("#project-detail");
 if(detailRoot){
  const id=new URLSearchParams(location.search).get("id"),d=projectData[id];
@@ -353,6 +353,32 @@ if(document.querySelector("#project-detail")){
  }));
  input.addEventListener("keydown",event=>{if(event.key==="Escape"){input.value="";apply();input.blur()}});
  apply();
+ const liveList=root.querySelector("[data-news-live-list]");
+ const liveStatus=root.querySelector("[data-news-live-status]");
+ if(liveList&&liveStatus){
+  fetch("https://api.github.com/repos/u5kq/folio.jp/commits?per_page=8",{headers:{Accept:"application/vnd.github+json"},cache:"no-store"})
+   .then(response=>{if(!response.ok)throw new Error("GitHub API "+response.status);return response.json()})
+   .then(commits=>{
+    if(!Array.isArray(commits))throw new Error("Invalid changelog response");
+    commits.forEach(entry=>{
+     const message=String(entry.commit?.message||"").split("\n")[0].trim();
+     const date=entry.commit?.author?.date||entry.commit?.committer?.date;
+     if(!message||!date)return;
+     const article=document.createElement("article");article.className="news-item";article.dataset.newsItem="";article.dataset.category="SITE UPDATE";
+     const time=document.createElement("time");time.className="news-date";time.dateTime=new Date(date).toISOString();time.textContent=new Intl.DateTimeFormat("ja-JP",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(date)).replaceAll("/","." );
+     const copy=document.createElement("div");copy.className="news-item-copy";
+     const type=document.createElement("span");type.className="news-type";type.textContent="GITHUB / COMMIT";
+     const heading=document.createElement("h3");heading.textContent=message;
+     const description=document.createElement("p");description.textContent="GitHubに記録された公式サイトの変更履歴です。";
+     const link=document.createElement("a");link.className="news-inline-link";link.href=entry.html_url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="変更内容を確認 ↗";
+     copy.append(type,heading,description,link);article.append(time,copy);
+     liveList.append(article);items.push(article);
+    });
+    liveStatus.textContent=commits.length?"GitHubの最新コミットを反映しました。":"新しい変更履歴はありません。";
+    apply();
+   })
+   .catch(()=>{liveStatus.textContent="最新の変更履歴を取得できませんでした。既存のお知らせはそのままご覧いただけます。"});
+ }
 })();
 
 /* Signature interactions: pointer-responsive surfaces and cinematic section reveals */
