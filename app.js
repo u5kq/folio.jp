@@ -60,7 +60,7 @@ const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),
 /* Responsive, accessible navigation: desktop links stay visible; mobile uses the menu button. */
 (function(){
  if(!header||!nav||!menu)return;
- const mobile=window.matchMedia("(max-width: 760px)");
+ const mobile=window.matchMedia("(max-width: 980px)");
  nav.id="folio-main-nav";
  menu.type="button";
  menu.setAttribute("aria-controls",nav.id);
