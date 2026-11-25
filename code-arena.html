@@ -68,4 +68,4 @@ $("step").onclick=()=>{if(!Q.length){try{Q=parse($("code").value)}catch(e){stop(
 $("reset").onclick=reset;$("hint").onclick=()=>stop("HINT — "+M[n].hint,false);$("code").oninput=()=>{$("lines").textContent=$("code").value.split(/\r?\n/).filter(x=>x.trim()&&!x.trim().startsWith("#")).length};
 M.forEach((m,i)=>{let b=document.createElement("button");b.className="level";b.textContent=m.id+" / "+(i===4?"FINAL":"MISSION");b.onclick=()=>select(i);$("levels").append(b)});document.addEventListener("visibilitychange",()=>{if(document.hidden)clearInterval(timer)});select(0);
 })();
-</script></body></html>
+</script><script src="folio-next-v2.js?v=20261126-review1"></script></body></html>
