@@ -119,8 +119,7 @@ if(currentFile==="favorites.html"){const main=$("main")||document.body;const sec
 if(currentFile==="history.html"){const main=$("main")||document.body;const section=document.createElement("section");section.className="fn-feature-page";section.innerHTML='<p class="fn-kicker">FOLIO / YOUR SPACE</p><h1>Recently <em>Viewed.</em></h1><p>この端末で最近開いたページとプロジェクトを表示します。</p>';const list=document.createElement("div");list.className="fn-favorite-list";const render=()=>{list.replaceChildren();const pages=safe(histKey,[]),projectIds=safe("folio-recent-v1",[]);const merged=[...pages,...projectIds.map(id=>({url:"project.html?id="+encodeURIComponent(id),name:projectNames[id]||id,date:0}))].filter((item,i,arr)=>arr.findIndex(x=>x.url===item.url)===i).slice(0,30);merged.forEach(item=>{const link=document.createElement("a");link.href=item.url;link.textContent=item.name+" ↗";list.append(link)});if(!list.children.length)list.textContent="閲覧履歴はありません。"};const clear=button("履歴をすべて削除",()=>{save(histKey,[]);save("folio-recent-v1",[]);render();toast("閲覧履歴を削除しました")},"fn-remove-all");render();section.append(clear,list);main.append(section)}
 /* publish date counter: deliberately unset until the studio confirms the actual date */
 if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const item=document.createElement("div");item.className="fn-launch-counter";item.innerHTML="<strong>未設定</strong><span>LAUNCH DATE</span>";item.title="正式なサイト公開日が設定されると日数を表示します";target.append(item)}}
-/* add a compact quick access link group without changing existing navigation */
-const nav=$(".topbar nav");if(nav&&!nav.querySelector('[data-fn-nav="lab"]')){const a=document.createElement("a");a.href="lab.html";a.dataset.fnNav="lab";a.textContent="LAB";nav.append(a)}
+
 })();
 /* Data-backed views: load the canonical project list on standalone feature pages. */
 (function(){
@@ -160,4 +159,25 @@ const nav=$(".topbar nav");if(nav&&!nav.querySelector('[data-fn-nav="lab"]')){co
   location.assign(fallback);
  });
  main.prepend(back);
+})();
+
+/* folio. information architecture: six primary destinations, utilities stay in discovery tools */
+(function(){
+ const nav=document.querySelector(".topbar nav"),header=document.querySelector(".topbar");
+ if(!nav||!header)return;
+ const items=[
+  ["HOME","index.html"],["PROJECTS","projects.html"],["STUDIO","brand.html"],["JOURNAL","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"]
+ ];
+ nav.replaceChildren();
+ const current=location.pathname.split("/").pop()||"index.html";
+ items.forEach(([label,href])=>{
+  const a=document.createElement("a");a.href=href;a.textContent=label;
+  const active=href===current||(current==="project.html"&&href==="projects.html");
+  if(active){a.classList.add("active");a.setAttribute("aria-current","page")}
+  a.addEventListener("click",()=>{nav.classList.remove("open");header.querySelector(".menu")?.setAttribute("aria-expanded","false")});
+  nav.append(a);
+ });
+ nav.setAttribute("aria-label","メインナビゲーション");
+ const menu=header.querySelector(".menu");
+ if(menu){menu.setAttribute("aria-controls","folio-main-nav");nav.id="folio-main-nav"}
 })();
