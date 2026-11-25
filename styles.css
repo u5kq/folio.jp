@@ -1595,3 +1595,57 @@ a,button{ -webkit-tap-highlight-color:transparent; }
  .topbar nav a{font-size:11px;min-height:50px}
  .topbar{gap:8px}
 }
+
+
+/* FOLIO GLOBAL NAVIGATION — consistent across every page */
+.topbar{
+ height:72px;min-height:72px;padding-inline:max(22px,calc((100vw - 1080px)/2));
+ gap:20px;isolation:isolate;
+}
+.topbar .wordmark{flex:0 0 auto;color:var(--ink);font-size:28px;letter-spacing:-.075em}
+.topbar .wordmark span,.footer .wordmark span{color:#8eae4f!important}
+.topbar nav{
+ display:flex;align-items:center;justify-content:center;gap:5px;
+ min-width:0;padding:5px;border:1px solid var(--line);
+ border-radius:999px;background:color-mix(in srgb,var(--surface) 82%,transparent);
+}
+.topbar nav a{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:38px;padding:0 14px;border-radius:999px;
+ color:var(--muted);font:600 10px/1 -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+ letter-spacing:.075em;white-space:nowrap;transition:background .2s,color .2s,transform .2s;
+}
+.topbar nav a:hover{background:var(--soft);color:var(--ink);transform:translateY(-1px)}
+.topbar nav a.active,.topbar nav a[aria-current=page]{background:var(--ink);color:var(--bg);font-weight:750}
+.topbar .menu,.topbar .theme-toggle{
+ flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+ border:1px solid var(--line);background:var(--surface);color:var(--ink);
+ display:grid;place-items:center;transition:background .2s,border-color .2s,transform .2s;
+}
+.topbar .menu:hover,.topbar .theme-toggle:hover{background:var(--soft);transform:translateY(-1px)}
+.topbar .menu{display:none}
+body.dark .topbar{background:rgba(25,27,24,.9);border-color:var(--line)}
+body.dark .topbar nav{background:rgba(34,37,31,.9)}
+body.dark .topbar nav a.active,body.dark .topbar nav a[aria-current=page]{background:#e8eddf;color:#20231e}
+@media(max-width:760px){
+ .topbar{height:66px;min-height:66px;padding-inline:16px;gap:8px}
+ .topbar .wordmark{font-size:26px}
+ .topbar .theme-toggle{margin-left:auto}
+ .topbar .menu{display:grid}
+ .topbar nav{
+  display:none;position:absolute;top:calc(100% + 8px);left:12px;right:12px;
+  padding:10px;border:1px solid var(--line);border-radius:18px;
+  background:var(--surface);box-shadow:0 18px 48px rgba(20,24,18,.13);
+  flex-direction:column;align-items:stretch;gap:4px;
+ }
+ .topbar nav.open{display:flex}
+ .topbar nav a{justify-content:flex-start;min-height:46px;padding-inline:16px;font-size:11px}
+}
+@media(min-width:761px) and (max-width:980px){
+ .topbar{padding-inline:18px;gap:10px}
+ .topbar nav{gap:2px}
+ .topbar nav a{padding-inline:9px;font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ .topbar nav a,.topbar .menu,.topbar .theme-toggle{transition:none!important}
+}
