@@ -3,27 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5f6f1">
+<meta name="theme-color" content="#fff8f3">
 <title>folio ID — 共通アカウント</title>
 <style>
-:root{color-scheme:light;--ink:#20231d;--muted:#777d70;--line:#e5e7df;--paper:#fff;--bg:#f5f6f1;--accent:#758665}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 0,#e9ede3 0,transparent 42%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",sans-serif;display:grid;place-items:center;padding:28px 16px}
-.wrap{width:min(100%,440px)}.brand{display:flex;justify-content:center;align-items:center;gap:9px;font-size:23px;font-weight:750;letter-spacing:-.07em;margin-bottom:28px}.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#20231d;color:white;font-size:18px}.brand span:last-child span{color:#8b9a76}
-.card{background:#ffffffed;border:1px solid var(--line);border-radius:24px;padding:clamp(24px,6vw,36px);box-shadow:0 22px 70px #28301d0c;backdrop-filter:blur(16px)}
-.eyebrow{text-align:center;font-size:10px;letter-spacing:.2em;color:var(--muted);font-weight:750}h1{text-align:center;font-size:29px;letter-spacing:-.055em;margin:12px 0 8px}.lead{text-align:center;color:var(--muted);font-size:13px;line-height:1.8;margin:0 0 25px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;padding:4px;background:#f0f1ec;border-radius:12px;margin-bottom:22px}.tabs button{border:0;background:transparent;border-radius:9px;padding:11px;color:#777;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.tabs button[aria-selected=true]{background:white;color:var(--ink);box-shadow:0 1px 5px #0000000d}
-label{display:block;font-size:12px;font-weight:700;margin:15px 0 7px}input{width:100%;height:48px;border:1px solid #dfe2d8;border-radius:11px;padding:0 13px;background:white;font:inherit;font-size:14px;outline:none}input:focus{border-color:#8b9a76;box-shadow:0 0 0 3px #8b9a761c}.submit{width:100%;height:49px;border:0;border-radius:12px;background:#20231d;color:white;font:inherit;font-weight:750;margin-top:21px;cursor:pointer}.submit:hover{background:#394032}.sub-action{display:block;text-align:center;margin:16px auto 0;border:0;background:none;color:#69745e;font:inherit;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.notice{margin-top:20px;padding:13px 14px;background:#f4f5f0;border-radius:12px;color:#73796b;font-size:11px;line-height:1.8}.status{min-height:20px;text-align:center;font-size:12px;color:#7b6840;margin-top:12px}.foot{text-align:center;color:#92968b;font-size:10px;line-height:1.8;margin-top:20px}.foot a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:380px){.card{padding:22px 18px}h1{font-size:25px}}
+:root{color-scheme:light;--ink:#24222b;--muted:#777482;--line:#eee8e5;--paper:#fff;--bg:#fff8f3;--pink:#ff806f;--purple:#7968d8;--yellow:#ffd66e;--mint:#a8d9c6}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 8% 12%,#ffe1d8 0,transparent 28%),radial-gradient(ellipse at 92% 78%,#e5e0ff 0,transparent 29%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",sans-serif;display:grid;place-items:center;padding:28px 16px;overflow-x:hidden}
+.wrap{width:min(100%,460px);position:relative}.brand{display:flex;justify-content:center;align-items:center;gap:10px;font-size:25px;font-weight:850;letter-spacing:-.075em;margin-bottom:22px;text-decoration:none;color:var(--ink)}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:var(--ink);color:white;font-size:20px;box-shadow:4px 4px 0 var(--yellow)}.brand-word span{color:var(--pink)}
+.card{position:relative;background:#ffffffed;border:1px solid #fff;border-radius:28px;padding:clamp(24px,6vw,38px);box-shadow:0 24px 70px #4a344012,0 4px 14px #4a344008;backdrop-filter:blur(18px);overflow:hidden}.card:before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--pink),#ffbd78,var(--yellow),var(--mint),#9d91ed)}
+.eyebrow{text-align:center;font-size:10px;letter-spacing:.19em;color:var(--purple);font-weight:850;margin-top:5px}h1{text-align:center;font-size:34px;letter-spacing:-.065em;margin:10px 0 7px}.lead{text-align:center;color:var(--muted);font-size:13px;line-height:1.85;margin:0 0 23px}
+.pills{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:0 0 23px}.pill{font-size:10px;font-weight:750;padding:6px 10px;border-radius:999px}.pill:nth-child(1){background:#fff0ec;color:#d96e60}.pill:nth-child(2){background:#f0edff;color:#6f60c4}.pill:nth-child(3){background:#eaf7f1;color:#518b73}
+.tabs{display:grid;grid-template-columns:1fr 1fr;padding:5px;background:#f4f1ef;border-radius:14px;margin-bottom:21px;gap:4px}.tabs button{border:0;background:transparent;border-radius:10px;padding:12px;color:#817d87;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:background .18s,transform .18s}.tabs button:active{transform:scale(.98)}.tabs button[aria-selected=true]{background:white;color:var(--ink);box-shadow:0 2px 9px #332a2512}
+label{display:block;font-size:12px;font-weight:750;margin:15px 0 7px}input{width:100%;height:50px;border:1.5px solid #e9e4e2;border-radius:13px;padding:0 14px;background:#fff;font:inherit;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s}input::placeholder{color:#b3afb6}input:focus{border-color:#a79be9;box-shadow:0 0 0 4px #9d91ed20}
+.submit{width:100%;height:52px;border:0;border-radius:14px;background:var(--ink);color:white;font:inherit;font-weight:800;margin-top:22px;cursor:pointer;box-shadow:0 5px 0 #d9d3d1;transition:transform .16s,box-shadow .16s,background .16s}.submit:hover{background:#494454}.submit:active{transform:translateY(3px);box-shadow:0 2px 0 #d9d3d1}.sub-action{display:block;text-align:center;margin:17px auto 0;border:0;background:none;color:var(--purple);font:inherit;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.status{min-height:20px;text-align:center;font-size:12px;color:#a65d45;margin-top:13px;line-height:1.6}.notice{margin-top:18px;padding:13px 14px;background:#fff8e8;border:1px solid #f6ebca;border-radius:13px;color:#82734f;font-size:11px;line-height:1.8}.notice strong{color:#69552b}.foot{text-align:center;color:#99939a;font-size:10px;line-height:1.9;margin-top:20px}.foot a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:380px){body{padding:20px 13px}.card{padding:24px 19px}h1{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main class="wrap">
-<a class="brand" href="index.html" style="color:inherit;text-decoration:none"><span class="brand-mark">f.</span><span>folio<span>.</span></span></a>
+<a class="brand" href="index.html" aria-label="folio公式サイト"><span class="brand-mark">f.</span><span class="brand-word">folio<span>.</span></span></a>
 <section class="card" aria-labelledby="title">
-<div class="eyebrow">ONE ACCOUNT FOR FOLIO</div>
+<div class="eyebrow">ONE ACCOUNT, MANY POSSIBILITIES</div>
 <h1 id="title">folio ID</h1>
 <p class="lead">ひとつのアカウントで、folioのプロダクトへ。</p>
+<div class="pills" aria-label="folio IDの特徴"><span class="pill">シンプルにひとつ</span><span class="pill">プロダクト共通</span><span class="pill">あなたのfolio</span></div>
 <div class="tabs" role="tablist" aria-label="アカウント操作">
 <button type="button" id="loginTab" role="tab" aria-selected="true">ログイン</button>
 <button type="button" id="signupTab" role="tab" aria-selected="false">新規登録</button>
@@ -37,9 +41,9 @@ label{display:block;font-size:12px;font-weight:700;margin:15px 0 7px}input{width
 </form>
 <button class="sub-action" type="button" id="forgot">パスワードをお忘れの場合</button>
 <div class="status" id="status" role="status" aria-live="polite"></div>
-<div class="notice">このページは共通ログインの画面デザイン確認用です。認証機能はまだ接続されていません。入力内容は送信・保存されません。実際のアカウント登録やログインはできません。</div>
+<div class="notice"><strong>デザインプレビュー</strong><br>共通ログイン画面のUI確認用です。Supabase Authはまだ接続されていません。入力内容は送信・保存されず、実際の登録やログインはできません。</div>
 </section>
-<div class="foot">© 2026 folio. · <a href="policy.html">利用ポリシー</a><br>folio ID / 共通アカウント UI preview</div>
+<div class="foot">© 2026 folio. · <a href="policy.html">利用ポリシー</a><br>folio ID / 共通アカウント</div>
 </main>
 <script>
 const loginTab=document.getElementById('loginTab'),signupTab=document.getElementById('signupTab'),submitButton=document.getElementById('submitButton'),password=document.getElementById('password'),forgot=document.getElementById('forgot'),status=document.getElementById('status');
