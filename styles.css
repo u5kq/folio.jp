@@ -1943,3 +1943,21 @@ body.dark .socials a[data-social="tiktok"]{background:#111!important;border-colo
  .topbar>.menu{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){.socials a{transition:none!important}}
+
+
+/* Definitive navigation layout: one visible menu trigger, deterministic open state. */
+.topbar{position:sticky!important;z-index:10000!important;isolation:isolate!important;overflow:visible!important}
+.topbar>.menu{display:grid!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:10002!important;flex:0 0 42px!important;width:42px!important;height:42px!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important}
+.topbar>nav{display:none!important;position:absolute!important;top:calc(100% + 8px)!important;left:auto!important;right:18px!important;width:min(320px,calc(100vw - 36px))!important;max-height:min(72vh,560px)!important;overflow-y:auto!important;flex-direction:column!important;align-items:stretch!important;gap:4px!important;padding:12px!important;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:0 22px 60px rgba(20,24,16,.18)!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:none!important}
+.topbar>nav.open{display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+.topbar>nav>a{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:48px!important;padding:13px 14px!important;border-bottom:1px solid var(--line)!important;border-radius:8px!important;background:transparent!important;color:var(--ink)!important;pointer-events:auto!important}
+.topbar>nav>a:last-child{border-bottom:0!important}
+@media(max-width:760px){
+ .topbar{height:66px!important;padding-inline:12px!important;gap:7px!important}
+ .topbar>.wordmark{flex:0 0 auto!important;font-size:24px!important}
+ .topbar>.folio-account-quick{min-height:36px!important;padding-inline:10px!important;font-size:9px!important;flex:0 0 auto!important}
+ .topbar>.theme-toggle,.topbar>.global-search-trigger{width:36px!important;height:36px!important;min-width:36px!important;flex:0 0 36px!important}
+ .topbar>.menu{width:40px!important;height:40px!important;min-width:40px!important;flex:0 0 40px!important}
+ .topbar>nav{position:fixed!important;top:calc(66px + env(safe-area-inset-top) + 7px)!important;left:12px!important;right:12px!important;width:auto!important;max-height:calc(100dvh - 92px)!important}
+}
+@media(prefers-reduced-motion:reduce){.topbar>nav,.topbar>nav>a,.topbar>.menu{transition:none!important}}
