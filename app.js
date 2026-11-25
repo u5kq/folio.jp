@@ -65,9 +65,9 @@ if(header){
   account.setAttribute("aria-label","folio ID ログイン");
   account.innerHTML='ログイン <span aria-hidden="true">↗</span>';
  }
- /* Keep the account action outside the collapsible navigation so it is always reachable. */
- const themeButton=header.querySelector(".theme-toggle");
- header.insertBefore(account,themeButton||menu||null);
+ /* Place folio ID directly beside the wordmark, outside the collapsible menu. */
+ const nav=header.querySelector("nav");
+ header.insertBefore(account,nav||header.querySelector(".theme-toggle")||menu||null);
 }
 
 if(header){const theme=document.createElement("button");theme.type="button";theme.className="theme-toggle";theme.setAttribute("aria-label","テーマを切り替える");theme.title="ライト／ダーク切り替え";header.insertBefore(theme,menu||null);try{if(localStorage.getItem("folio-theme")==="dark")document.body.classList.add("dark")}catch{}const sync=()=>{theme.textContent=document.body.classList.contains("dark")?"☀":"◐";theme.setAttribute("aria-pressed",String(document.body.classList.contains("dark")))};sync();theme.addEventListener("click",()=>{document.body.classList.toggle("dark");try{localStorage.setItem("folio-theme",document.body.classList.contains("dark")?"dark":"light")}catch{}sync()})}
