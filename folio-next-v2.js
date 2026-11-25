@@ -13,14 +13,69 @@ const overlay=(name,html)=>{const el=document.createElement("section");el.classN
 const toast=(msg)=>{let t=$(".fn-toast",root);if(!t){t=document.createElement("div");t.className="fn-toast";t.setAttribute("role","status");root.append(t)}t.textContent=msg;t.classList.add("show");clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove("show"),2200)};
 const button=(label,action,cls="")=>{const b=document.createElement("button");b.type="button";b.className=cls;b.textContent=label;b.addEventListener("click",action);return b};
 const toolrow=document.createElement("div");toolrow.className="fn-quick-tools";toolrow.innerHTML='<button type="button" data-fn="search" aria-label="コマンドパレット">⌘ K</button><button type="button" data-fn="share" aria-label="共有センター">↗</button>';root.append(toolrow);
-const command=overlay("コマンドパレット",'<p class="fn-kicker">FOLIO / QUICK ACCESS</p><h2>Command palette.</h2><input class="fn-command-input" type="search" placeholder="ページ・プロジェクトを検索..." aria-label="検索"><div class="fn-command-results"></div><p class="fn-hint">Enterで開く · Escで閉じる</p>');
-const commandInput=$(".fn-command-input",command.el),commandResults=$(".fn-command-results",command.el);
-const pageList=[["HOME","index.html"],["PROJECTS","projects.html"],["BRAND","brand.html"],["NEWS","news.html"],["ABOUT","about.html"],["CONTACT","contact.html"],["folio. LAB","lab.html"],["folio. Terminal","terminal.html"],["SYSTEM STATUS","status.html"],["VERSION HISTORY","versions.html"],["PROJECT GALLERY","gallery.html"],["FAVORITES","favorites.html"],["RECENT HISTORY","history.html"],["SITE MAP","sitemap.html"]];
-function drawCommands(q=""){commandResults.replaceChildren();const list=[...pageList.map(([name,url])=>({name,url,sub:"PAGE"})),...projects.map(p=>({name:p.name,url:p.url,sub:"PROJECT"}))].filter(x=>(x.name+" "+x.sub).toLowerCase().includes(q.toLowerCase()));list.slice(0,12).forEach(item=>{const a=document.createElement("a");a.href=item.url;a.className="fn-command-item";const b=document.createElement("b");b.textContent=item.name;const s=document.createElement("small");s.textContent=item.sub;a.append(b,s);commandResults.append(a)});if(!list.length)commandResults.textContent="該当する項目がありません。"}
-drawCommands();commandInput.addEventListener("input",()=>drawCommands(commandInput.value));commandInput.addEventListener("keydown",e=>{if(e.key==="Enter"){const first=$(".fn-command-item",commandResults);if(first)location.href=first.href}});
-function openCommand(){command.el.hidden=false;commandInput.value="";drawCommands();requestAnimationFrame(()=>commandInput.focus())}
-if(!projects.length){fetch("projects.html").then(r=>{if(!r.ok)throw new Error("projects unavailable");return r.text()}).then(html=>{const doc=new DOMParser().parseFromString(html,"text/html");doc.querySelectorAll(".project-row").forEach(row=>projects.push({id:row.id,name:row.querySelector("h2")?.textContent||row.id,desc:row.querySelector("p")?.textContent||"",status:row.querySelector(".status")?.textContent||"STATUS UNKNOWN",url:"project.html?id="+encodeURIComponent(row.id)}));drawCommands()}).catch(()=>{})}
-document.addEventListener("keydown",e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}});
+/* Command palette — searchable pages, projects, and quick actions */
+const command=overlay("コマンドパレット",'<p class="fn-kicker">FOLIO / COMMAND</p><div class="fn-command-heading"><h2>何をお探しですか？</h2><span class="fn-command-shortcut">ESC</span></div><label class="fn-command-search"><span aria-hidden="true">⌕</span><input class="fn-command-input" type="search" placeholder="ページ・プロジェクト・操作を検索..." aria-label="サイト内を検索"><kbd>↵</kbd></label><div class="fn-command-tabs" role="group" aria-label="検索カテゴリー"><button type="button" data-command-filter="all" aria-pressed="true">すべて</button><button type="button" data-command-filter="page" aria-pressed="false">ページ</button><button type="button" data-command-filter="project" aria-pressed="false">プロジェクト</button><button type="button" data-command-filter="action" aria-pressed="false">操作</button></div><div class="fn-command-meta"><span class="fn-command-count" aria-live="polite"></span><span>↑ ↓ 移動　↵ 決定</span></div><div class="fn-command-results" role="listbox" aria-label="検索結果"></div><p class="fn-hint">⌘ K / Ctrl K でいつでも開く · Esc で閉じる</p>');
+const commandInput=$(".fn-command-input",command.el),commandResults=$(".fn-command-results",command.el),commandCount=$(".fn-command-count",command.el);
+const commandTabs=$$(".fn-command-tabs button",command.el);
+const pageList=[
+ ["HOME","ホーム","index.html","home"],["PROJECTS","プロジェクト一覧","projects.html","grid"],["BRAND","ブランドについて","brand.html","brand"],["NEWS","ニュース・更新情報","news.html","news"],["ABOUT","folio.について","about.html","about"],["CONTACT","お問い合わせ","contact.html","contact"],["PHILOSOPHY","理念","philosophy.html","理念"],["BUSINESS","事業紹介","business.html","事業"],["MESSAGE","スタジオメッセージ","message.html","メッセージ"],["JOURNAL","ジャーナル","journal.html","journal"],["RELEASES","リリース情報","releases.html","リリース"],["TECHNOLOGY","テクノロジー","technology.html","技術"],["TIMELINE","沿革","timeline.html","年表"],["PARTNERSHIP","パートナーシップ","partnership.html","協業"],["FAQ","よくある質問","faq.html","質問"],["PRIVACY","プライバシー","privacy.html","個人情報"],["SITE MAP","サイトマップ","sitemap.html","一覧"],["folio. LAB","デザイン・実験室","lab.html","lab"],["folio. Terminal","ターミナル","terminal.html","terminal"],["SYSTEM STATUS","開発ステータス","status.html","status"],["VERSION HISTORY","更新履歴","versions.html","version"],["PROJECT GALLERY","ビジュアルギャラリー","gallery.html","gallery"],["FAVORITES","お気に入り","favorites.html","保存"],["RECENT HISTORY","閲覧履歴","history.html","履歴"]
+].map(([name,desc,url,keywords])=>({name,desc,url,type:"page",keywords}));
+const quickActions=[
+ {name:"ページの先頭へ戻る",desc:"現在のページを一番上までスクロール",type:"action",keywords:"top scroll",run:()=>{window.scrollTo({top:0,behavior:"smooth"});command.close()}},
+ {name:"このページを共有",desc:"共有メニューを開く",type:"action",keywords:"share url copy",run:()=>{command.close();share.el.hidden=false}},
+ {name:"プロジェクトをランダムに見る",desc:"プロジェクトをひとつ選んで開く",type:"action",keywords:"random discover おすすめ",run:()=>{const list=projects.length?projects:[];if(list.length)location.href=list[Math.floor(Math.random()*list.length)].url;else location.href="projects.html"}},
+ {name:"お気に入りを開く",desc:"保存したプロジェクトを見る",type:"action",keywords:"favorite saved",run:()=>location.href="favorites.html"},
+ {name:"閲覧履歴を開く",desc:"最近見たページを確認",type:"action",keywords:"history recent",run:()=>location.href="history.html"}
+];
+let commandFilter="all",commandActive=0,commandItems=[];
+const normalizeCommand=s=>String(s||"").toLocaleLowerCase("ja").normalize("NFKC").replace(/[・.\s_-]/g,"");
+function commandDataset(){return [...pageList,...projects.map(p=>({name:p.name,desc:p.desc||"プロジェクト詳細を開く",url:p.url,type:"project",keywords:p.status||""})),...quickActions]}
+function drawCommands(q=""){
+ const query=normalizeCommand(q);
+ commandItems=commandDataset().filter(item=>(commandFilter==="all"||item.type===commandFilter)&&(!query||normalizeCommand([item.name,item.desc,item.keywords,item.type].join(" ")).includes(query))).slice(0,30);
+ commandActive=0;commandResults.replaceChildren();
+ commandCount.textContent=commandItems.length+" 件";
+ commandItems.forEach((item,index)=>{
+  const el=document.createElement(item.run?"button":"a");
+  if(item.run)el.type="button";else el.href=item.url;
+  el.className="fn-command-item"+(index===0?" is-active":"");
+  el.setAttribute("role","option");el.setAttribute("aria-selected",String(index===0));
+  const copy=document.createElement("span");copy.className="fn-command-copy";
+  const title=document.createElement("b");title.textContent=item.name;
+  const desc=document.createElement("small");desc.textContent=item.desc||"";
+  copy.append(title,desc);
+  const tag=document.createElement("span");tag.className="fn-command-type";tag.textContent=item.type==="page"?"PAGE":item.type==="project"?"PROJECT":"ACTION";
+  const arrow=document.createElement("span");arrow.className="fn-command-arrow";arrow.textContent=item.run?"↗":"→";
+  el.append(copy,tag,arrow);
+  if(item.run)el.addEventListener("click",item.run);
+  el.addEventListener("mouseenter",()=>setCommandActive(index));
+  commandResults.append(el);
+ });
+ if(!commandItems.length){const empty=document.createElement("p");empty.className="fn-command-empty";empty.textContent="一致する項目がありません。別のキーワードで検索してください。";commandResults.append(empty)}
+}
+function setCommandActive(index){
+ commandActive=Math.max(0,Math.min(index,commandItems.length-1));
+ $$(".fn-command-item",commandResults).forEach((el,i)=>{el.classList.toggle("is-active",i===commandActive);el.setAttribute("aria-selected",String(i===commandActive))});
+ const active=$(".fn-command-item.is-active",commandResults);active?.scrollIntoView({block:"nearest"});
+}
+commandTabs.forEach(tab=>tab.addEventListener("click",()=>{
+ commandFilter=tab.dataset.commandFilter;
+ commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t===tab)));
+ drawCommands(commandInput.value);
+}));
+commandInput.addEventListener("input",()=>drawCommands(commandInput.value));
+commandInput.addEventListener("keydown",e=>{
+ if(e.key==="ArrowDown"){e.preventDefault();setCommandActive(commandActive+1)}
+ else if(e.key==="ArrowUp"){e.preventDefault();setCommandActive(commandActive-1)}
+ else if(e.key==="Enter"){e.preventDefault();const item=commandItems[commandActive];if(!item)return;if(item.run)item.run();else location.href=item.url}
+});
+function openCommand(){
+ command.el.hidden=false;commandFilter="all";commandTabs.forEach(t=>t.setAttribute("aria-pressed",String(t.dataset.commandFilter==="all")));
+ commandInput.value="";drawCommands();requestAnimationFrame(()=>commandInput.focus());
+}
+document.addEventListener("keydown",e=>{
+ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}
+});
 $$("[data-fn=search]",root).forEach(b=>b.addEventListener("click",openCommand));
 /* share center */
 const share=overlay("共有センター",'<p class="fn-kicker">FOLIO / SHARE</p><h2>Share this page.</h2><p class="fn-muted">このページを共有できます。</p><div class="fn-share-actions"></div><div class="fn-qr-wrap" hidden></div>');
