@@ -105,15 +105,56 @@
 .pixel-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px;width:min(100%,390px);aspect-ratio:1;margin:0 auto;background:#e9e9e4;padding:5px;border-radius:10px;touch-action:pan-y}
 .pixel-cell{min-width:0;min-height:0;padding:0;border:0;border-radius:2px;background:#fff;cursor:crosshair}
 @media(max-width:600px){.robot-board{gap:4px;padding:8px}.robot-cell{border-radius:6px}.robot-command-area{padding:12px}.catch-field{height:250px}.robot-actions{display:grid;grid-template-columns:1fr 1fr}.robot-actions .play-action:nth-child(2){grid-column:span 2}}
+</style>
+<style>
+/* PLAY / GAME LIBRARY — category-led discovery */
+.play-library{margin:4px 0 34px}
+.play-library-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}
+.play-library-head h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.06em;margin:8px 0 5px}
+.play-library-head h2 span{color:#8eae4f}
+.play-library-head p{margin:0;color:var(--muted);font-size:13px}
+.play-library-count{font:700 10px ui-monospace,monospace;letter-spacing:.12em;color:var(--muted);padding-bottom:6px}
+.play-categories{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.play-categories button{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:10px 15px;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:.18s}
+.play-categories button span{font:10px ui-monospace,monospace;opacity:.65}
+.play-categories button.is-active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.play-game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.play-game-card{display:flex;flex-direction:column;align-items:stretch;text-align:left;min-width:0;padding:12px;border:1px solid var(--line);border-radius:21px;background:var(--surface);color:var(--ink);cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+.play-game-card:hover{transform:translateY(-4px);border-color:#9cad83;box-shadow:0 14px 34px #1b241410}
+.play-game-card.is-selected{border-color:#8eae4f;box-shadow:0 0 0 2px #8eae4f30}
+.play-card-art{height:145px;border-radius:14px;display:grid;place-items:center;position:relative;overflow:hidden;font-size:58px;margin-bottom:16px}
+.play-card-art>i{position:absolute;font-style:normal;font-size:20px;right:18px;top:14px;opacity:.6}
+.robot-art{background:radial-gradient(circle at 50% 45%,#f8f8e9,#dce7d2)}
+.star-art{background:radial-gradient(circle at 50% 45%,#fff8df,#f6dfaa)}
+.pixel-art{background:#e8e7f1;display:grid;grid-template-columns:repeat(3,20px);grid-auto-rows:20px;gap:4px;align-content:center;justify-content:center}
+.pixel-art i{display:block;background:#788fc5;border-radius:3px}.pixel-art i:nth-child(2n){background:#e9a85c}.pixel-art i:nth-child(3n){background:#7fa58b}.pixel-art i:nth-child(5n){opacity:0}
+.play-card-meta{font:700 9px ui-monospace,monospace;letter-spacing:.13em;color:var(--muted);margin:0 4px 7px}
+.play-game-card strong{font-size:16px;letter-spacing:-.035em;margin:0 4px 7px}
+.play-card-copy{font-size:12px;line-height:1.65;color:var(--muted);min-height:40px;margin:0 4px 14px}
+.play-card-cta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:12px 4px 2px;font:700 9px ui-monospace,monospace;letter-spacing:.12em}
+.play-card-cta b{font-size:16px;color:#8eae4f}
+.play-game-card[hidden]{display:none}
+@media(max-width:760px){.play-game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.play-card-art{height:125px}.play-game-card{padding:9px;border-radius:17px}.play-game-card strong{font-size:14px}.play-card-copy{font-size:11px}}
+@media(max-width:480px){.play-game-grid{grid-template-columns:1fr}.play-game-card{display:grid;grid-template-columns:100px minmax(0,1fr);column-gap:12px;align-items:center;padding:10px}.play-card-art{grid-row:1/5;height:104px;margin:0}.play-card-meta,.play-game-card strong,.play-card-copy,.play-card-cta{margin-left:0;margin-right:0}.play-card-meta{align-self:end}.play-card-copy{min-height:0;margin-bottom:5px}.play-card-cta{padding-top:7px}}
+.play-game-card:focus-visible,.play-categories button:focus-visible{outline:2px solid #8eae4f;outline-offset:3px}
 </style></head><body>
 <header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav aria-label="メインナビゲーション"><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active" aria-current="page">PLAY</a><a href="brand.html">STUDIO</a><a href="news.html">JOURNAL</a><a href="about.html">ABOUT</a><a href="contact.html">CONTACT</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
 <main class="play-page"><section class="play-hero"><div><span class="play-kicker">FOLIO / PLAYGROUND</span><h1>Learn by<br><em>playing.</em></h1><p>クイズやミニゲームを通して、folio.のプロジェクトや考え方を発見しよう。気軽に遊べる、folio.の小さなプレイグラウンドです。</p></div><div class="play-art" aria-hidden="true"><div class="play-orbit"><b>f.</b></div></div></section>
-<div class="play-tabs" role="group" aria-label="ゲームを選択">
-<button type="button" data-game="coder" aria-pressed="true">🤖 ROBOT CODER</button>
-<button type="button" data-game="catch" aria-pressed="false">⭐ STAR CATCHER</button>
-<button type="button" data-game="pixel" aria-pressed="false">🎨 PIXEL STUDIO</button>
+<section class="play-library" aria-label="ゲームライブラリ">
+<div class="play-library-head"><div><span class="play-kicker">CHOOSE YOUR PLAY</span><h2>遊びを選ぼう<span>.</span></h2><p>気になるゲームをタップしてスタート！</p></div><span class="play-library-count">03 GAMES</span></div>
+<div class="play-categories" role="group" aria-label="ゲームカテゴリー">
+<button type="button" class="is-active" data-category="all" aria-pressed="true">すべて <span>03</span></button>
+<button type="button" data-category="coding" aria-pressed="false">プログラミング <span>01</span></button>
+<button type="button" data-category="action" aria-pressed="false">アクション <span>01</span></button>
+<button type="button" data-category="creative" aria-pressed="false">クリエイティブ <span>01</span></button>
 </div>
-<section class="play-board" aria-live="polite"><div class="play-eyebrow" id="game-label">01 / KNOW FOLIO</div><h2 id="game-title">folio. QUIZ</h2><p id="game-description">folio.についての5問クイズ。</p><div id="game-content"></div><div class="play-toolbar"><div class="play-score"><span id="game-score">SCORE 0</span><span id="game-best">BEST 0</span></div><button class="play-action secondary" type="button" id="game-reset">最初から</button></div></section><p class="play-footnote">スコアとベスト記録は、この端末のブラウザ内に保存されます。アカウント登録は不要です。</p></main>
+<div class="play-game-grid">
+<button type="button" class="play-game-card is-selected" data-game="coder" data-category="coding" aria-pressed="true"><span class="play-card-art robot-art">🤖<i>↗</i></span><span class="play-card-meta">CODING / PUZZLE</span><strong>ROBOT CODER</strong><span class="play-card-copy">命令を組み立ててロボットをゴールへ導こう。</span><span class="play-card-cta">PLAY NOW <b>↗</b></span></button>
+<button type="button" class="play-game-card" data-game="catch" data-category="action" aria-pressed="false"><span class="play-card-art star-art">⭐<i>✦</i></span><span class="play-card-meta">ACTION / ARCADE</span><strong>STAR CATCHER</strong><span class="play-card-copy">落ちてくる星をキャッチ！何個集められる？</span><span class="play-card-cta">PLAY NOW <b>↗</b></span></button>
+<button type="button" class="play-game-card" data-game="pixel" data-category="creative" aria-pressed="false"><span class="play-card-art pixel-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="play-card-meta">CREATIVE / ART</span><strong>PIXEL STUDIO</strong><span class="play-card-copy">カラフルなドットでオリジナル作品をつくろう。</span><span class="play-card-cta">PLAY NOW <b>↗</b></span></button>
+</div>
+</section>
+<section class="play-board" id="active-game" aria-live="polite"><div class="play-eyebrow" id="game-label">01 / KNOW FOLIO</div><h2 id="game-title">folio. QUIZ</h2><p id="game-description">folio.についての5問クイズ。</p><div id="game-content"></div><div class="play-toolbar"><div class="play-score"><span id="game-score">SCORE 0</span><span id="game-best">BEST 0</span></div><button class="play-action secondary" type="button" id="game-reset">最初から</button></div></section><p class="play-footnote">スコアとベスト記録は、この端末のブラウザ内に保存されます。アカウント登録は不要です。</p></main>
 <footer class="footer wrap"><a class="wordmark" href="index.html">folio<span>.</span></a><span>© 2026 folio. All rights reserved.</span><div class="socials"><a data-social="instagram" href="#" aria-label="Instagram">ig</a><a data-social="x" href="#" aria-label="X">𝕏</a><a data-social="youtube" href="#" aria-label="YouTube">yt</a><a data-social="tiktok" href="#" aria-label="TikTok">tk</a></div></footer>
 <script src="app.js?v=20261125-32"></script><script src="folio-next-v2.js?v=20261125-search2"></script><script>
 (()=>{"use strict";
@@ -144,6 +185,9 @@ const cmd=program[i++];if(cmd==="L")d=(d+3)%4;else if(cmd==="R")d=(d+1)%4;else{c
 const cells=content.querySelectorAll(".robot-cell");cells.forEach((c,index)=>{const cx=index%m.w,cy=Math.floor(index/m.w);if(c.classList.contains("wall"))return;c.textContent=(cx===x&&cy===y)?["🤖","➡️","⬇️","⬅️"][d]:(cx===m.star[0]&&cy===m.star[1]&&!got)?"⭐":(cx===m.goal[0]&&cy===m.goal[1])?"🏁":""});runTimer=setTimeout(tick,380)};tick()}
 function drawCatch(){clear();caught=0;catchTime=20;catchPos=1;heading("ARCADE MODE","星をキャッチしよう！");const info=document.createElement("p");info.className="play-game-note";info.textContent="20秒間で星を集めよう。左右ボタンでカゴを動かしてね！";const hud=document.createElement("div");hud.className="catch-hud";const time=document.createElement("b");time.textContent="TIME 20";const count=document.createElement("b");count.textContent="⭐ 0";hud.append(time,count);const field=document.createElement("div");field.className="catch-field";const falling=document.createElement("div");falling.className="catch-star";falling.textContent="⭐";const basket=document.createElement("div");basket.className="catch-basket";basket.textContent="🧺";field.append(falling,basket);const controls=document.createElement("div");controls.className="catch-controls";const left=btn("←",()=>move(-1),"play-command"),right=btn("→",()=>move(1),"play-command");controls.append(left,right);const go=btn("ゲームスタート",()=>{go.disabled=true;let pos=Math.floor(Math.random()*5),fall=0;function place(){falling.style.left=(pos*20+10)+"%";falling.style.top=fall+"%"}place();catchTimer=setInterval(()=>{catchTime--;time.textContent="TIME "+catchTime;fall+=8;if(fall>=88){if(Math.abs(pos-catchPos)<=0){caught++;count.textContent="⭐ "+caught}pos=Math.floor(Math.random()*5);fall=0}place();if(catchTime<=0){clear();score=caught*10;save();const p=document.createElement("p");p.className="play-feedback";p.textContent="タイムアップ！ "+caught+"個キャッチ！";content.append(p,btn("もう一回遊ぶ",()=>start("catch"),"play-action"))}},300)},"play-action");function move(d){catchPos=Math.max(0,Math.min(4,catchPos+d));basket.style.left=(catchPos*20+10)+"%"}basket.style.left="30%";content.append(info,hud,field,controls,go)}
 function drawPixel(){clear();heading("CREATIVE MODE","自分だけのドット絵をつくろう！");const palette=document.createElement("div");palette.className="pixel-palette";["#283c2d","#f1b84b","#e8755b","#6b91c9","#a58ac7","#75ad91","#f5f0df","#ffffff"].forEach(color=>{const b=btn("",()=>{pixelColor=color;palette.querySelectorAll("button").forEach(x=>x.classList.toggle("selected",x===b))},"pixel-swatch");b.style.background=color;if(color==="#ffffff")b.style.border="1px solid #bbb";palette.append(b)});const grid=document.createElement("div");grid.className="pixel-grid";pixelCells=[];for(let i=0;i<100;i++){const cell=btn("",()=>{cell.style.background=pixelColor;cell.dataset.filled="1"},"pixel-cell");grid.append(cell);pixelCells.push(cell)}const tools=document.createElement("div");tools.className="pixel-tools";tools.append(btn("消しゴム",()=>{pixelColor="transparent"},"play-action secondary"),btn("ぜんぶ消す",()=>pixelCells.forEach(c=>{c.style.background="transparent";c.dataset.filled="0"}),"play-action secondary"),btn("作品を保存",()=>{const canvas=document.createElement("canvas");canvas.width=canvas.height=300;const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,300,300);pixelCells.forEach((c,i)=>{if(c.dataset.filled==="1"){ctx.fillStyle=c.style.background;ctx.fillRect((i%10)*30,Math.floor(i/10)*30,30,30)}});const a=document.createElement("a");a.download="folio-pixel-art.png";a.href=canvas.toDataURL("image/png");a.click()},"play-action"));content.append(palette,grid,tools)}
-$("game-reset").addEventListener("click",()=>start(game));document.querySelectorAll("[data-game]").forEach(b=>b.addEventListener("click",()=>start(b.dataset.game)));document.addEventListener("visibilitychange",()=>{if(document.hidden)clear()});start("coder");
+$("game-reset").addEventListener("click",()=>start(game));document.querySelectorAll("[data-game]").forEach(b=>b.addEventListener("click",()=>start(b.dataset.game)));
+document.querySelectorAll("[data-category]").forEach(b=>b.addEventListener("click",()=>{const cat=b.dataset.category;document.querySelectorAll("[data-category]").forEach(x=>{x.classList.toggle("is-active",x===b);x.setAttribute("aria-pressed",String(x===b))});document.querySelectorAll(".play-game-card").forEach(card=>{card.hidden=cat!=="all"&&card.dataset.category!==cat})}));
+document.querySelectorAll(".play-game-card").forEach(card=>card.addEventListener("click",()=>{document.querySelectorAll(".play-game-card").forEach(x=>x.classList.toggle("is-selected",x===card));$("active-game").scrollIntoView({behavior:"smooth",block:"start"})}));
+document.addEventListener("visibilitychange",()=>{if(document.hidden)clear()});start("coder");
 })();
 </script></body></html>
