@@ -826,3 +826,21 @@ body.dark .fn-command-item:hover,body.dark .fn-command-item.is-active{background
 @media(prefers-reduced-motion:reduce){
  .fn-gallery-card,.fn-lab-grid article,.fn-empty-state,.fn-status-row,.fn-favorite-list a{transition:none!important}
 }
+
+
+/* Interaction polish — one search entry and clear utility controls */
+.global-search-trigger{
+ width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;
+ border:1px solid var(--folio-line,var(--line));border-radius:50%;
+ background:var(--folio-surface,var(--surface));color:var(--folio-ink,var(--ink));
+ font-size:22px;line-height:1;cursor:pointer;
+ transition:background .2s,border-color .2s,transform .2s;
+}
+.global-search-trigger:hover{background:var(--folio-soft,var(--soft));border-color:#b8c99b;transform:translateY(-1px)}
+.global-search-trigger:focus-visible{outline:2px solid var(--folio-accent,#8eae4f);outline-offset:3px}
+.fn-quick-tools{right:22px;bottom:22px}
+.fn-quick-tools button{width:46px;min-width:46px;height:46px;padding:0;border-radius:50%;font-size:17px}
+@media(max-width:760px){
+ .global-search-trigger{width:34px;height:34px;flex-basis:34px;font-size:20px}
+ .fn-quick-tools{right:14px;bottom:14px}
+}
