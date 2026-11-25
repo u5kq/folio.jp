@@ -425,3 +425,44 @@ if(document.querySelector("#project-detail")){
  choose();
  button.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();choose()});
 })();
+
+
+/* FOLIO GLOBAL NAVIGATION — one consistent navigation contract */
+(function(){
+ const header=document.querySelector(".topbar");
+ if(!header)return;
+ const nav=header.querySelector("nav");
+ const menu=header.querySelector(".menu");
+ if(!nav)return;
+ nav.setAttribute("aria-label","Main navigation");
+ const aliases={
+  "index.html":"HOME","":"HOME","projects.html":"PROJECTS",
+  "brand.html":"BRAND","philosophy.html":"BRAND","business.html":"BRAND","message.html":"BRAND","timeline.html":"BRAND","partnership.html":"BRAND",
+  "news.html":"NEWS","journal.html":"NEWS","releases.html":"NEWS",
+  "about.html":"ABOUT","technology.html":"ABOUT","privacy.html":"ABOUT","faq.html":"ABOUT","sitemap.html":"ABOUT",
+  "contact.html":"CONTACT"
+ };
+ const path=location.pathname.split("/").pop()||"index.html";
+ const active=aliases[path]|| (path==="project.html"?"PROJECTS":(["lab.html","terminal.html","status.html","gallery.html","versions.html","favorites.html","history.html"].includes(path)?"PROJECTS":""));
+ nav.querySelectorAll("a[href]").forEach(link=>{
+  const target=(link.getAttribute("href")||"").split("?")[0].split("#")[0].split("/").pop()||"index.html";
+  const key=aliases[target]||"";
+  if(key&&key===active){link.classList.add("active");link.setAttribute("aria-current","page")}
+  else{link.classList.remove("active");link.removeAttribute("aria-current")}
+ });
+ if(menu){
+  menu.type="button";
+  menu.setAttribute("aria-controls","folio-main-navigation");
+  nav.id="folio-main-navigation";
+  const close=()=>{nav.classList.remove("open");menu.setAttribute("aria-expanded","false");menu.textContent="☰"};
+  menu.addEventListener("click",()=>{
+   const open=!nav.classList.contains("open");
+   nav.classList.toggle("open",open);
+   menu.setAttribute("aria-expanded",String(open));
+   menu.textContent=open?"×":"☰";
+  });
+  nav.addEventListener("click",e=>{if(e.target.closest("a"))close()});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+  document.addEventListener("click",e=>{if(!header.contains(e.target))close()});
+ }
+})();
