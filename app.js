@@ -353,32 +353,6 @@ if(document.querySelector("#project-detail")){
  }));
  input.addEventListener("keydown",event=>{if(event.key==="Escape"){input.value="";apply();input.blur()}});
  apply();
- const liveList=root.querySelector("[data-news-live-list]");
- const liveStatus=root.querySelector("[data-news-live-status]");
- if(liveList&&liveStatus){
-  fetch("https://api.github.com/repos/u5kq/folio.jp/commits?per_page=8",{headers:{Accept:"application/vnd.github+json"},cache:"no-store"})
-   .then(response=>{if(!response.ok)throw new Error("GitHub API "+response.status);return response.json()})
-   .then(commits=>{
-    if(!Array.isArray(commits))throw new Error("Invalid changelog response");
-    commits.forEach(entry=>{
-     const message=String(entry.commit?.message||"").split("\n")[0].trim();
-     const date=entry.commit?.author?.date||entry.commit?.committer?.date;
-     if(!message||!date)return;
-     const article=document.createElement("article");article.className="news-item";article.dataset.newsItem="";article.dataset.category="SITE UPDATE";
-     const time=document.createElement("time");time.className="news-date";time.dateTime=new Date(date).toISOString();time.textContent=new Intl.DateTimeFormat("ja-JP",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(date)).replaceAll("/","." );
-     const copy=document.createElement("div");copy.className="news-item-copy";
-     const type=document.createElement("span");type.className="news-type";type.textContent="GITHUB / COMMIT";
-     const heading=document.createElement("h3");heading.textContent=message;
-     const description=document.createElement("p");description.textContent="GitHubに記録された公式サイトの変更履歴です。";
-     const link=document.createElement("a");link.className="news-inline-link";link.href=entry.html_url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="変更内容を確認 ↗";
-     copy.append(type,heading,description,link);article.append(time,copy);
-     liveList.append(article);items.push(article);
-    });
-    liveStatus.textContent=commits.length?"GitHubの最新コミットを反映しました。":"新しい変更履歴はありません。";
-    apply();
-   })
-   .catch(()=>{liveStatus.textContent="最新の変更履歴を取得できませんでした。既存のお知らせはそのままご覧いただけます。"});
- }
 })();
 
 /* Signature interactions: pointer-responsive surfaces and cinematic section reveals */
