@@ -57,47 +57,41 @@ const SOCIALS={
 };
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.innerHTML=s.svg;a.title=s.label+"公式サイト";a.setAttribute("aria-label",s.label+"公式サイトを開く")});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
-/* Single, forceful navigation controller. Inline important state wins over legacy CSS layers. */
+/* Responsive, accessible navigation: desktop links stay visible; mobile uses the menu button. */
 (function(){
  if(!header||!nav||!menu)return;
+ const mobile=window.matchMedia("(max-width: 760px)");
  nav.id="folio-main-nav";
  menu.type="button";
  menu.setAttribute("aria-controls",nav.id);
  menu.setAttribute("aria-haspopup","true");
  menu.setAttribute("aria-expanded","false");
- menu.style.setProperty("display","grid","important");
- menu.style.setProperty("visibility","visible","important");
- menu.style.setProperty("pointer-events","auto","important");
  const setOpen=open=>{
-  nav.classList.toggle("open",open);
-  menu.setAttribute("aria-expanded",String(open));
-  menu.textContent=open?"×":"☰";
-  nav.style.setProperty("display",open?"flex":"none","important");
-  nav.style.setProperty("visibility",open?"visible":"hidden","important");
-  nav.style.setProperty("opacity",open?"1":"0","important");
-  nav.style.setProperty("pointer-events",open?"auto":"none","important");
+  const isMobile=mobile.matches,visible=isMobile&&open;
+  nav.classList.toggle("open",visible);
+  menu.setAttribute("aria-expanded",String(visible));
+  menu.textContent=visible?"×":"☰";
+  menu.style.setProperty("display",isMobile?"grid":"none","important");
+  menu.style.setProperty("visibility",isMobile?"visible":"hidden","important");
+  menu.style.setProperty("pointer-events",isMobile?"auto":"none","important");
+  nav.style.setProperty("display",isMobile?(visible?"grid":"none"):"flex","important");
+  nav.style.setProperty("visibility",isMobile?(visible?"visible":"hidden"):"visible","important");
+  nav.style.setProperty("opacity",isMobile?(visible?"1":"0"):"1","important");
+  nav.style.setProperty("pointer-events",isMobile?(visible?"auto":"none"):"auto","important");
   nav.style.setProperty("z-index","10001","important");
-  nav.setAttribute("aria-hidden",String(!open));
+  nav.setAttribute("aria-hidden",String(isMobile&&!visible));
  };
  setOpen(false);
  menu.addEventListener("click",event=>{
-  event.preventDefault();
-  event.stopPropagation();
-  event.stopImmediatePropagation();
+  event.preventDefault();event.stopPropagation();
   setOpen(menu.getAttribute("aria-expanded")!=="true");
- },true);
- nav.addEventListener("click",event=>{
-  if(event.target.closest("a[href]"))setOpen(false);
  });
- document.addEventListener("pointerdown",event=>{
-  if(!header.contains(event.target))setOpen(false);
- },true);
- document.addEventListener("keydown",event=>{
-  if(event.key==="Escape"&&menu.getAttribute("aria-expanded")==="true"){
-   setOpen(false);menu.focus();
-  }
- });
- window.addEventListener("resize",()=>setOpen(false));
+ nav.addEventListener("click",event=>{if(event.target.closest("a[href]"))setOpen(false)});
+ document.addEventListener("pointerdown",event=>{if(mobile.matches&&!header.contains(event.target))setOpen(false)},true);
+ document.addEventListener("keydown",event=>{if(event.key==="Escape"&&menu.getAttribute("aria-expanded")==="true"){setOpen(false);menu.focus()}});
+ const onViewportChange=()=>setOpen(false);
+ if(mobile.addEventListener)mobile.addEventListener("change",onViewportChange);else mobile.addListener(onViewportChange);
+ window.addEventListener("resize",onViewportChange,{passive:true});
 })();/* Keep folio ID entry visible in every shared site header, including mobile layouts. */
 if(header){
  let account=header.querySelector(".folio-account-quick");
