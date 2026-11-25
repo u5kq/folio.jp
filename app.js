@@ -407,4 +407,5 @@ if(document.querySelector("#project-detail")){
  dock.innerHTML='<a href="index.html" data-page="index.html"><span aria-hidden="true">⌂</span><small>HOME</small></a><a href="projects.html" data-page="projects.html"><span aria-hidden="true">▦</span><small>PROJECTS</small></a><button type="button" data-fn="search" aria-label="サイト内検索"><span aria-hidden="true">⌕</span><small>SEARCH</small></button><a href="lab.html" data-page="lab.html"><span aria-hidden="true">✳</span><small>LAB</small></a>';
  dock.querySelectorAll("[data-page]").forEach(link=>{if(link.dataset.page===current||(current==="project.html"&&link.dataset.page==="projects.html")){link.classList.add("is-current");link.setAttribute("aria-current","page")}});
  document.body.append(dock);
+ dock.querySelector('[data-fn="search"]')?.addEventListener("click",()=>document.querySelector("#folio-next-root [data-fn=search]")?.click());
 })();
