@@ -1296,3 +1296,61 @@ button,a{touch-action:manipulation}
 }
 @media(min-width:701px){.folio-mobile-dock{display:none!important}}
 @media(prefers-reduced-motion:reduce){.folio-mobile-dock *{transition:none!important}}
+
+
+/* Viewport integrity: prevent iOS rubber-band from revealing the browser's white canvas. */
+html{
+ width:100%;
+ max-width:100%;
+ min-height:100%;
+ overflow-x:clip;
+ overscroll-behavior-x:none;
+ background:var(--bg);
+}
+body{
+ width:100%;
+ max-width:100%;
+ min-width:0;
+ min-height:100%;
+ overflow-x:clip;
+ overscroll-behavior-x:none;
+ background:var(--bg);
+}
+@supports not (overflow:clip){
+ html,body{overflow-x:hidden}
+}
+body>*{max-width:100%}
+main,header,footer,section,article,nav,aside,
+.wrap,.inner,.container,.page,.page-content,.content,
+.hero,.hero-inner,.section,.project-grid,.project-row,
+.detail-hero,.detail-document,.detail-related,.footer{
+ min-width:0;
+ max-width:100%;
+}
+img,video,iframe,canvas,svg{max-width:100%}
+pre,code{max-width:100%;overflow-x:auto}
+table{max-width:100%;display:block;overflow-x:auto}
+*{scrollbar-gutter:auto}
+@media(max-width:390px){
+ .wrap{width:calc(100% - 28px)}
+ .topbar{padding-left:14px!important;padding-right:14px!important;gap:7px}
+ .wordmark{font-size:24px}
+ .hero h1,.page-title{font-size:clamp(39px,12.5vw,52px)}
+ .project-row{padding-inline:13px}
+ .detail-hero{padding-inline:15px}
+ .detail-feature{padding:13px}
+}
+@media(min-width:391px) and (max-width:700px){
+ .wrap{width:calc(100% - 36px)}
+}
+@media(min-width:701px) and (max-width:1024px){
+ .wrap{width:calc(100% - 64px);max-width:900px}
+ .topbar{padding-inline:32px}
+}
+@media(min-width:1025px) and (max-width:1439px){
+ .wrap{width:min(1080px,calc(100% - 80px))}
+}
+@media(min-width:1440px){
+ .wrap{width:min(1160px,calc(100% - 120px))}
+ .inner{max-width:1280px;margin-inline:auto}
+}
