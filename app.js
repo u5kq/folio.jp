@@ -120,29 +120,6 @@ if(document.querySelector("#project-detail")){
 
 
 
-/* Single, accessible navigation controller */
-(function(){
- const header=document.querySelector(".topbar");
- const nav=header&&header.querySelector("nav");
- const button=header&&header.querySelector(".menu");
- if(!header||!nav||!button)return;
- nav.id="folio-main-nav";
- button.setAttribute("aria-controls",nav.id);
- const close=()=>{nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.textContent="☰"};
- const open=()=>{nav.classList.add("open");button.setAttribute("aria-expanded","true");button.textContent="×"};
- const current=location.pathname.split("/").pop()||"index.html";
- nav.querySelectorAll("a[href]").forEach(link=>{
-  const target=new URL(link.href,location.href).pathname.split("/").pop()||"index.html";
-  const active=target===current||(current==="project.html"&&target==="projects.html");
-  if(active){link.classList.add("active");link.setAttribute("aria-current","page")}
-  link.addEventListener("click",close);
- });
- button.addEventListener("click",()=>nav.classList.contains("open")?close():open());
- document.addEventListener("pointerdown",event=>{if(nav.classList.contains("open")&&!header.contains(event.target))close()});
- document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){close();button.focus()}});
-})();
-
-
 /* Homepage project discovery: instant search and category filters */
 (function(){
  const grid=document.querySelector(".project-grid"),input=document.querySelector("#home-project-search");
@@ -155,69 +132,27 @@ if(document.querySelector("#project-detail")){
 })();
 
 
-/* folio corporate utilities: global search, utility navigation, accessible shortcuts */
+
+/* Unified search entry: opens the command palette instead of creating a second search system. */
 (function(){
  const header=document.querySelector(".topbar");
- if(header){
-  const nav=header.querySelector("nav");
-  if(nav){
-   [["FAQ","faq.html"],["SITE MAP","sitemap.html"]].forEach(([label,href])=>{
-    if(!nav.querySelector('a[href="'+href+'"]')){
-     const a=document.createElement("a");a.href=href;a.textContent=label;nav.append(a);
-    }
-   });
-  }
-  if(!header.querySelector(".global-search-trigger")){
-   const b=document.createElement("button");b.type="button";b.className="global-search-trigger";b.setAttribute("aria-label","サイト内検索");b.title="サイト内検索 ( / )";b.innerHTML='<span aria-hidden="true">⌕</span><small>SEARCH</small>';header.insertBefore(b,header.querySelector(".menu")||null);
-   const overlay=document.createElement("div");overlay.className="search-overlay";overlay.hidden=true;
-   overlay.innerHTML='<section class="search-dialog" role="dialog" aria-modal="true" aria-label="サイト内検索"><div class="search-dialog-head"><b>Search folio<span>.</span></b><button type="button" class="search-close" aria-label="閉じる">×</button></div><label class="global-search-label"><span>SEARCH THE SITE</span><input type="search" class="global-search-input" placeholder="プロジェクト・ページ・キーワードを検索" autocomplete="off"></label><p class="search-hint">キーワードを入力すると、関連ページを表示します。</p><div class="global-search-results" aria-live="polite"></div><div class="search-dialog-foot"><span>ESC TO CLOSE</span><span>FOLIO / SITE SEARCH</span></div></section>';
-   document.body.append(overlay);
-   const input=overlay.querySelector("input"),results=overlay.querySelector(".global-search-results"),close=()=>{overlay.hidden=true;b.focus()};
-   const entries=[
-    ["HOME","トップページ・folioの紹介","index.html","ブランド / スタジオ / ホーム"],
-    ["PROJECTS","すべてのプロジェクト一覧","projects.html","開発 / プロジェクト / 一覧"],
-    ["StudyPlan AI","学習計画・タスク管理プロジェクト","project.html?id=studyplan","学習 / 計画 / AI"],
-    ["MY AI","パーソナルAI構想","project.html?id=myai","AI / アシスタント"],
-    ["Social Quiz","社会科クイズ学習サイト","project.html?id=socialquiz","社会 / クイズ"],
-    ["QR PAY","QR決済体験のUI・機能開発","project.html?id=qrpay","決済 / QR / デジタル"],
-    ["Seat Labo","席替え・座席管理ツール","project.html?id=seatlabo","座席 / 管理"],
-    ["Home Reception","来客受付システム","project.html?id=reception","受付 / システム"],
-    ["9科テスト対策","9科目から選んでクイズに挑戦する学習サイト","project.html?id=nine-subjects","国語 / 数学 / 英語 / 理科 / 社会 / 音楽 / 美術 / 保健体育 / 技術家庭"],
-    ["BRAND","Mission・Vision・Values","brand.html","ブランド / 価値観"],
-    ["NEWS","お知らせ・サイト更新情報","news.html","ニュース / 更新"],
-    ["ABOUT","folioについて","about.html","概要 / 制作方針"],
-    ["CONTACT","お問い合わせ","contact.html","連絡 / 問い合わせ"],
-    ["FAQ","よくある質問","faq.html","質問 / 利用 / 情報"],
-    ["SITE MAP","サイト全体のページ一覧","sitemap.html","サイトマップ / ページ"]
-   ];
-   const render=()=>{
-    const q=input.value.trim().toLocaleLowerCase("ja");results.replaceChildren();
-    if(!q){results.textContent="検索したい言葉を入力してください。";return}
-    const found=entries.filter(x=>x.join(" ").toLocaleLowerCase("ja").includes(q)).slice(0,8);
-    if(!found.length){results.textContent="一致するページがありません。別のキーワードをお試しください。";return}
-    found.forEach(x=>{const a=document.createElement("a");a.className="global-search-result";a.href=x[2];const t=document.createElement("span");t.textContent=x[0];const d=document.createElement("small");d.textContent=x[1];const arrow=document.createElement("i");arrow.textContent="↗";a.append(t,d,arrow);results.append(a)});
-   };
-   b.addEventListener("click",()=>{overlay.hidden=false;input.value="";render();setTimeout(()=>input.focus(),30)});
-   overlay.querySelector(".search-close").addEventListener("click",close);
-   overlay.addEventListener("click",e=>{if(e.target===overlay)close()});
-   input.addEventListener("input",render);
-   document.addEventListener("keydown",e=>{
-    if(e.key==="Escape"&&!overlay.hidden)close();
-    if((e.key==="/"||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"))&&!/input|textarea|select/i.test(document.activeElement.tagName)){
-     e.preventDefault();b.click();
-    }
-   });
-  }
+ if(header&&!header.querySelector(".global-search-trigger")){
+  const trigger=document.createElement("button");
+  trigger.type="button";
+  trigger.className="global-search-trigger";
+  trigger.setAttribute("aria-label","サイト内検索・ページ移動");
+  trigger.title="サイト内検索";
+  trigger.innerHTML='<span aria-hidden="true">⌕</span>';
+  trigger.addEventListener("click",()=>document.dispatchEvent(new CustomEvent("folio:open-command")));
+  header.insertBefore(trigger,header.querySelector(".menu")||null);
  }
- document.querySelectorAll(".footer").forEach(f=>{
-  if(!f.querySelector(".footer-utility-links")){
-   const links=document.createElement("div");links.className="footer-utility-links";
-   [["FAQ","faq.html"],["SITE MAP","sitemap.html"]].forEach(([t,u])=>{const a=document.createElement("a");a.href=u;a.textContent=t;links.append(a)});
-   f.append(links);
-  }
+ document.querySelectorAll(".footer").forEach(footer=>{
+  if(footer.querySelector(".footer-utility-links"))return;
+  const links=document.createElement("div");links.className="footer-utility-links";
+  [["FAQ","faq.html"],["SITE MAP","sitemap.html"]].forEach(([label,url])=>{const a=document.createElement("a");a.href=url;a.textContent=label;links.append(a)});
+  footer.append(links);
  });
 })();
-
 
 /* Lightweight visitor tools: favorites, recently viewed, font sizing, FAQ search */
 (function(){
@@ -427,42 +362,24 @@ if(document.querySelector("#project-detail")){
 })();
 
 
-/* FOLIO GLOBAL NAVIGATION — one consistent navigation contract */
+
+/* One navigation controller: a single source of truth for mobile menu state. */
 (function(){
  const header=document.querySelector(".topbar");
- if(!header)return;
- const nav=header.querySelector("nav");
- const menu=header.querySelector(".menu");
- if(!nav)return;
- nav.setAttribute("aria-label","Main navigation");
- const aliases={
-  "index.html":"HOME","":"HOME","projects.html":"PROJECTS",
-  "brand.html":"BRAND","philosophy.html":"BRAND","business.html":"BRAND","message.html":"BRAND","timeline.html":"BRAND","partnership.html":"BRAND",
-  "news.html":"NEWS","journal.html":"NEWS","releases.html":"NEWS",
-  "about.html":"ABOUT","technology.html":"ABOUT","privacy.html":"ABOUT","faq.html":"ABOUT","sitemap.html":"ABOUT",
-  "contact.html":"CONTACT"
+ const nav=header?.querySelector("nav");
+ const button=header?.querySelector(".menu");
+ if(!header||!nav||!button)return;
+ nav.id="folio-main-navigation";
+ button.type="button";
+ button.setAttribute("aria-controls",nav.id);
+ const setOpen=open=>{
+  nav.classList.toggle("open",open);
+  button.setAttribute("aria-expanded",String(open));
+  button.textContent=open?"×":"☰";
  };
- const path=location.pathname.split("/").pop()||"index.html";
- const active=aliases[path]|| (path==="project.html"?"PROJECTS":(["lab.html","terminal.html","status.html","gallery.html","versions.html","favorites.html","history.html"].includes(path)?"PROJECTS":""));
- nav.querySelectorAll("a[href]").forEach(link=>{
-  const target=(link.getAttribute("href")||"").split("?")[0].split("#")[0].split("/").pop()||"index.html";
-  const key=aliases[target]||"";
-  if(key&&key===active){link.classList.add("active");link.setAttribute("aria-current","page")}
-  else{link.classList.remove("active");link.removeAttribute("aria-current")}
- });
- if(menu){
-  menu.type="button";
-  menu.setAttribute("aria-controls","folio-main-navigation");
-  nav.id="folio-main-navigation";
-  const close=()=>{nav.classList.remove("open");menu.setAttribute("aria-expanded","false");menu.textContent="☰"};
-  menu.addEventListener("click",()=>{
-   const open=!nav.classList.contains("open");
-   nav.classList.toggle("open",open);
-   menu.setAttribute("aria-expanded",String(open));
-   menu.textContent=open?"×":"☰";
-  });
-  nav.addEventListener("click",e=>{if(e.target.closest("a"))close()});
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
-  document.addEventListener("click",e=>{if(!header.contains(e.target))close()});
- }
+ button.addEventListener("click",()=>setOpen(!nav.classList.contains("open")));
+ nav.addEventListener("click",event=>{if(event.target.closest("a"))setOpen(false)});
+ document.addEventListener("pointerdown",event=>{if(!header.contains(event.target))setOpen(false)});
+ document.addEventListener("keydown",event=>{if(event.key==="Escape"&&nav.classList.contains("open")){setOpen(false);button.focus()}});
+ window.addEventListener("resize",()=>{if(window.innerWidth>760)setOpen(false)});
 })();
