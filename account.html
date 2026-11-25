@@ -45,6 +45,33 @@ input:focus{border-color:#a69be8;box-shadow:0 0 0 4px #9d91ed1c;background:#fff}
 .foot a{color:inherit;text-underline-offset:3px}
 @media(max-width:420px){body{padding:20px 13px}.wrap{width:100%}.brand{margin-bottom:18px}.card{padding:25px 20px;border-radius:23px}h1{font-size:32px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.demo-box{margin:0 0 18px;padding:14px;border:1px solid #dfe7d8;border-radius:14px;background:#f7faf4}
+.demo-box>div{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.demo-label{font:800 8px -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.14em;color:#71865e}
+.demo-box strong{font-size:11px}
+.demo-box p{margin:9px 0;color:#5d6258;font-size:11px;line-height:2}
+.demo-box code{padding:3px 6px;border-radius:5px;background:#eaf0e4;color:#3e5136;font-size:11px}
+.demo-box button{width:100%;min-height:38px;border:1px solid #d7e0cf;border-radius:9px;background:#fff;color:#45563b;font-size:11px;font-weight:750;cursor:pointer}
+.demo-box small{display:block;margin-top:8px;color:#7e8778;font-size:9px;line-height:1.6}
+.dashboard-head{text-align:center;padding:12px 0 22px}
+.dashboard-mark{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 14px;border-radius:19px;background:var(--ink);color:white;font-size:25px;font-weight:850;letter-spacing:-.08em}
+.dashboard-head h2{margin:8px 0;font-size:27px;letter-spacing:-.06em}
+.dashboard-head p{margin:0;color:var(--muted);font-size:11px;line-height:1.8}
+.demo-status{display:inline-flex;padding:6px 10px;border-radius:99px;background:#edf4e8;color:#587447;font-size:9px;font-weight:800;letter-spacing:.08em}
+.dashboard-panel{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.dashboard-panel h3{margin:0 0 12px;font-size:12px}
+.account-detail{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #f0eef0;font-size:11px}
+.account-detail span:first-child{color:var(--muted)}
+.account-detail span:last-child{text-align:right;overflow-wrap:anywhere}
+.app-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.app-links a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:11px;font-weight:700}
+.app-links a span{color:var(--muted)}
+.logout{width:100%;min-height:46px;margin-top:18px;border:1px solid var(--line);border-radius:11px;background:#fff;color:#6f6873;font-size:11px;font-weight:750;cursor:pointer}
+.dashboard-note{margin-top:14px;padding:12px;border-radius:11px;background:#f7f6f3;color:#79756d;font-size:10px;line-height:1.8}
+body.dark .demo-box,body.dark .dashboard-panel,body.dark .app-links a,body.dark .logout{background:var(--paper);color:var(--ink)}
+@media(max-width:420px){.app-links{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -68,17 +95,35 @@ input:focus{border-color:#a69be8;box-shadow:0 0 0 4px #9d91ed1c;background:#fff}
 </form>
 <button class="sub-action" type="button" id="forgot">パスワードをお忘れの場合</button>
 <div class="status" id="status" role="status" aria-live="polite"></div>
-<div class="notice"><strong>デザインプレビュー</strong><br>共通ログイン画面のUI確認用です。Supabase Authはまだ接続されていません。入力内容は送信・保存されず、実際の登録やログインはできません。</div>
+<div class="demo-box"><div><span class="demo-label">DEMO ACCOUNT</span><strong>仮ログイン用アカウント</strong></div><p>メール：<code>demo@folio.example</code><br>パスワード：<code>folio-demo-2026</code></p><button type="button" id="fillDemo">デモ情報を入力する</button><small>架空のテスト情報です。実在のメールアドレスではありません。</small></div><div class="notice"><strong>デザインプレビュー</strong><br>共通ログイン画面のUI確認用です。Supabase Authはまだ接続されていません。入力内容は送信・保存されず、実際の登録やログインはできません。</div>
 </section>
 <div class="foot">© 2026 folio. · <a href="policy.html">利用ポリシー</a><br>folio ID / 共通アカウント</div>
 </main>
 <script>
+const card=document.querySelector('.card');
 const loginTab=document.getElementById('loginTab'),signupTab=document.getElementById('signupTab'),submitButton=document.getElementById('submitButton'),password=document.getElementById('password'),forgot=document.getElementById('forgot'),status=document.getElementById('status');
+const DEMO_EMAIL='demo@folio.example',DEMO_PASSWORD='folio-demo-2026';
 let mode='login';
 function setMode(next){mode=next;loginTab.setAttribute('aria-selected',String(mode==='login'));signupTab.setAttribute('aria-selected',String(mode==='signup'));submitButton.textContent=mode==='login'?'ログイン':'アカウントを作成';password.autocomplete=mode==='login'?'current-password':'new-password';forgot.hidden=mode!=='login';status.textContent='';}
 loginTab.addEventListener('click',()=>setMode('login'));signupTab.addEventListener('click',()=>setMode('signup'));
-document.getElementById('accountForm').addEventListener('submit',e=>{e.preventDefault();status.textContent='認証機能は準備中です。入力内容は送信されていません。';});
-forgot.addEventListener('click',()=>{status.textContent='パスワード再設定機能は準備中です。';});
+document.getElementById('fillDemo').addEventListener('click',()=>{document.getElementById('email').value=DEMO_EMAIL;password.value=DEMO_PASSWORD;status.textContent='デモ用の情報を入力しました。ログインを押して進んでください。';});
+document.getElementById('accountForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(mode==='signup'){status.textContent='新規登録はデモ対象外です。ログインタブから仮アカウントをお試しください。';return;}
+ const email=document.getElementById('email').value.trim();
+ if(email!==DEMO_EMAIL||password.value!==DEMO_PASSWORD){status.textContent='メールアドレスまたはパスワードが一致しません。デモ情報を確認してください。';return;}
+ showDashboard();
+});
+forgot.addEventListener('click',()=>{status.textContent='パスワード再設定はデモ環境では利用できません。';});
+function showDashboard(){
+ card.innerHTML=`
+ <div class="dashboard-head"><span class="demo-status">DEMO SIGNED IN</span><div class="dashboard-mark">f.</div><div class="eyebrow">WELCOME TO YOUR FOLIO</div><h2>マイアカウント</h2><p>folio IDのデモページへようこそ。<br>共通アカウントの利用イメージを確認できます。</p></div>
+ <section class="dashboard-panel"><h3>アカウント情報</h3><div class="account-detail"><span>表示名</span><span>folio Demo User</span></div><div class="account-detail"><span>メールアドレス</span><span>${DEMO_EMAIL}</span></div><div class="account-detail"><span>アカウント種別</span><span>デモアカウント</span></div><div class="account-detail"><span>状態</span><span>ログイン中（仮）</span></div></section>
+ <section class="dashboard-panel"><h3>folioのプロダクト</h3><div class="app-links"><a href="index.html">公式サイト <span>↗</span></a><a href="projects.html">プロジェクト <span>↗</span></a><a href="https://u5kq.github.io/folio-calendar/#">folio. Calendar <span>↗</span></a><a href="account.html">アカウントTOP <span>↗</span></a></div></section>
+ <div class="dashboard-note"><strong>デモ環境について</strong><br>このログイン状態は画面表示の確認専用です。認証情報やプロフィールは保存・送信されず、実際のアカウント機能・他サービスとの連携はまだ有効ではありません。</div>
+ <button class="logout" type="button" id="logoutButton">ログアウト</button>`;
+ document.getElementById('logoutButton').addEventListener('click',()=>location.reload());
+}
 </script>
 </body>
 </html>
