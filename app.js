@@ -1,3 +1,7 @@
+/* Fast first paint: the service worker caches versioned assets while pages stay network-first. */
+if("serviceWorker" in navigator && location.protocol==="https:"){
+ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js",{scope:"./"}).catch(()=>{}),{once:true});
+}
 /* folio — restrained, accessible page transitions */
 (function(){
  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -11,7 +15,7 @@
   splash.innerHTML='<div class="intro-inner"><span class="intro-word">folio<span>.</span></span><span class="intro-caption">IDEAS INTO SOMETHING REAL</span></div>';
   document.body.append(splash);
   requestAnimationFrame(()=>splash.classList.add("intro-active"));
-  setTimeout(()=>{splash.classList.add("intro-out");try{sessionStorage.setItem("folio-intro-seen","1")}catch{}setTimeout(()=>splash.remove(),420)},620);
+  setTimeout(()=>{splash.classList.add("intro-out");try{sessionStorage.setItem("folio-intro-seen","1")}catch{}setTimeout(()=>splash.remove(),260)},280);
  }
  document.addEventListener("click",e=>{
   const a=e.target.closest("a[href]");
@@ -25,7 +29,7 @@
   curtain.innerHTML='<span>folio<span>.</span></span>';
   document.body.append(curtain);
   requestAnimationFrame(()=>curtain.classList.add("curtain-active"));
-  setTimeout(()=>{location.href=url.href},160);
+  setTimeout(()=>{location.href=url.href},110);
  });
 })();
 
