@@ -261,3 +261,65 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
  const observer=new MutationObserver(records=>records.forEach(record=>{record.addedNodes.forEach(node=>{if(node.nodeType===Node.ELEMENT_NODE||node.nodeType===Node.TEXT_NODE)translateNode(node)});if(record.type==="characterData")translateNode(record.target)}));
  observer.observe(document.body,{subtree:true,childList:true,characterData:true});
 })();
+
+
+/* FOLIO STUDIO HUB — clear discovery paths and global utility navigation. */
+(function(){
+ "use strict";
+ const $=(s,r=document)=>r.querySelector(s);
+ const make=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el};
+ const routes=[
+  ["PROJECTS","プロジェクト一覧","projects.html","01"],
+  ["folio. LAB","実験・アイデア","lab.html","02"],
+  ["PROJECT GALLERY","ビジュアル一覧","gallery.html","03"],
+  ["folio. Terminal","コマンドで探索","terminal.html","04"],
+  ["SYSTEM STATUS","開発ステージ","status.html","05"],
+  ["NEWS & JOURNAL","最新情報","news.html","06"]
+ ];
+ if((location.pathname.split("/").pop()||"index.html")==="index.html"){
+  const main=$("main"),anchor=$(".folio-explore",main);
+  if(main&&!$(".fp-studio-hub",main)){
+   const section=make("section","fp-studio-hub wrap");
+   const head=make("div","fp-hub-head");
+   const copy=make("div");
+   copy.append(make("p","fp-kicker","THE FOLIO WORKSPACE"),make("h2","", "Explore the studio."),make("p","fp-hub-intro","プロジェクト、実験、開発状況。folio.の活動をひとつの場所から探索できます。"));
+   const link=make("a","fp-hub-all","すべてのプロジェクトを見る ↗");link.href="projects.html";
+   head.append(copy,link);
+   const grid=make("div","fp-hub-grid");
+   routes.forEach(([name,desc,url,no])=>{
+    const a=make("a","fp-hub-card");a.href=url;
+    a.append(make("span","fp-hub-no",no+" / FOLIO"),make("b","",name),make("span","",desc),make("i","","↗"));
+    grid.append(a);
+   });
+   const foot=make("div","fp-hub-foot");
+   foot.append(make("span","","A CLEARER WAY TO EXPLORE"),make("span","","PLAN · DESIGN · BUILD · IMPROVE"));
+   section.append(head,grid,foot);
+   if(anchor)anchor.insertAdjacentElement("beforebegin",section);else main.append(section);
+  }
+ }
+ /* A consistent utility directory is available from every page, without crowding the primary navigation. */
+ const footer=$("footer.footer");
+ if(footer&&!$(".fp-utility-nav")){
+  const utility=make("nav","fp-utility-nav");utility.setAttribute("aria-label","Folio utility navigation");
+  const title=make("div","fp-utility-title");title.append(make("b","","EXPLORE FOLIO"),make("span","","TOOLS & RESOURCES"));
+  const links=make("div","fp-utility-links");
+  [["LAB","lab.html"],["GALLERY","gallery.html"],["STATUS","status.html"],["TERMINAL","terminal.html"],["FAVORITES","favorites.html"],["HISTORY","history.html"],["VERSIONS","versions.html"],["SITE MAP","sitemap.html"]].forEach(([label,url])=>{const a=make("a","",label+" ↗");a.href=url;links.append(a)});
+  utility.append(title,links);footer.insertAdjacentElement("beforebegin",utility);
+ }
+ /* Scroll-to-top is deliberately independent from the existing share control. */
+ if(!$(".fp-back-top")){
+  const top=make("button","fp-back-top","↑");top.type="button";top.setAttribute("aria-label","ページの先頭へ戻る");top.title="ページの先頭へ";
+  top.addEventListener("click",()=>window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
+  document.body.append(top);
+  let ticking=false;
+  const update=()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{top.classList.toggle("is-visible",window.scrollY>420);ticking=false})};
+  window.addEventListener("scroll",update,{passive:true});update();
+ }
+ /* Slash opens global search when focus is not inside an editable control. */
+ document.addEventListener("keydown",event=>{
+  if(event.key!=="/"||event.metaKey||event.ctrlKey||event.altKey)return;
+  const target=event.target;
+  if(target instanceof HTMLElement&&(target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(target.tagName)))return;
+  event.preventDefault();document.dispatchEvent(new CustomEvent("folio:open-command"));
+ });
+})();
