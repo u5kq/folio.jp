@@ -19,6 +19,8 @@ if("serviceWorker" in navigator && location.protocol==="https:"){
  }
  document.addEventListener("click",e=>{
   const a=e.target.closest("a[href]");
+  /* Main navigation uses native navigation to avoid transition overlays blocking page selection. */
+  if(a?.closest(".topbar nav"))return;
   if(!a||reduce||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||a.target==="_blank"||a.hasAttribute("download"))return;
   let url;try{url=new URL(a.href,location.href)}catch{return}
   if(url.origin!==location.origin||url.pathname===location.pathname||a.hasAttribute("data-no-transition"))return;
