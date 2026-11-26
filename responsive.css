@@ -456,3 +456,174 @@ input,select,textarea{border-radius:10px;accent-color:var(--folio-ui-accent)}
   .account-panel{padding:11px!important}
   .account-actions>*{flex:1 1 100%}
 }
+
+/* =========================================================
+   FOLIO DESIGN LANGUAGE / RELEASE 02
+   Quiet editorial, warm neutral, muted botanical accent.
+   ========================================================= */
+:root{
+  --folio-canvas:#f7f8f4;
+  --folio-paper:#ffffff;
+  --folio-ink-strong:#242820;
+  --folio-ink-soft:#687064;
+  --folio-line-soft:#e6e9e1;
+  --folio-olive:#7f9662;
+  --folio-olive-dark:#394832;
+  --folio-olive-wash:#eff3e9;
+  --folio-card-radius:18px;
+  --folio-card-shadow:0 8px 28px rgba(30,38,25,.045);
+  --folio-card-shadow-hover:0 14px 36px rgba(30,38,25,.09);
+  --folio-space-section:clamp(52px,7vw,88px);
+}
+body{
+  background:var(--folio-canvas);
+  color:var(--folio-ink-strong);
+  font-feature-settings:"kern";
+}
+a{color:inherit}
+p{ text-wrap:pretty }
+/* Editorial hierarchy shared by every informational page */
+.page-title,.hero h1,.play-hero h1{
+  color:var(--folio-ink-strong);
+  font-weight:720;
+  letter-spacing:-.065em;
+}
+.page-title em,.hero h1 em,.play-hero h1 em{
+  color:#858d7d;
+  font-style:normal;
+}
+.eyebrow,.kicker,.project-no,.fp-kicker,.fp-hub-foot{
+  color:var(--folio-ink-soft);
+}
+.section{
+  padding-block:var(--folio-space-section);
+}
+.section-head{
+  padding-bottom:0;
+}
+.section-head h2,.fp-hub-head h2{
+  color:var(--folio-ink-strong);
+  letter-spacing:-.055em;
+}
+.section-head p,.lead,.hero-bottom p,.studio-intro-copy{
+  color:var(--folio-ink-soft);
+}
+/* One card language: quiet borders, soft surfaces, consistent radius */
+.project-card,.live-products .live-product,.fp-hub-card,
+.folio-explore .explore-card,.news-feature,.news-archive article,
+.play-tool-card,.play-game-card,.play-art{
+  border:1px solid var(--folio-line-soft);
+  border-radius:var(--folio-card-radius);
+  background:var(--folio-paper);
+  box-shadow:var(--folio-card-shadow);
+}
+.project-card,.live-products .live-product,.fp-hub-card,
+.folio-explore .explore-card,.play-tool-card,.play-game-card{
+  transition:transform var(--folio-control-motion),border-color var(--folio-control-motion),box-shadow var(--folio-control-motion);
+}
+a.project-card:hover,a.fp-hub-card:hover,a.explore-card:hover,
+.live-products .live-product:hover,.play-tool-card:hover,.play-game-card:hover{
+  transform:translateY(-2px);
+  border-color:#cbd6bd;
+  box-shadow:var(--folio-card-shadow-hover);
+}
+.project-card .card-arrow,.card-arrow{color:var(--folio-olive-dark)}
+/* Primary / secondary / quiet action hierarchy */
+button.primary,.submit,.hero-primary,.play-hero-primary,.detail-cta,
+.account-button.primary{
+  background:var(--folio-olive-dark)!important;
+  border-color:var(--folio-olive-dark)!important;
+  color:#fff!important;
+  box-shadow:0 6px 18px rgba(45,61,39,.13);
+}
+button.primary:hover,.submit:hover,.hero-primary:hover,.play-hero-primary:hover,
+.detail-cta:hover,.account-button.primary:hover{
+  background:#506744!important;
+  border-color:#506744!important;
+  box-shadow:0 10px 24px rgba(45,61,39,.19);
+}
+.hero-secondary,.play-hero-secondary,.account-button:not(.primary):not(.danger){
+  background:#fff!important;
+  border:1px solid var(--folio-line-soft)!important;
+  color:var(--folio-ink-strong)!important;
+}
+.hero-secondary:hover,.play-hero-secondary:hover,
+.account-button:not(.primary):not(.danger):hover{
+  background:var(--folio-olive-wash)!important;
+  border-color:#cbd6bd!important;
+}
+.text-link,.live-detail,.news-inline-link{
+  color:var(--folio-olive-dark);
+  text-decoration-color:#b8c5a8;
+}
+.text-link:hover,.live-detail:hover,.news-inline-link:hover{
+  color:#586f45;
+  text-decoration-color:#758d5c;
+}
+/* Filter chips and segmented controls */
+.home-filter button,.news-filters button,.filter-chip,.stage-chip,
+.view-switch button,.reset-filters,.fn-command-tabs button{
+  background:#fff!important;
+  border-color:var(--folio-line-soft)!important;
+  color:var(--folio-ink-soft)!important;
+}
+.home-filter button[aria-pressed="true"],.news-filters button[aria-pressed="true"],
+.filter-chip[aria-pressed="true"],.stage-chip[aria-pressed="true"],
+.view-switch button[aria-pressed="true"],.fn-command-tabs button[aria-pressed="true"]{
+  background:var(--folio-olive-dark)!important;
+  border-color:var(--folio-olive-dark)!important;
+  color:#fff!important;
+}
+/* Inputs and form fields */
+input,select,textarea,.fn-command-input{
+  border:1px solid var(--folio-line-soft);
+  background:#fff;
+  color:var(--folio-ink-strong);
+  border-radius:11px;
+}
+input::placeholder,textarea::placeholder{color:#9a9f95;opacity:1}
+input:focus,select:focus,textarea:focus{
+  border-color:#91a77a;
+  box-shadow:0 0 0 3px rgba(127,150,98,.13);
+}
+/* Footer and page end */
+.footer{
+  border-top:1px solid var(--folio-line-soft);
+  color:var(--folio-ink-soft);
+  padding-block:26px;
+}
+.footer .wordmark{color:var(--folio-ink-strong)}
+.socials a{
+  width:38px;height:38px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--folio-line-soft);
+  border-radius:50%;
+  background:#fff;
+  transition:background var(--folio-control-motion),border-color var(--folio-control-motion),transform var(--folio-control-motion);
+}
+.socials a:hover{background:var(--folio-olive-wash);border-color:#cbd6bd;transform:translateY(-1px)}
+/* Keep the homepage's visual signature while aligning its components */
+.home-page .hero-primary,.home-page .hero-secondary{
+  min-height:46px;
+}
+.home-page .project-card,.home-page .live-products .live-product,
+.home-page .folio-explore .explore-card{
+  box-shadow:var(--folio-card-shadow);
+}
+.home-page .project-card:hover,.home-page .live-products .live-product:hover,
+.home-page .folio-explore .explore-card:hover{
+  box-shadow:var(--folio-card-shadow-hover);
+}
+@media(max-width:760px){
+  :root{--folio-space-section:52px}
+  .section-head h2,.fp-hub-head h2{letter-spacing:-.045em}
+  .project-card,.live-products .live-product,.fp-hub-card,
+  .folio-explore .explore-card,.news-feature,.news-archive article{
+    border-radius:15px;
+  }
+  .footer{padding-top:22px;padding-bottom:max(26px,env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  .project-card,.live-products .live-product,.fp-hub-card,
+  .folio-explore .explore-card,.play-tool-card,.play-game-card,.socials a{transition:none!important}
+}
