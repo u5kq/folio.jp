@@ -6,39 +6,7 @@ body.home-page {
   --home-soft-shadow: 0 18px 54px rgba(28, 34, 22, .055);
 }
 .home-page .wrap { width: min(var(--home-content), calc(100% - 64px)); }
-.home-page .topbar {
-  min-height: 78px;
-  padding-inline: max(32px, calc((100vw - var(--home-content)) / 2));
-  gap: 18px;
-}
-.home-page .wordmark { flex: 0 0 auto; font-size: 30px; }
-.home-page .topbar nav { gap: 3px; }
-.home-page .topbar nav a {
-  padding: 10px 11px;
-  font-size: 9px;
-  letter-spacing: .11em;
-  white-space: nowrap;
-}
-.home-page .topbar nav a.folio-account-link {
-  margin-left: 7px;
-  padding-inline: 16px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--ink);
-}
-.home-page .topbar nav a.folio-account-link:hover { border-color: var(--accent); }
-.home-page .folio-account-quick { display: none; }
-.home-page .global-search-trigger {
-  width: 38px; height: 38px; flex: 0 0 38px;
-  display: grid; place-items: center;
-  border: 1px solid var(--line); border-radius: 50%;
-  background: var(--surface); color: var(--muted);
-  font-size: 21px; cursor: pointer;
-  transition: background .2s ease, color .2s ease, transform .2s ease;
-}
-.home-page .global-search-trigger:hover {
-  background: var(--ink); color: var(--bg); transform: translateY(-2px);
-}
+/* Shared header styling lives in styles.css, not the homepage-only stylesheet. */
 .home-page .hero {
   padding-top: clamp(72px, 8vw, 112px);
   padding-bottom: clamp(54px, 7vw, 86px);
@@ -167,20 +135,14 @@ body.home-page {
 .home-page .fn-quick-tools { right: max(22px, calc((100vw - var(--home-content)) / 2)); bottom: 22px; }
 
 @media (min-width: 761px) and (max-width: 1100px) {
-  .home-page .topbar { padding-inline: 24px; gap: 10px; }
-  .home-page .topbar nav { gap: 0; }
-  .home-page .topbar nav a { padding-inline: 8px; font-size: 8px; }
+
   .home-page .project-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .home-page .home-project-tools { grid-template-columns: 1fr; }
   .home-page .home-filter { justify-content: flex-start; }
 }
 @media (max-width: 760px) {
   .home-page .wrap { width: calc(100% - 36px); }
-  .home-page .topbar { min-height: 66px; height: 66px; padding-inline: 18px; gap: 9px; }
-  .home-page .topbar nav { top: 65px; }
-  .home-page .topbar nav a.folio-account-link { margin: 5px 0 0; text-align: center; }
-  .home-page .global-search-trigger { width: 36px; height: 36px; flex-basis: 36px; }
-  .home-page .menu { width: 38px; height: 38px; border-radius: 50%; }
+
   .home-page .hero { padding-top: 56px; padding-bottom: 42px; }
   .home-page .hero h1 { margin-top: 27px; font-size: clamp(52px, 13vw, 78px); line-height: .99; }
   .home-page .hero-bottom { display: flex; flex-direction: column; align-items: stretch; gap: 22px; }
@@ -228,7 +190,7 @@ body.home-page {
 @media (prefers-reduced-motion: reduce) {
   .home-page .hero-primary, .home-page .hero-secondary,
   .home-page .studio-links a, .home-page .folio-explore .explore-card,
-  .home-page .global-search-trigger { transition: none !important; }
+
 }
 
 
