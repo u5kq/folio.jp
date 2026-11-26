@@ -91,4 +91,5 @@
 <script>
 (()=>{const share=document.getElementById("share-page");share?.addEventListener("click",async()=>{const data={title:document.title,text:"folio. 利用ポリシー",url:location.href};try{if(navigator.share)await navigator.share(data);else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(location.href);share.textContent="リンクをコピーしました"}else{share.textContent="共有に対応していません"}}catch(e){if(e.name!=="AbortError")share.textContent="共有できませんでした"}});const top=document.querySelector(".back-top");const update=()=>top?.classList.toggle("visible",window.scrollY>500);window.addEventListener("scroll",update,{passive:true});update();top?.addEventListener("click",()=>window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}))})();
 </script>
+<script>(function(){var link=document.createElement("link");link.rel="stylesheet";link.href="responsive.css?v=20261126-ui1";document.head.appendChild(link)})();</script>
 </body></html>
