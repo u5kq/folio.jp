@@ -169,9 +169,51 @@
 @media(max-width:760px){.play-game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.play-card-art{height:125px}.play-game-card{padding:9px;border-radius:17px}.play-game-card strong{font-size:14px}.play-card-copy{font-size:11px}}
 @media(max-width:480px){.play-game-grid{grid-template-columns:1fr}.play-game-card{display:grid;grid-template-columns:100px minmax(0,1fr);column-gap:12px;align-items:center;padding:10px}.play-card-art{grid-row:1/5;height:104px;margin:0}.play-card-meta,.play-game-card strong,.play-card-copy,.play-card-cta{margin-left:0;margin-right:0}.play-card-meta{align-self:end}.play-card-copy{min-height:0;margin-bottom:5px}.play-card-cta{padding-top:7px}}
 .play-game-card:focus-visible,.play-categories button:focus-visible{outline:2px solid #8eae4f;outline-offset:3px}
-</style></head><body>
+</style>
+<style id="play-top-visibility-fix">
+/* PLAY TOP — clear hierarchy and readable navigation */
+.topbar{min-height:76px}
+.topbar nav{gap:5px}
+.topbar nav a{font-size:11px;padding:11px 15px;font-weight:700;letter-spacing:.09em}
+.topbar nav a.active{background:var(--ink);color:var(--bg)}
+.play-page{padding-top:clamp(24px,4vw,46px)}
+.play-hero-clear{grid-template-columns:minmax(0,1.08fr) minmax(260px,.92fr);gap:clamp(24px,5vw,64px);padding:clamp(28px,4vw,48px);margin-bottom:clamp(38px,5vw,58px);border:1px solid var(--line);border-radius:28px;background:var(--surface);box-shadow:0 16px 44px #1b241408}
+.play-hero-copy{min-width:0}
+.play-hero-clear .play-kicker{font-size:11px;font-weight:800;color:var(--muted)}
+.play-overline{margin:27px 0 0!important;color:var(--muted)!important;font-size:14px!important;font-weight:700;letter-spacing:.04em}
+.play-hero-clear h1{font-size:clamp(64px,9vw,112px);line-height:.9;letter-spacing:-.085em;margin:7px 0 20px!important;color:var(--ink)}
+.play-title-dot{color:#8eae4f}
+.play-hero-clear .play-intro{max-width:520px;font-size:clamp(14px,1.5vw,16px);line-height:1.95;color:var(--muted)}
+.play-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.play-hero-actions a{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:20px;padding:0 17px;border-radius:12px;font-size:13px;font-weight:750;transition:transform .18s,background .18s}
+.play-hero-actions a:hover{transform:translateY(-2px)}
+.play-hero-primary{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}
+.play-hero-secondary{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.play-hero-meta{display:flex;align-items:center;gap:12px;margin-top:25px;color:var(--muted);font:700 9px ui-monospace,monospace;letter-spacing:.1em}
+.play-hero-meta i{width:4px;height:4px;border-radius:50%;background:#8eae4f}
+.play-hero-clear .play-art{min-height:290px}
+.play-hero-clear .play-orbit{width:168px;height:168px}
+@media(max-width:820px){.play-hero-clear{grid-template-columns:minmax(0,1fr) minmax(190px,.7fr);padding:28px}.play-hero-clear .play-art{min-height:230px}}
+@media(max-width:600px){
+ .topbar{height:66px;min-height:66px}
+ .play-page{padding:18px 14px 60px}
+ .play-hero-clear{grid-template-columns:1fr;gap:20px;padding:23px 19px;margin-bottom:38px;border-radius:21px}
+ .play-overline{margin-top:22px!important;font-size:13px!important}
+ .play-hero-clear h1{font-size:clamp(68px,19vw,94px);margin:8px 0 15px!important}
+ .play-hero-clear .play-intro{font-size:13px;line-height:1.9}
+ .play-desktop-break{display:none}
+ .play-hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
+ .play-hero-actions a{min-height:48px;padding:0 10px;gap:8px;font-size:11px}
+ .play-hero-meta{margin-top:19px;font-size:8px;gap:9px}
+ .play-hero-clear .play-art{min-height:135px;border-radius:17px}
+ .play-hero-clear .play-orbit{width:104px;height:104px}
+ .play-hero-clear .play-orbit b{font-size:42px}
+}
+@media(prefers-reduced-motion:reduce){.play-hero-actions a{transition:none}}
+</style>
+</head><body>
 <header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav aria-label="メインナビゲーション"><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active" aria-current="page">PLAY</a><a href="brand.html">STUDIO</a><a href="news.html">JOURNAL</a><a href="about.html">ABOUT</a><a href="contact.html">CONTACT</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
-<main class="play-page"><section class="play-hero"><div><span class="play-kicker">FOLIO / PLAYGROUND</span><h1>Learn by<br><em>playing.</em></h1><p>クイズやミニゲームを通して、folio.のプロジェクトや考え方を発見しよう。気軽に遊べる、folio.の小さなプレイグラウンドです。</p></div><div class="play-art" aria-hidden="true"><div class="play-orbit"><b>f.</b></div></div></section>
+<main class="play-page"><section class="play-hero play-hero-clear"><div class="play-hero-copy"><span class="play-kicker">FOLIO / PLAYGROUND</span><p class="play-overline">遊びながら、発見する。</p><h1>PLAY<span class="play-title-dot">.</span></h1><p class="play-intro">クイズ、ミニゲーム、プログラミング体験。<br class="play-desktop-break">気になるコンテンツから、自由に楽しもう。</p><div class="play-hero-actions"><a href="#games-title" class="play-hero-primary">ミニゲームを見る <span>↓</span></a><a href="#tools-title" class="play-hero-secondary">開発ツールを見る <span>↗</span></a></div><div class="play-hero-meta"><span>03 MINI GAMES</span><i></i><span>02 CREATION TOOLS</span></div></div><div class="play-art" aria-hidden="true"><div class="play-orbit"><b>f.</b></div></div></section>
 <section class="play-tools" aria-labelledby="tools-title"><div class="play-section-heading"><div><span class="play-kicker">FOLIO / CREATION TOOLS</span><h2 id="tools-title">Build &amp; <em>experiment.</em></h2><p>コードを書いて、考えて、動かす。じっくり挑戦できる開発体験。</p></div><span class="play-section-index">01 — DEEP PLAY</span></div><div class="play-tool-grid">
 <a class="play-tool-card" href="code-arena.html"><span class="play-tool-icon">⌘</span><span class="play-tool-tag">ALGORITHM / 5 MISSIONS</span><strong>CODE ARENA</strong><span class="play-tool-copy">アルゴリズムを組み立て、ロボットをゴールへ導く本格プログラミングパズル。</span><span class="play-tool-link">ENTER ARENA <b>↗</b></span></a>
 <a class="play-tool-card" href="code-lab.html"><span class="play-tool-icon">JS</span><span class="play-tool-tag">JAVASCRIPT / PLAYGROUND</span><strong>JAVASCRIPT LAB</strong><span class="play-tool-copy">JavaScriptを自由に書いて実行。コードの結果をその場で確かめよう。</span><span class="play-tool-link">OPEN LAB <b>↗</b></span></a></div></section>
