@@ -100,10 +100,12 @@ if(header){
   account.className="folio-account-quick";
   account.href="account.html";
   account.setAttribute("aria-label","folio ID ログイン");
-  account.innerHTML='ログイン <span aria-hidden="true">↗</span>';
+  account.innerHTML='<img class="folio-id-icon" src="folio-id-icon.svg" alt="" width="20" height="20"><span class="folio-account-label">ログイン</span><span class="folio-account-arrow" aria-hidden="true">↗</span>';
  }
  /* Place folio ID directly beside the wordmark, outside the collapsible menu. */
  header.insertBefore(account,nav||header.querySelector(".theme-toggle")||menu||null);
+ account.setAttribute("aria-label","folio ID ログイン");
+ if(!account.querySelector(".folio-id-icon"))account.innerHTML='<img class="folio-id-icon" src="folio-id-icon.svg" alt="" width="20" height="20"><span class="folio-account-label">ログイン</span><span class="folio-account-arrow" aria-hidden="true">↗</span>';
 }
 
 if(header){const theme=document.createElement("button");theme.type="button";theme.className="theme-toggle";theme.setAttribute("aria-label","テーマを切り替える");theme.title="ライト／ダーク切り替え";header.insertBefore(theme,menu||null);try{if(localStorage.getItem("folio-theme")==="dark")document.body.classList.add("dark")}catch{}const sync=()=>{theme.textContent=document.body.classList.contains("dark")?"☀":"◐";theme.setAttribute("aria-pressed",String(document.body.classList.contains("dark")))};sync();theme.addEventListener("click",()=>{document.body.classList.toggle("dark");try{localStorage.setItem("folio-theme",document.body.classList.contains("dark")?"dark":"light")}catch{}sync()})}
