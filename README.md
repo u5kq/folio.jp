@@ -1,21 +1,54 @@
-# folio
+# folio.
 
-A minimal personal portfolio built with HTML, CSS and vanilla JavaScript.
+folio. is a product development studio website built with semantic HTML, CSS and vanilla JavaScript.
 
-## Files
-- `index.html` — Home
-- `projects.html` — Project overview
-- `about.html` — About
-- `contact.html` — Contact form (mailto-based; configure a recipient in `app.js`)
-- `styles.css` — Shared responsive styles
-- `app.js` — Mobile navigation and optional social links
+## Site structure
+
+### Pages
+- `index.html` — Official homepage and live product directory.
+- `projects.html` — Project catalogue.
+- `project.html` — Individual project detail pages, rendered from the project data in `app.js`.
+- `brand.html`, `about.html`, `news.html`, `contact.html`, `play.html` — Main brand, newsroom and experience pages.
+- `account.html` — folio ID interface.
+- Supporting pages include policy, privacy, FAQ, sitemap, status, timeline, releases, gallery, history and technical pages.
+
+### Shared assets
+- `styles.css` — Original site styles and shared components.
+- `home-ui.css` — Homepage-specific visual layer.
+- `responsive.css` — Shared responsive rules, spacing system, navigation, cards and control styling for desktop, tablet and mobile.
+- `app.js` — Shared navigation, project data, filters and page interactions.
+- `folio-next-v2.js` — Supplemental search, sharing and site utilities.
+- `folio-next.css` — Supplemental UI styles for those utilities.
+- `folio-quality.js` — Quality and interaction helpers.
+- `sw.js` — Service worker. HTML navigation is network-first; CSS and JavaScript are revalidated before falling back to cache.
+- `favicon.svg`, `folio-id-icon.svg`, `folio.webmanifest` — Site identity and install metadata.
+
+## Responsive design principles
+
+- Desktop: full navigation and multi-column content layouts.
+- Tablet: touch-friendly controls and compact two-column content layouts.
+- Mobile: safe-area-aware spacing, accessible menu controls, readable type, and simplified content grids.
+- Buttons and controls should retain visible focus states and usable touch targets.
+- Respect `prefers-reduced-motion`.
+
+## Editing guidance
+
+1. Keep page content in its relevant HTML file.
+2. Keep site-wide behavior in `app.js`.
+3. Keep shared responsive spacing and control rules in `responsive.css`.
+4. Keep homepage-only presentation in `home-ui.css`.
+5. Avoid adding page-specific copies of shared navigation or global button rules.
+6. Preserve existing links, project IDs, local storage keys and app behavior when adjusting presentation.
+7. After changing scripts or styles, update the relevant version query string in page references and the service-worker cache list.
 
 ## GitHub Pages
-In the repository, open **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, select **main** and **/(root)**, then Save.
 
-The project URL will be `https://u5kq.github.io/folio.jp/` after deployment.
+The site is published from the `main` branch at the repository root:
+`https://u5kq.github.io/folio.jp/`
 
-## Before publishing
-- Add only public social profile URLs to `SOCIAL_LINKS` in `app.js`.
-- Set a contact email in `app.js` only if you want to receive public inquiries. The form uses the visitor's email app; it does not store or transmit form data to a server.
-- Avoid publishing private contact details or personal information.
+## Publishing and privacy
+
+- External social links should only be enabled after the official profile URL has been confirmed.
+- The contact form must clearly disclose its delivery method; it does not imply server-side delivery unless a backend is configured.
+- Do not publish private contact details, real user records or personal data in public project pages.
+- QR PAY is a demo/UI project and should not be described as processing real payments unless a compliant payment backend is implemented and verified.
