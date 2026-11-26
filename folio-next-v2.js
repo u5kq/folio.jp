@@ -324,3 +324,81 @@ if(currentFile==="index.html"){const target=$(".studio-strip");if(target){const 
   event.preventDefault();document.dispatchEvent(new CustomEvent("folio:open-command"));
  });
 })();
+
+
+/* 2026-11-26: resilient mobile navigation controller.
+   Capture the menu click before legacy handlers so the final nav markup
+   always receives one deterministic open/close operation. */
+(function(){
+  const header=document.querySelector(".topbar");
+  const nav=header?.querySelector("nav");
+  const menu=header?.querySelector(".menu");
+  if(!header||!nav||!menu)return;
+  const mobile=window.matchMedia("(max-width: 1100px)");
+  nav.id="folio-main-nav";
+  menu.type="button";
+  menu.setAttribute("aria-controls",nav.id);
+  menu.setAttribute("aria-haspopup","true");
+  menu.setAttribute("aria-label","メニュー");
+  let opened=false;
+  const apply=()=>{
+    const compact=mobile.matches;
+    const visible=compact&&opened;
+    nav.classList.toggle("open",visible);
+    menu.setAttribute("aria-expanded",String(visible));
+    nav.setAttribute("aria-hidden",String(compact&&!visible));
+    nav.style.setProperty("display",visible?(window.innerWidth<=760?"grid":"flex"):"none","important");
+    nav.style.setProperty("visibility",visible?"visible":"hidden","important");
+    nav.style.setProperty("opacity",visible?"1":"0","important");
+    nav.style.setProperty("pointer-events",visible?"auto":"none","important");
+    nav.style.setProperty("z-index","10019","important");
+    if(compact&&window.innerWidth<=760){
+      nav.style.setProperty("position","fixed","important");
+      nav.style.setProperty("top","calc(env(safe-area-inset-top) + 72px)","important");
+      nav.style.setProperty("left","12px","important");
+      nav.style.setProperty("right","12px","important");
+      nav.style.setProperty("width","auto","important");
+      nav.style.setProperty("grid-template-columns","repeat(2,minmax(0,1fr))","important");
+    }else if(compact){
+      nav.style.setProperty("position","absolute","important");
+      nav.style.setProperty("top","calc(100% + 8px)","important");
+      nav.style.setProperty("left","auto","important");
+      nav.style.setProperty("right","16px","important");
+      nav.style.setProperty("width","min(330px,calc(100vw - 32px))","important");
+      nav.style.setProperty("grid-template-columns","1fr","important");
+    }else{
+      nav.style.removeProperty("position");
+      nav.style.removeProperty("top");
+      nav.style.removeProperty("left");
+      nav.style.removeProperty("right");
+      nav.style.removeProperty("width");
+      nav.style.removeProperty("grid-template-columns");
+      nav.style.setProperty("display","flex","important");
+      nav.style.setProperty("visibility","visible","important");
+      nav.style.setProperty("opacity","1","important");
+      nav.style.setProperty("pointer-events","auto","important");
+    }
+  };
+  opened=false;
+  apply();
+  menu.addEventListener("click",event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if(!mobile.matches)return;
+    opened=!opened;
+    apply();
+  },true);
+  nav.addEventListener("click",event=>{
+    if(event.target.closest("a[href]")){opened=false;apply();}
+  });
+  document.addEventListener("pointerdown",event=>{
+    if(opened&&!header.contains(event.target)){opened=false;apply();}
+  },true);
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"&&opened){opened=false;apply();menu.focus();}
+  });
+  const onChange=()=>{opened=false;apply();};
+  if(mobile.addEventListener)mobile.addEventListener("change",onChange);
+  else mobile.addListener(onChange);
+  window.addEventListener("resize",onChange,{passive:true});
+})();
