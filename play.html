@@ -211,8 +211,25 @@
 }
 @media(prefers-reduced-motion:reduce){.play-hero-actions a{transition:none}}
 </style>
+
+<style id="play-header-device-v3">
+/* Shared folio header: stable layout at every breakpoint */
+.topbar{display:flex;align-items:center;gap:clamp(10px,1.5vw,20px);min-height:76px;padding-inline:max(22px,calc((100vw - 1080px)/2))}
+.topbar>.wordmark{flex:0 0 auto}
+.topbar>nav{display:flex;align-items:center;justify-content:center;gap:clamp(8px,1.25vw,18px);min-width:0;flex:1}
+.topbar>nav a{white-space:nowrap;font-size:10px;letter-spacing:.08em}
+.topbar>.folio-account-quick{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:0 0 auto;min-height:42px;padding:0 14px}
+.topbar .folio-id-icon{display:block;width:21px;height:21px;flex:0 0 21px;border-radius:7px}
+.topbar .folio-account-label{font-size:11px}
+.topbar .folio-account-arrow{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;font-size:12px}
+.topbar>.menu{display:none}
+@media(min-width:761px) and (max-width:1050px){.topbar{padding-inline:20px;gap:10px}.topbar>nav{gap:8px}.topbar>nav a{font-size:9px}.topbar>.folio-account-quick{padding-inline:10px;gap:6px}}
+@media(max-width:760px){.topbar{min-height:66px;height:66px;padding-inline:15px;gap:9px}.topbar>nav{display:none}.topbar>.folio-account-quick{margin-left:auto;min-height:40px;padding-inline:11px}.topbar .folio-id-icon{width:20px;height:20px}.topbar>.menu{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:17px}.topbar.is-menu-open>nav{display:flex;position:absolute;top:calc(100% + 8px);left:12px;right:12px;z-index:60;flex-direction:column;align-items:stretch;gap:3px;padding:13px;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:0 20px 55px #17201520}.topbar.is-menu-open>nav a{display:flex;align-items:center;min-height:43px;padding:0 12px;border-radius:10px;font-size:12px}.topbar.is-menu-open>nav a.active{background:var(--soft)}.topbar.is-menu-open>nav .folio-account-link{display:none}}
+@media(max-width:380px){.topbar{padding-inline:10px;gap:7px}.topbar>.folio-account-quick{padding-inline:8px;gap:5px}.topbar .folio-account-label{font-size:10px}.topbar>.menu{width:37px;height:37px;flex-basis:37px}}
+@media(prefers-reduced-motion:reduce){.topbar *{transition:none!important}}
+</style>
 </head><body>
-<header class="topbar"><a class="wordmark" href="index.html">folio<span>.</span></a><nav aria-label="メインナビゲーション"><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active" aria-current="page">PLAY</a><a href="brand.html">STUDIO</a><a href="news.html">JOURNAL</a><a href="about.html">ABOUT</a><a href="contact.html">CONTACT</a></nav><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
+<header class="topbar"><a class="wordmark" href="index.html" aria-label="folio ホーム">folio<span>.</span></a><nav aria-label="メインナビゲーション"><a href="index.html">HOME</a><a href="projects.html">PROJECTS</a><a href="play.html" class="active" aria-current="page">PLAY</a><a href="brand.html">BRAND</a><a href="news.html">NEWS</a><a href="about.html">ABOUT</a><a href="contact.html">CONTACT</a><a href="account.html" class="folio-account-link">ログイン</a></nav><a class="folio-account-quick" href="account.html" aria-label="folio ID ログイン"><img class="folio-id-icon" src="folio-id-icon.svg" alt="" width="20" height="20"><span class="folio-account-label">ログイン</span><span class="folio-account-arrow" aria-hidden="true">↗</span></a><button class="menu" type="button" aria-label="メニュー" aria-expanded="false">☰</button></header>
 <main class="play-page"><section class="play-hero play-hero-clear"><div class="play-hero-copy"><span class="play-kicker">FOLIO / PLAYGROUND</span><p class="play-overline">遊びながら、発見する。</p><h1>PLAY<span class="play-title-dot">.</span></h1><p class="play-intro">クイズ、ミニゲーム、プログラミング体験。<br class="play-desktop-break">気になるコンテンツから、自由に楽しもう。</p><div class="play-hero-actions"><a href="#games-title" class="play-hero-primary">ミニゲームを見る <span>↓</span></a><a href="#tools-title" class="play-hero-secondary">開発ツールを見る <span>↗</span></a></div><div class="play-hero-meta"><span>03 MINI GAMES</span><i></i><span>02 CREATION TOOLS</span></div></div><div class="play-art" aria-hidden="true"><div class="play-orbit"><b>f.</b></div></div></section>
 <section class="play-tools" aria-labelledby="tools-title"><div class="play-section-heading"><div><span class="play-kicker">FOLIO / CREATION TOOLS</span><h2 id="tools-title">Build &amp; <em>experiment.</em></h2><p>コードを書いて、考えて、動かす。じっくり挑戦できる開発体験。</p></div><span class="play-section-index">01 — DEEP PLAY</span></div><div class="play-tool-grid">
 <a class="play-tool-card" href="code-arena.html"><span class="play-tool-icon">⌘</span><span class="play-tool-tag">ALGORITHM / 5 MISSIONS</span><strong>CODE ARENA</strong><span class="play-tool-copy">アルゴリズムを組み立て、ロボットをゴールへ導く本格プログラミングパズル。</span><span class="play-tool-link">ENTER ARENA <b>↗</b></span></a>
