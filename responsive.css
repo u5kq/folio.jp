@@ -271,3 +271,112 @@ header.topbar{
   html{scroll-behavior:auto!important}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* =========================================================
+   FOLIO UI SYSTEM / SPACING + CONTROLS
+   Shared visual rules for spacing, cards, links and buttons.
+   ========================================================= */
+:root{
+  --folio-space-1:4px;--folio-space-2:8px;--folio-space-3:12px;
+  --folio-space-4:16px;--folio-space-5:24px;--folio-space-6:32px;--folio-space-7:48px;
+  --folio-control-height:44px;--folio-control-radius:12px;
+  --folio-control-motion:180ms cubic-bezier(.2,.7,.2,1);
+}
+/* Content rhythm */
+main{min-width:0}
+main> :first-child{margin-top:0}
+.wrap{width:min(1120px,calc(100% - 64px))}
+.section{scroll-margin-top:calc(88px + env(safe-area-inset-top))}
+.section-head{align-items:flex-end;gap:18px;margin-bottom:clamp(22px,3vw,34px)}
+.section-head h2,.fp-hub-head h2{line-height:1.08;text-wrap:balance}
+.section-head p,.section-intro,.lead{max-width:68ch}
+.project-grid,.live-products .live-product-grid,.fp-hub-grid,.folio-explore .explore-grid{gap:clamp(10px,1.4vw,18px)}
+.project-card,.live-products .live-product,.fp-hub-card,.folio-explore .explore-card{min-width:0;overflow-wrap:anywhere}
+.project-card,.live-products .live-product,.fp-hub-card{border-radius:16px}
+.project-card h3,.project-card p,.live-products .live-product h3,.live-products .live-product p{overflow-wrap:anywhere}
+.project-list{display:grid;gap:10px}
+.project-row{min-width:0}
+.page-title{max-width:100%;text-wrap:balance}
+.page-title+p,.page-title~.lead{margin-top:0}
+.news-hero,.news-feature,.news-archive{min-width:0}
+.news-feature,.news-archive{margin-top:clamp(28px,4vw,48px)}
+.news-archive article+article{margin-top:10px}
+.footer,.fp-utility-nav{row-gap:14px}
+/* Neutral button foundation has low specificity so existing component classes keep their own visual identity. */
+:where(button:not(.menu):not(.theme-toggle):not(.global-search-trigger):not(.fn-close)){
+  min-height:var(--folio-control-height);
+  padding:10px 16px;
+  border:1px solid var(--folio-ui-line);
+  border-radius:var(--folio-control-radius);
+  background:var(--folio-ui-surface);
+  color:var(--folio-ui-ink);
+  font:inherit;font-size:12px;font-weight:650;line-height:1.35;
+  cursor:pointer;
+  transition:color var(--folio-control-motion),background var(--folio-control-motion),border-color var(--folio-control-motion),box-shadow var(--folio-control-motion),transform var(--folio-control-motion);
+}
+:where(button:not(.menu):not(.theme-toggle):not(.global-search-trigger):not(.fn-close)):hover:not(:disabled){
+  border-color:color-mix(in srgb,var(--folio-ui-accent) 68%,var(--folio-ui-line));
+  background:var(--soft,var(--folio-ui-bg));
+}
+:where(button:not(.menu):not(.theme-toggle):not(.global-search-trigger):not(.fn-close)):active:not(:disabled){transform:translateY(1px) scale(.985)}
+button:disabled,button[disabled]{cursor:not-allowed!important;opacity:.48!important;transform:none!important;box-shadow:none!important}
+button.danger,.danger{border-color:#e5caca!important;background:#fff8f7!important;color:#9b3d38!important}
+button.danger:hover{background:#f9e9e7!important;border-color:#dba8a3!important}
+button.primary,.submit,.hero-primary,.play-hero-primary,.detail-cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:46px;padding:11px 19px;border:1px solid var(--folio-ui-ink);
+  border-radius:999px;background:var(--folio-ui-ink);color:var(--folio-ui-bg);
+  font-size:12px;font-weight:700;line-height:1.35;text-decoration:none;
+  box-shadow:0 5px 16px rgba(20,24,16,.07);
+  transition:transform var(--folio-control-motion),background var(--folio-control-motion),box-shadow var(--folio-control-motion);
+}
+button.primary:hover,.submit:hover,.hero-primary:hover,.play-hero-primary:hover,.detail-cta:hover{
+  background:#46543a!important;border-color:#46543a!important;color:#fff!important;
+  box-shadow:0 9px 22px rgba(20,24,16,.12);transform:translateY(-1px);
+}
+.hero-secondary,.play-hero-secondary{
+  display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;
+  border:1px solid var(--folio-ui-line);border-radius:999px;background:var(--folio-ui-surface);
+  color:var(--folio-ui-ink);font-size:12px;font-weight:650;text-decoration:none;
+  transition:background var(--folio-control-motion),border-color var(--folio-control-motion),transform var(--folio-control-motion);
+}
+.hero-secondary:hover,.play-hero-secondary:hover{background:var(--soft,var(--folio-ui-bg));border-color:var(--folio-ui-accent);transform:translateY(-1px)}
+.text-link,.news-inline-link,.policy-footer-link,.live-detail{text-underline-offset:4px;text-decoration-thickness:1px}
+.text-link,.news-inline-link,.live-detail{font-weight:650}
+.home-filter,.news-filters,.filter-set,.view-switch{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.home-filter button,.news-filters button,.filter-chip,.stage-chip,.view-switch button,.reset-filters{
+  display:inline-flex;align-items:center;justify-content:center;min-height:38px!important;padding:8px 14px!important;
+  border:1px solid var(--folio-ui-line)!important;border-radius:999px!important;
+  background:var(--folio-ui-surface)!important;color:var(--folio-ui-muted)!important;
+  font-size:11px!important;font-weight:650!important;line-height:1.25!important;white-space:nowrap;
+}
+.home-filter button[aria-pressed="true"],.news-filters button[aria-pressed="true"],
+.filter-chip[aria-pressed="true"],.stage-chip[aria-pressed="true"],.view-switch button[aria-pressed="true"]{
+  border-color:var(--folio-ui-ink)!important;background:var(--folio-ui-ink)!important;color:var(--folio-ui-bg)!important;
+}
+.round-link,.page-share-button,.fn-fav{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:42px}
+.detail-cta{min-width:150px}
+.project-share,.page-share-button{min-height:38px!important;border-radius:999px!important;font-size:11px!important}
+a.project-card,a.explore-card,a.fp-hub-card{text-decoration:none}
+a.project-card:focus-visible,a.explore-card:focus-visible,a.fp-hub-card:focus-visible{outline:2px solid var(--folio-ui-accent);outline-offset:4px}
+input,select,textarea{border-radius:10px;accent-color:var(--folio-ui-accent)}
+@media(max-width:760px){
+  .wrap{width:calc(100% - 36px)!important}
+  .section-head{margin-bottom:22px!important}
+  .project-grid,.live-products .live-product-grid,.fp-hub-grid,.folio-explore .explore-grid{gap:10px!important}
+  .project-card,.live-products .live-product,.fp-hub-card{padding:16px!important}
+  .project-list{gap:8px!important}
+  .news-feature,.news-archive{margin-top:30px!important}
+  .home-filter,.news-filters,.filter-set,.view-switch{gap:7px!important}
+  .home-filter button,.news-filters button,.filter-chip,.stage-chip,.view-switch button,.reset-filters{min-height:40px!important;padding:8px 12px!important}
+  button.primary,.submit,.hero-primary,.play-hero-primary,.detail-cta{min-height:46px!important;padding:11px 17px!important}
+  .detail-cta{width:100%;max-width:100%}
+  .footer{padding-bottom:max(24px,env(safe-area-inset-bottom))}
+}
+@media(max-width:390px){
+  .wrap{width:calc(100% - 28px)!important}
+  .project-card,.live-products .live-product,.fp-hub-card{padding:14px!important}
+  .home-filter button,.news-filters button,.filter-chip,.stage-chip,.view-switch button,.reset-filters{min-height:38px!important;padding:7px 10px!important;font-size:10px!important}
+  button.primary,.submit,.hero-primary,.play-hero-primary,.detail-cta{width:100%}
+}
+@media(prefers-reduced-motion:reduce){button,a{transition:none!important}}
