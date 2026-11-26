@@ -380,3 +380,79 @@ input,select,textarea{border-radius:10px;accent-color:var(--folio-ui-accent)}
   button.primary,.submit,.hero-primary,.play-hero-primary,.detail-cta{width:100%}
 }
 @media(prefers-reduced-motion:reduce){button,a{transition:none!important}}
+
+/* Shared account and footer controls */
+.policy-footer-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:36px;padding:8px 10px;margin:0 6px;
+  color:var(--folio-ui-muted);font-size:11px;letter-spacing:.06em;
+  text-decoration:none;opacity:.82;
+  transition:color var(--folio-control-motion),opacity var(--folio-control-motion);
+}
+.policy-footer-link:hover{color:var(--folio-ui-ink);opacity:1}
+.account-button,.account-sidebar .dash-nav button,.sub-action,.logout,.account-switch{
+  touch-action:manipulation;
+}
+.account-button{
+  min-height:42px!important;
+  padding:9px 13px!important;
+  border-radius:10px!important;
+  font-size:11px!important;
+  line-height:1.3!important;
+}
+.account-button.primary{
+  border-radius:999px!important;
+  background:var(--folio-ui-ink)!important;
+  color:var(--folio-ui-bg)!important;
+}
+.account-button.danger{
+  background:#fff8f7!important;
+  color:#9b3d38!important;
+}
+.account-actions{align-items:center;gap:8px!important}
+.account-sidebar .dash-nav button{
+  min-height:42px!important;
+  padding:9px 12px!important;
+  border-radius:10px!important;
+  text-align:left;
+}
+.dash-link{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  padding:9px 12px;
+  border-radius:10px;
+}
+.account-form input,.account-form select,.account-form textarea{
+  font-size:16px!important;
+}
+@media(max-width:760px){
+  .account-workspace{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+  .account-sidebar{position:static!important;min-width:0;overflow:hidden}
+  .account-sidebar .dash-nav{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    gap:7px!important;
+    overflow-x:auto!important;
+    padding:2px 1px 6px;
+    overscroll-behavior-x:contain;
+  }
+  .account-sidebar .dash-nav button{
+    flex:0 0 auto!important;
+    min-height:42px!important;
+    white-space:nowrap;
+  }
+  .account-toolbar{gap:8px!important;margin-bottom:10px!important}
+  .account-grid{gap:8px!important}
+  .account-panel{padding:13px!important}
+  .account-actions{display:flex;flex-wrap:wrap}
+  .account-actions>*{flex:0 1 auto;max-width:100%}
+  .account-button{min-height:44px!important}
+}
+@media(max-width:390px){
+  .account-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .account-stat{padding:10px!important}
+  .account-stat strong{font-size:17px!important}
+  .account-panel{padding:11px!important}
+  .account-actions>*{flex:1 1 100%}
+}
