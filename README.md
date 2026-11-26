@@ -52,3 +52,15 @@ The site is published from the `main` branch at the repository root:
 - The contact form must clearly disclose its delivery method; it does not imply server-side delivery unless a backend is configured.
 - Do not publish private contact details, real user records or personal data in public project pages.
 - QR PAY is a demo/UI project and should not be described as processing real payments unless a compliant payment backend is implemented and verified.
+## Visual system
+
+The shared visual system is maintained in `responsive.css`.
+
+- Palette: warm off-white canvas, charcoal typography, muted olive accents.
+- Layout: consistent content widths, section spacing and card gaps.
+- Components: shared primary, secondary, quiet and destructive action treatments.
+- Surfaces: restrained borders, soft shadows and consistent corner radii.
+- Responsive behavior: safe-area-aware navigation and spacing for phones, tablet and desktop.
+- Accessibility: visible focus, disabled states and reduced-motion support.
+
+Keep page-specific editorial artwork and content in the relevant page files. Shared visual changes should be made in `responsive.css` rather than copied into individual pages.
