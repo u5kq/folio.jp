@@ -243,7 +243,7 @@
 <section class="play-board-section" aria-labelledby="active-title"><div class="play-section-heading play-board-heading"><div><span class="play-kicker">FOLIO / NOW PLAYING</span><h2 id="active-title">Game <em>station.</em></h2><p>選択したゲームがここに表示されます。</p></div><span class="play-section-index">03 — PLAY AREA</span></div>
 <section class="play-board" id="active-game" aria-live="polite"><div class="play-eyebrow" id="game-label">01 / THINK LIKE A PROGRAMMER</div><h2 id="game-title">ROBOT CODER</h2><p id="game-description">命令ブロックを並べてロボットをゴールへ！</p><div id="game-content"></div><div class="play-toolbar"><div class="play-score"><span id="game-score">SCORE 0</span><span id="game-best">BEST 0</span></div><button class="play-action secondary" type="button" id="game-reset">最初から</button></div></section><p class="play-footnote">スコアとベスト記録は、この端末のブラウザ内に保存されます。アカウント登録は不要です。</p></section></main>
 <footer class="footer wrap"><a class="wordmark" href="index.html">folio<span>.</span></a><span>© 2026 folio. All rights reserved.</span><div class="socials"><a data-social="instagram" href="#" aria-label="Instagram">ig</a><a data-social="x" href="#" aria-label="X">𝕏</a><a data-social="youtube" href="#" aria-label="YouTube">yt</a><a data-social="tiktok" href="#" aria-label="TikTok">tk</a></div></footer>
-<script src="app.js?v=20261126-globalnav3"></script><script src="folio-next-v2.js?v=20261126-review1"></script><script>
+<script src="app.js?v=20261126-ui1"></script><script src="folio-next-v2.js?v=20261126-ui1"></script><script>
 (()=>{"use strict";
 const $=id=>document.getElementById(id),content=$("game-content"),label=$("game-label"),title=$("game-title"),desc=$("game-description"),scoreEl=$("game-score"),bestEl=$("game-best");
 let game="coder",score=0,level=0,program=[],running=false,runTimer=null,player={x:0,y:0,d:0},stars=[],caught=0,catchTimer=null,catchTime=20,catchPos=1,pixelColor="#283c2d",pixelCells=[];
@@ -277,4 +277,5 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
 document.querySelectorAll(".play-game-card[data-game]").forEach(card=>card.addEventListener("click",()=>{document.querySelectorAll(".play-game-card[data-game]").forEach(x=>{x.classList.toggle("is-selected",x===card);x.setAttribute("aria-pressed",String(x===card))});start(card.dataset.game);$("active-game").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});}));
 document.addEventListener("visibilitychange",()=>{if(document.hidden)clear()});start("coder");
 })();
-</script></body></html>
+</script><script>(function(){var link=document.createElement("link");link.rel="stylesheet";link.href="responsive.css?v=20261126-ui1";document.head.appendChild(link)})();</script>
+</body></html>
