@@ -78,9 +78,11 @@ if(header&&nav){
   "status.html":"about","technology.html":"about","terminal.html":"about",
   "timeline.html":"about","philosophy.html":"brand","partnership.html":"contact",
   "journal.html":"news","releases.html":"news","versions.html":"news",
+  "favorites.html":"projects","sitemap.html":"about","message.html":"contact","404.html":"",
   "code-arena.html":"play","code-lab.html":"play"
  };
  const active=group[file]||"";
+ nav.setAttribute("aria-label","メインナビゲーション");
  nav.replaceChildren(...items.map(([href,label,key])=>{
   const a=document.createElement("a");a.href=href;a.textContent=label;
   if(key===active){a.classList.add("active");a.setAttribute("aria-current","page")}
@@ -133,8 +135,9 @@ if(header){
   account.setAttribute("aria-label","folio ID ログイン");
   account.innerHTML='<img class="folio-id-icon" src="folio-id-icon.svg" alt="" width="20" height="20"><span class="folio-account-label">ログイン</span><span class="folio-account-arrow" aria-hidden="true">↗</span>';
  }
- /* Place folio ID directly beside the wordmark, outside the collapsible menu. */
- header.insertBefore(account,nav||header.querySelector(".theme-toggle")||menu||null);
+ /* Keep the account entry after the primary navigation, outside the collapsible panel. */
+ if(nav&&nav.parentElement===header)header.insertBefore(account,nav.nextSibling);
+ else header.insertBefore(account,header.querySelector(".theme-toggle")||menu||null);
  account.setAttribute("aria-label","folio ID ログイン");
  if(!account.querySelector(".folio-id-icon"))account.innerHTML='<img class="folio-id-icon" src="folio-id-icon.svg" alt="" width="20" height="20"><span class="folio-account-label">ログイン</span><span class="folio-account-arrow" aria-hidden="true">↗</span>';
 }
