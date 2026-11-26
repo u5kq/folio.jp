@@ -2265,3 +2265,11 @@ button,a,input,select,textarea{touch-action:manipulation}
   .wrap{width:calc(100% - 28px)}
   .hero h1,.page-title{overflow-wrap:anywhere}
 }
+
+
+/* folio ID shared icon alignment */
+.topbar .folio-account-quick{display:inline-flex;align-items:center;gap:8px}
+.topbar .folio-account-quick .folio-id-icon{display:block;width:21px;height:21px;flex:0 0 21px;object-fit:cover;border-radius:7px}
+.topbar .folio-account-quick .folio-account-label{display:inline-block;white-space:nowrap}
+.topbar .folio-account-quick .folio-account-arrow{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;font-size:12px;line-height:1}
+@media(max-width:760px){.topbar .folio-account-quick{gap:7px}.topbar .folio-account-quick .folio-id-icon{width:20px;height:20px;flex-basis:20px}}
