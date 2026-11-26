@@ -57,7 +57,38 @@ const SOCIALS={
 };
 document.querySelectorAll("[data-social]").forEach(a=>{const s=SOCIALS[a.dataset.social];if(!s)return;a.innerHTML=s.svg;if(s.url){a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.removeAttribute("aria-disabled");a.removeAttribute("tabindex");a.title=s.label+"公式アカウントを開く";a.setAttribute("aria-label",s.label+"公式アカウントを開く")}else{a.removeAttribute("href");a.removeAttribute("target");a.removeAttribute("rel");a.setAttribute("aria-disabled","true");a.setAttribute("tabindex","-1");a.title=s.label+"公式アカウントは準備中です";a.setAttribute("aria-label",s.label+"公式アカウントは準備中です");a.classList.add("social-account-pending")}});
 const header=document.querySelector(".topbar"),nav=header?.querySelector("nav"),menu=header?.querySelector(".menu");
-/* Responsive, accessible navigation: desktop links stay visible; mobile uses the menu button. */
+/* One canonical navigation for every folio page. Page-specific content and app behavior remain untouched. */
+if(header&&nav){
+ const items=[
+  ["index.html","HOME","home"],
+  ["projects.html","PROJECTS","projects"],
+  ["play.html","PLAY","play"],
+  ["brand.html","BRAND","brand"],
+  ["news.html","NEWS","news"],
+  ["about.html","ABOUT","about"],
+  ["contact.html","CONTACT","contact"]
+ ];
+ const file=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+ const group={
+  "index.html":"home","projects.html":"projects","project.html":"projects",
+  "play.html":"play","brand.html":"brand","business.html":"brand",
+  "news.html":"news","about.html":"about","contact.html":"contact",
+  "faq.html":"about","privacy.html":"about","policies.html":"about",
+  "gallery.html":"projects","lab.html":"projects","history.html":"about",
+  "status.html":"about","technology.html":"about","terminal.html":"about",
+  "timeline.html":"about","philosophy.html":"brand","partnership.html":"contact",
+  "journal.html":"news","releases.html":"news","versions.html":"news",
+  "code-arena.html":"play","code-lab.html":"play"
+ };
+ const active=group[file]||"";
+ nav.replaceChildren(...items.map(([href,label,key])=>{
+  const a=document.createElement("a");a.href=href;a.textContent=label;
+  if(key===active){a.classList.add("active");a.setAttribute("aria-current","page")}
+  return a;
+ }));
+ const logo=header.querySelector(".wordmark");if(logo)logo.setAttribute("aria-label","folio ホーム");
+}
+/* Responsive, accessible navigation: desktop links stay visible; compact screens use the menu button. */
 (function(){
  if(!header||!nav||!menu)return;
  const mobile=window.matchMedia("(max-width: 1100px)");
