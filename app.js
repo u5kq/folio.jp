@@ -90,41 +90,56 @@ if(header&&nav){
  }));
  const logo=header.querySelector(".wordmark");if(logo)logo.setAttribute("aria-label","folio ホーム");
 }
-/* Responsive, accessible navigation: desktop links stay visible; compact screens use the menu button. */
+/* Shared navigation controller — one capture-phase handler for touch, mouse and keyboard. */
 (function(){
+ "use strict";
  if(!header||!nav||!menu)return;
- const mobile=window.matchMedia("(max-width: 1100px)");
- nav.id="folio-main-nav";
+ const compact=window.matchMedia("(max-width:1100px)");
+ nav.id=nav.id||"folio-main-nav";
  menu.type="button";
  menu.setAttribute("aria-controls",nav.id);
  menu.setAttribute("aria-haspopup","true");
- menu.setAttribute("aria-expanded","false");
- const setOpen=open=>{
-  const isMobile=mobile.matches,visible=isMobile&&open;
-  nav.classList.toggle("open",visible);
-  menu.setAttribute("aria-expanded",String(visible));
-  menu.textContent=visible?"×":"☰";
-  menu.style.setProperty("display",isMobile?"grid":"none","important");
-  menu.style.setProperty("visibility",isMobile?"visible":"hidden","important");
-  menu.style.setProperty("pointer-events",isMobile?"auto":"none","important");
-  nav.style.setProperty("display",isMobile?(visible?"grid":"none"):"flex","important");
-  nav.style.setProperty("visibility",isMobile?(visible?"visible":"hidden"):"visible","important");
-  nav.style.setProperty("opacity",isMobile?(visible?"1":"0"):"1","important");
-  nav.style.setProperty("pointer-events",isMobile?(visible?"auto":"none"):"auto","important");
-  nav.style.setProperty("z-index","10001","important");
-  nav.setAttribute("aria-hidden",String(isMobile&&!visible));
+ let opened=false;
+ const updatePosition=()=>{
+  if(!opened||!compact.matches)return;
+  const rect=header.getBoundingClientRect();
+  nav.style.setProperty("--folio-menu-top",Math.max(8,rect.bottom+8)+"px");
+ };
+ const setOpen=(value,returnFocus=false)=>{
+  opened=Boolean(value&&compact.matches);
+  nav.classList.toggle("open",opened);
+  menu.classList.toggle("is-open",opened);
+  menu.setAttribute("aria-expanded",String(opened));
+  menu.setAttribute("aria-label",opened?"メニューを閉じる":"メニューを開く");
+  menu.textContent=opened?"×":"☰";
+  nav.setAttribute("aria-hidden",String(compact.matches&&!opened));
+  nav.inert=compact.matches&&!opened;
+  if(opened)updatePosition();
+  else nav.style.removeProperty("--folio-menu-top");
+  if(returnFocus)menu.focus();
  };
  setOpen(false);
- menu.addEventListener("click",event=>{
-  event.preventDefault();event.stopPropagation();
-  setOpen(menu.getAttribute("aria-expanded")!=="true");
+ document.addEventListener("click",event=>{
+  const target=event.target;
+  const isMenu=target instanceof Element&&target.closest(".topbar .menu")===menu;
+  if(isMenu){
+   event.preventDefault();
+   event.stopPropagation();
+   event.stopImmediatePropagation();
+   if(compact.matches)setOpen(!opened);
+   return;
+  }
+  if(opened&&target instanceof Element&&target.closest(".topbar nav a[href]")){setOpen(false);return;}
+  if(opened&&!header.contains(target))setOpen(false);
+ },true);
+ document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&opened)setOpen(false,true);
  });
- nav.addEventListener("click",event=>{if(event.target.closest("a[href]"))setOpen(false)});
- document.addEventListener("pointerdown",event=>{if(mobile.matches&&!header.contains(event.target))setOpen(false)},true);
- document.addEventListener("keydown",event=>{if(event.key==="Escape"&&menu.getAttribute("aria-expanded")==="true"){setOpen(false);menu.focus()}});
  const onViewportChange=()=>setOpen(false);
- if(mobile.addEventListener)mobile.addEventListener("change",onViewportChange);else mobile.addListener(onViewportChange);
- window.addEventListener("resize",onViewportChange,{passive:true});
+ if(compact.addEventListener)compact.addEventListener("change",onViewportChange);
+ else compact.addListener(onViewportChange);
+ window.addEventListener("resize",updatePosition,{passive:true});
+ window.addEventListener("scroll",updatePosition,{passive:true,capture:true});
 })();/* Keep folio ID entry visible in every shared site header, including mobile layouts. */
 if(header){
  let account=header.querySelector(".folio-account-quick");
