@@ -2152,3 +2152,84 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     z-index:1006!important;
   }
 }
+
+
+/* 2026-11-26 FIX: restore the desktop header navigation to a single horizontal row.
+   Earlier dropdown styles were leaking into desktop and turning the nav into a large card. */
+@media (min-width:1101px){
+  .topbar{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:clamp(12px,1.5vw,24px)!important;
+    min-height:76px!important;
+    height:76px!important;
+    padding-inline:max(24px,calc((100vw - 1280px)/2))!important;
+    overflow:visible!important;
+  }
+  .topbar>nav,
+  .topbar>nav.open{
+    position:static!important;
+    inset:auto!important;
+    display:flex!important;
+    flex:1 1 auto!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:clamp(2px,.5vw,9px)!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    max-height:none!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:visible!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    opacity:1!important;
+    visibility:visible!important;
+    transform:none!important;
+    pointer-events:auto!important;
+    z-index:auto!important;
+    grid-template-columns:none!important;
+    animation:none!important;
+  }
+  .topbar>nav>a,
+  .topbar>nav.open>a{
+    display:inline-flex!important;
+    flex:0 1 auto!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    min-width:0!important;
+    min-height:40px!important;
+    padding:0 clamp(7px,.7vw,13px)!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:999px!important;
+    background:transparent!important;
+    color:var(--muted)!important;
+    font-size:clamp(9px,.68vw,11px)!important;
+    line-height:1!important;
+    letter-spacing:.045em!important;
+    white-space:nowrap!important;
+    text-align:center!important;
+  }
+  .topbar>nav>a:after,
+  .topbar>nav.open>a:after{content:none!important;display:none!important}
+  .topbar>nav>a:hover,
+  .topbar>nav>a.active{
+    background:var(--soft)!important;
+    color:var(--ink)!important;
+  }
+  .topbar>.menu{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  .topbar>.folio-account-quick{flex:0 0 auto!important;margin:0!important}
+  .topbar>.theme-toggle,
+  .topbar>.global-search-trigger{flex:0 0 42px!important;width:42px!important;height:42px!important;margin:0!important}
+}
