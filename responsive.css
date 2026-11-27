@@ -781,3 +781,104 @@ input:focus,select:focus,textarea:focus{
   .topbar>.menu,.topbar>.folio-account-quick,.topbar>.folio-account-quick .folio-account-arrow,
   .tabs button,#accountForm .submit,.card .submit{transition:none!important}
 }
+
+
+/* 2026-11-27 spacing and text-overlap repair — visual only */
+.detail-hero,
+.detail-document,
+.detail-feature,
+.detail-flow li,
+.detail-related,
+.live-products .live-product,
+.project-card,
+.project-row{min-width:0;box-sizing:border-box}
+.detail-hero>*,
+.detail-document>*,
+.detail-feature>*,
+.detail-flow li>*{min-width:0}
+.detail-index,
+.detail-section-heading>span,
+.detail-feature h3,
+.detail-feature p,
+.detail-feature small,
+.detail-flow li b,
+.detail-prose,
+.detail-purpose p,
+.detail-summary,
+.live-products .live-product .live-no,
+.live-products .live-product h3,
+.live-products .live-product p,
+.project-card h3,
+.project-card p,
+.project-row .kicker,
+.project-row h2,
+.project-row p{overflow-wrap:anywhere;word-break:normal}
+.detail-meta{display:flex;flex-wrap:wrap;align-items:center;gap:9px 14px}
+.detail-hero-actions{align-items:stretch;gap:10px 12px}
+.detail-primary,.detail-print,.detail-policy-link{max-width:100%;white-space:normal;text-align:center;line-height:1.5}
+.detail-section-heading h2{line-height:1.35;overflow-wrap:anywhere}
+.detail-prose{line-height:2.05;margin:0 0 14px}
+.detail-purpose{margin-top:24px}
+.detail-feature-list{align-items:stretch;gap:12px}
+.detail-feature{grid-template-columns:28px minmax(0,1fr);align-items:start;gap:8px 12px;padding:clamp(14px,2vw,20px)}
+.detail-feature>div{min-width:0}
+.detail-feature small{grid-column:2;justify-self:start;max-width:100%;white-space:normal;line-height:1.5}
+.detail-feature h3{line-height:1.5}
+.detail-feature p{line-height:1.9}
+.detail-flow{align-items:stretch;gap:10px}
+.detail-flow li{min-width:0;min-height:132px;gap:12px}
+.detail-flow li b{line-height:1.85;overflow-wrap:anywhere}
+.detail-related{flex-wrap:wrap;align-items:flex-start}
+.detail-related>div{min-width:0;flex:1 1 240px}
+.detail-related>a{white-space:normal;line-height:1.6}
+.live-products .live-product{gap:0}
+.live-products .live-product .live-no{display:block;line-height:1.6;letter-spacing:.08em}
+.live-products .live-product h3{line-height:1.35}
+.live-products .live-product p{line-height:1.9}
+.live-products .live-product .live-actions{align-items:flex-start;gap:10px 14px}
+.live-products .live-product .live-actions a{line-height:1.65;overflow-wrap:anywhere}
+.project-row .status{max-width:100%;white-space:normal;line-height:1.55;overflow-wrap:anywhere}
+.project-row .detail-cta{line-height:1.5;white-space:normal}
+
+@media (min-width:761px) and (max-width:1050px){
+ .detail-feature-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .detail-flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .detail-feature{grid-template-columns:26px minmax(0,1fr);gap:8px}
+}
+@media (max-width:760px){
+ .detail-hero{padding:22px 18px}
+ .detail-index{margin:20px 0 10px;line-height:1.7}
+ .detail-meta{margin:14px 0 20px}
+ .detail-summary{margin:18px 0 24px;line-height:1.9}
+ .detail-document{padding:30px 0}
+ .detail-section-heading h2{margin:10px 0 18px}
+ .detail-feature-list{grid-template-columns:minmax(0,1fr);gap:10px}
+ .detail-feature{grid-template-columns:26px minmax(0,1fr);padding:15px}
+ .detail-feature small{grid-column:2}
+ .detail-flow{grid-template-columns:minmax(0,1fr);gap:8px}
+ .detail-flow li{min-height:0;padding:14px;align-items:flex-start}
+ .detail-flow li b{flex:1}
+ .detail-related{gap:12px;padding-top:28px}
+ .detail-actions{flex-wrap:wrap;gap:8px}
+ .detail-actions .detail-action{min-height:40px}
+ .live-products .live-product{padding:16px!important;min-height:0}
+ .live-products .live-product h3{font-size:17px;margin:13px 0 7px}
+ .live-products .live-product .live-actions{padding-top:16px}
+ .project-card{row-gap:9px}
+ .project-card .project-no{white-space:normal;line-height:1.5}
+}
+@media (max-width:480px){
+ .live-products .live-product-grid{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+ .live-products .live-product{padding:18px!important}
+ .detail-hero-actions{gap:9px}
+ .detail-primary,.detail-print{width:100%}
+ .detail-related>a{align-self:flex-start}
+}
+@media (max-width:360px){
+ .detail-hero{padding-inline:14px}
+ .detail-feature{grid-template-columns:22px minmax(0,1fr);gap:8px;padding:13px}
+ .detail-feature-no{font-size:9px}
+ .detail-feature h3{font-size:14px}
+ .detail-feature p{font-size:11px}
+ .detail-toc a{padding:8px 10px}
+}
